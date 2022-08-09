@@ -10,10 +10,11 @@
             <div class="row h-100">
 
 
-                <div class="position-absolute">
+                <div class="col-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
-                <div class="col-8 bg-success">
+                <div class="col-7 bg-success">
+                    <SearchEngineComponent/>
                 </div>
                 <div class="weather-details col-4">
                     <section class="home">
@@ -85,12 +86,14 @@
 <script>
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 import SidebarComponent from "../components/SidebarComponent.vue";
+import SearchEngineComponent from "../components/SearchEngineComponent.vue";
 
 export default {
     name: "Home",
     components: {
         MoonLoader,
-        SidebarComponent
+        SidebarComponent,
+        SearchEngineComponent
     },
     data() {
         return {

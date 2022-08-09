@@ -275,7 +275,7 @@ body.dark {
 
     &.close {
         width: 80px;
-        // $side-nav-width: 80px÷;
+        $side-nav-width: 80px÷;
         .text {
             // opacity: 0;
             display: none;
