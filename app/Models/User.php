@@ -61,4 +61,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * The favourite places that belong to the user.
+     */
+    public function favouritePlaces(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(FavouritePlace::class);
+    }
 }
