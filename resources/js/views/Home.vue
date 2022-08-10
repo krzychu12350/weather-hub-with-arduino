@@ -13,7 +13,7 @@
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
-                <div class="col-7 bg-success">
+                <div class="col-7">
                     <SearchEngineComponent/>
                 </div>
                 <div class="weather-details col-4">

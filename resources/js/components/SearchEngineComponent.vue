@@ -116,7 +116,7 @@ export default {
 
                 this.searchedCities = this.filteredCities
 
-            }, 1000)
+            }, 600)
 
         },
         getResults() {

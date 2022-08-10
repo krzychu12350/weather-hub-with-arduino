@@ -3,11 +3,11 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <!--<img src="logo.png" alt="">-->
+                    <img src="../assets/images/logo.png" alt="logo">
                 </span>
 
                 <div class="text logo-text">
-                    <span class="name">Hi Cris!</span>
+                    <span class="name">Weather Hub</span>
                 </div>
             </div>
 
@@ -17,12 +17,12 @@
 
         <div class="menu-bar">
             <div class="menu">
-
+                <!--
                 <li class="search-box">
                     <i class='bx bx-search icon'></i>
                     <input type="text" placeholder="Search..." :class="[ isDisplay ? '' : 'd-none' ]">
                 </li>
-
+                -->
                 <li class="nav-link">
                     <a href="#">
                         <i class='bx bx-home-alt icon'></i>
@@ -52,10 +52,11 @@
                         <i class='bx bx-sun icon sun'></i>
                     </div>
                     <span class="mode-text text">Dark mode</span>
-
+                    <!--
                     <div class="toggle-switch">
                         <span class="switch"></span>
                     </div>
+                    -->
                 </li>
             </div>
         </div>
@@ -146,7 +147,7 @@ modeSwitch.addEventListener("click", () => {
 /* ===== Colors ===== */
 $body-color: #E4E9F7;
 /*$primary-color: #695CFE;*/
-$primary-color: #3287f9;
+$primary-color: #2698f8;
 
 $primary-color-light: #F6F5FF;
 $toggle-color: #DDD;
@@ -171,7 +172,7 @@ $side-nav-width: 80px;
 }
 
 @mixin color_transition($f_color, $trans) {
-    color: $f_color;
+    color: white;
     transition: $trans;
 }
 
@@ -269,7 +270,8 @@ body.dark {
     height: 100%;
     width: 250px;
     padding: 10px 14px;
-    background: $sidebar-color;
+    //background: $sidebar-color;
+    background: linear-gradient(to right, #08C8F6, #2698f8);
     transition: $tran-05;
     z-index: 2;
 
@@ -299,7 +301,7 @@ body.dark {
 
         &.search-box {
             border-radius: 6px;
-            background: $primary-color-light;
+            //background: $primary-color-light;
             cursor: pointer;
             transition: $tran-05;
 
@@ -308,8 +310,8 @@ body.dark {
                 width: 100%;
                 outline: none;
                 border: none;
-                background: $primary-color-light;
-                color: $text-color;
+                //background: $primary-color-light;
+                color: white;
                 border-radius: 6px;
                 font-size: 17px;
                 font-weight: 500;
@@ -428,7 +430,7 @@ body.dark {
 
         .mode {
             border-radius: 6px;
-            background-color: $primary-color-light;
+            //background-color: $primary-color-light;
             position: relative;
             transition: $tran-05;
 
