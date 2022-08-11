@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-link">
-                    <a href="#">
+                    <a href="#"  v-on:click.prevent="testPostLogout">
                         <i class='bx bx-heart icon'></i>
                         <span class="text nav-text">Favourite locations</span>
                     </a>
@@ -40,7 +40,7 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="#">
+                    <a href="#" v-on:click.prevent="logOut">
                         <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Logout</span>
                     </a>
@@ -64,73 +64,36 @@
 </template>
 
 <script>
-
-
 export default {
     name: "SidebarComponent",
     data() {
         return {
             isCollapsed: true,
             isDisplay: false,
+            info: null,
         }
     },
     methods: {
-        /*
-        toogleClick(e) {
-            const sidebar = document.getElementsByClassName('.nav');
-            e.target.classList.toggle("close");
-            if (toggle_) {
-                document.documentElement.style.setProperty('--side-nav-width', "250px");
-            } else {
-                document.documentElement.style.setProperty('--side-nav-width', "80px");
-            }
-            toggle_ = !toggle_;
-            console.log("toggle");
-        },*/
         toggleSidebar() {
             this.isCollapsed = !this.isCollapsed;
             this.isDisplay = !this.isDisplay;
-        }
+        },
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push("/login");
+            this.showLogoutToast()
+        },
+        showLogoutToast() {
+            this.$toast.open({
+                message: "You have been logged out successfully !!!",
+                type: "success",
+                duration: 5000,
+                position: 'top',
+                dismissible: true
+            })
+        },
     }
 }
-
-//const body = document.querySelector('body');
-
-const toggle = document.getElementsByClassName(".toggle");
-const searchBtn = document.getElementsByClassName(".search-box");
-const modeSwitch = document.getElementsByClassName(".toggle-switch");
-const modeText = document.getElementsByClassName(".mode-text");
-//const toggle = document.getElementsByClassName('.toogle');
-let toggle_ = true;
-/*
-toggle.addEventListener("click", () => {
-    sidebar.classList.toggle("close");
-    if (toggle_) {
-        document.documentElement.style.setProperty('--side-nav-width', "250px");
-    } else {
-        document.documentElement.style.setProperty('--side-nav-width', "80px");
-    }
-    toggle_ = !toggle_;
-    console.log("toggle");
-})
-
-searchBtn.addEventListener("click", () => {
-    sidebar.classList.remove("close");
-    console.log("search");
-    document.documentElement.style.setProperty('--side-nav-width', "250px");
-})
-
-modeSwitch.addEventListener("click", () => {
-    body.classList.toggle("dark");
-
-    if (body.classList.contains("dark")) {
-        modeText.innerText = "Light mode";
-    } else {
-        modeText.innerText = "Dark mode";
-
-    }
-});
- */
 </script>
 
 <style lang="scss">

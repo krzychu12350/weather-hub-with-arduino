@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -86,7 +87,10 @@ class AuthController extends Controller
     public function logout(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
+            //auth('api')->logout();
+            //dd($request);
             auth('api')->logout();
+            //$request->session()->invalidate();
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully logged out'

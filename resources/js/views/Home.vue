@@ -1,15 +1,7 @@
 <template>
-    <!--
-    <button type="button" v-on:click="message('test')" class="btn btn-success">Success</button>
-    <button type="button" class="btn btn-info">Info</button>
-    <button @click="say('hello')">Say hello</button>
-    -->
     <div class=" d-flex align-items-center justify-content-center vh-100">
-
         <div class="col-10 primary-container">
             <div class="row h-100">
-
-
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
@@ -25,7 +17,6 @@
                                 <h3>Loading...</h3>
                             </div>
                         </div>
-
                         <div class="container d-flex align-items-center flex-column">
                             <div class="m-1">
                                 <h1>{{ this.locality }}</h1>
@@ -41,46 +32,9 @@
                         </div>
                     </section>
                 </div>
-
-
             </div>
-
-
-
-
-            <!--
-                <SidebarComponent></SidebarComponent>
-
-                <section class="home">
-
-                    <div v-if="loading" class="d-flex justify-content-center align-items-center min-vh-100">
-                        <div>
-                            <MoonLoader :color="'#0096FF'"></MoonLoader>
-                            <h3>Loading...</h3>
-                        </div>
-                    </div>
-
-                    <div class="container d-flex align-items-center flex-column">
-                        <div class="m-1">
-                            <h1>{{this.locality}}</h1>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center mt-1">
-                            <img class="image " :src=this.icon>
-                            <h1>{{this.temp}}° C</h1>
-                        </div>
-                        <div class="d-flex justify-content-center flex-column">
-                            <span>{{this.description}}</span><br />
-                            <span>{{this.currentDate}}</span>
-                        </div>
-                    </div>
-                </section>
-            -->
         </div>
-
-
-
     </div>
-
 </template>
 
 <script>
@@ -138,6 +92,10 @@ export default {
             } else {
                 return day.toLocaleString("en-us", {weekday: "long"}); // Friday
             }
+        },
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
         }
     }
 }
@@ -151,6 +109,7 @@ export default {
     background-size: cover;
     //min-height: 100vh;
 }
+
 /*
 .auth-container {
     background-color: #fff;

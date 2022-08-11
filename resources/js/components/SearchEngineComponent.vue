@@ -2,7 +2,7 @@
     <div>
         <!--<input type="text" v-model="keyword">
         -->
-        <input type="text" @input="debounceSearch" placeholder="Search">
+        <input type="text" class="form-input" @input="debounceSearch" placeholder="Search">
         <span v-if="typing">You are typing(Searing...)</span>
         <span v-if="message">You typed: {{message}}</span>
         <!--
@@ -82,7 +82,7 @@ export default {
     computed: {
         filteredCities() {
             if(this.message) {
-                console.log(this.message)
+                //console.log(this.message)
                 return this.Cities
                     .filter((city) => {
                         return  city.name.match(this.message);
