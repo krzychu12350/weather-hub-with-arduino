@@ -1,11 +1,15 @@
 <template>
     <router-view/>
+    <ConfirmationModalComponent></ConfirmationModalComponent>
 </template>
 
 <script>
-
+import ConfirmationModalComponent from "./components/ConfirmationModalComponent.vue";
 export default {
     name: "App",
+    components: {
+        ConfirmationModalComponent
+    },
 }
 </script>
 
@@ -38,4 +42,22 @@ body {
     min-height: 100vh;
 }
 */
+
+
+.primary-container {
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    height: 800px;
+    background-color: rgba(238, 238, 238, 0.07)
+    /*
+    background-image: url('./assets/images/cloudy-sky-day.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+     */
+}
+
+
 </style>

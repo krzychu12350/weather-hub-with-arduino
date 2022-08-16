@@ -40,6 +40,7 @@ export default {
     methods: {
         toogleSignInAndSignUp() {
             this.isSignIn = !this.isSignIn;
+            this.$router.replace({ path: '/' })
         }
     }
 }
@@ -68,9 +69,6 @@ h1 {
     margin: 0;
 }
 
-h2 {
-    text-align: center;
-}
 
 p {
     font-size: 14px;
@@ -94,7 +92,7 @@ a {
 button {
     border-radius: 20px;
     border: 1px solid #3287f9;
-    background-color: #3287f9;
+    background-color: #2994f8;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -207,9 +205,9 @@ form {
 }
 
 .overlay {
-    background: #045DE9;
-    background: -webkit-linear-gradient(to right, #08C8F6, #4D5DFB);
-    background: linear-gradient(to right, #08C8F6, #4D5DFB);
+    background: #2994f8;
+    background: -webkit-linear-gradient(to right, #08C8F6, #2994f8);
+    background: linear-gradient(to right, #08C8F6, #2994f8);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;

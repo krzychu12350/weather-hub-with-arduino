@@ -4,7 +4,13 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
     plugins: [
-        vue(),
+        vue({
+            template: {
+                compilerOptions: {
+                    isCustomElement: (tag) => ['box-icon'].includes(tag),
+                }
+            }
+        }),
         laravel({
             input: [
                 'resources/css/app.css',
@@ -14,6 +20,7 @@ export default defineConfig({
         }),
     ],
     server: {
+
         proxy: {
             '/api': {
                 target: 'http://localhost:8000/',
@@ -21,7 +28,19 @@ export default defineConfig({
                 secure: false,
                 rewrite: (path) => path.replace(/^\/api/, '')
             },
-            cors:false
+            cors: false
         },
+        /*
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8000',
+                changeOrigin: true,
+                secure: false,
+                ws: true,
+            }
+        }
+
+         */
     },
+
 });

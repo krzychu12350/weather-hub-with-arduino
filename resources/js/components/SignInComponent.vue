@@ -5,7 +5,7 @@
             <Field name="email" type="text" class="form-input" placeholder="Email"/>
             <ErrorMessage name="email" class="error-feedback"/>
             <Field name="password" type="password" class="form-input" placeholder="Password"/>
-            <ErrorMessage name="email" class="error-feedback"/>
+            <ErrorMessage name="password" class="error-feedback"/>
             <a href="#">Forgot your password?</a>
             <button :disabled="loading">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
@@ -22,6 +22,7 @@
 <script>
 import * as yup from "yup";
 import {ErrorMessage, Field, Form} from "vee-validate";
+import ToastService from "../services/toast-service";
 export default {
     name: "SignInComponent",
     components: {
@@ -45,9 +46,11 @@ export default {
         handleLogin(user) {
             this.loading = true;
             this.$store.dispatch("auth/login", user).then(
-                () => {
+                (user) => {
                     this.$router.push("/")
-                    this.showToastOnLoginSuccess();
+                    //this.showToastOnLoginSuccess();
+                    //alert(user.message)
+                    ToastService.showSuccessToast(user.message)
                 },
                 (error) => {
                     this.loading = false;

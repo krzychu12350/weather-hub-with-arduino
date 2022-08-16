@@ -18,7 +18,7 @@ class FavouritePlaceController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
 
     /**
@@ -61,13 +61,24 @@ class FavouritePlaceController extends Controller
                 'error' => $validator->errors()
             ]);
         }
+        $isfavouritePlaceExist = FavouritePlace::where('id', $request->id)->doesntExist();
 
-        $favouritePlace = FavouritePlace::create($request_data);
+        if($isfavouritePlaceExist) {
+            $favouritePlace = FavouritePlace::create($request_data);
+            $responseMessage = "FavouritePlace added successfully !!!";
+        } else {
+            $favouritePlace = FavouritePlace::find($request->id);
+            $responseMessage = "You have already added this place to the watched places !!!";
+        }
 
+        //dd($isfavouritePlaceExist, $favouritePlace);
+
+        //$favouritePlace->users()->attach(User::find(auth('api')->user()->getAuthIdentifier()));
+        $favouritePlace->users()->syncWithoutDetaching(User::find(auth('api')->user()->getAuthIdentifier()));
 
         //Current Auth User provides token
         //dd(User::find(auth('api')->user()->getAuthIdentifier()));
-        $favouritePlace->users()->attach(User::find(auth('api')->user()->getAuthIdentifier()));
+
 
         //dd($favouritePlace->);
 
@@ -75,7 +86,7 @@ class FavouritePlaceController extends Controller
         return response()->json([
             "status" => true,
             "user_id" => auth('api')->user()->getAuthIdentifier(),
-            "message" => "FavouritePlace created successfully.",
+            "message" => $responseMessage,
             "data" => $favouritePlace
         ]);
     }
@@ -148,13 +159,13 @@ class FavouritePlaceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(FavouritePlace $favouritePlace)
+    public function destroy(int $id)
     {
-        $favouritePlace->delete();
+        $user = User::find(auth('api')->user()->getAuthIdentifier());
+        $user->favouritePlaces()->detach($id);
         return response()->json([
             "status" => true,
-            "message" => "FavouritePlace deleted successfully.",
-            "data" => $favouritePlace
+            "message" => "This place was deleted successfully from your favourite places!!!",
         ]);
     }
 }

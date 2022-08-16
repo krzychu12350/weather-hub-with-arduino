@@ -2,14 +2,34 @@
     <div class=" d-flex align-items-center justify-content-center vh-100">
         <div class="col-10 primary-container">
             <div class="row h-100">
+
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
                 <div class="col-7">
-                    <SearchEngineComponent/>
+
+                    <SearchEngineComponent @get-forecast-for-selected-place="getForecastForSelectedPlace"/>
+                    <h2 class="color text-dark">Your favourite places</h2>
+
+                    <div class="d-flex mt-4">
+                        <div class="col-2 me-4" v-for="favouritePlace in favouritePlaces">
+                            <FavouritePlaceComponent
+                                v-bind:isUserFavouritePlace="true"
+                                v-bind:placeId="favouritePlace.id"
+                                v-bind:place="favouritePlace.name"
+                            ></FavouritePlaceComponent>
+                        </div>
+                        <div class="col-2 me-4">
+                            <FavouritePlaceComponent
+                                v-bind:isUserFavouritePlace="false"
+                                v-bind:place="'Add new place'"
+                            ></FavouritePlaceComponent>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="weather-details col-4">
-                    <section class="home">
+                    <section class="primary-place-forecast">
 
                         <div v-if="loading" class="d-flex justify-content-center align-items-center min-vh-100">
                             <div>
@@ -31,6 +51,7 @@
                             </div>
                         </div>
                     </section>
+
                 </div>
             </div>
         </div>
@@ -41,17 +62,20 @@
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 import SidebarComponent from "../components/SidebarComponent.vue";
 import SearchEngineComponent from "../components/SearchEngineComponent.vue";
-
+import UserService from '../services/user-service';
+import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
 export default {
     name: "Home",
     components: {
+        FavouritePlaceComponent,
         MoonLoader,
         SidebarComponent,
         SearchEngineComponent
     },
     data() {
         return {
-            api: 'https://api.openweathermap.org/data/2.5/weather?id=763829&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',
+            api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
+                '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',
             weatherData: {},
             loading: false,
             locality: "",
@@ -59,15 +83,30 @@ export default {
             icon: "",
             description: "",
             currentDate: "",
+            favouritePlaces: null,
+            placeId: '763829',
         }
     },
     mounted() {
+        //this.getForecast()
+        //this.retrieveFavouritePlaces()
+    },
+    created() {
         this.getForecast()
+        this.retrieveFavouritePlaces()
     },
     methods: {
-        getForecast() {
+        async getForecastForSelectedPlace(placeId) {
+            this.placeId = placeId
+            this.getForecast()
+            //console.log(this.placeId+ 'efqfeqfqf')
+        },
+        async getForecast(placeId) {
+            //this.placeId = s
+            //console.log(this.placeId+ 'efqfeqfqf')
             this.loading = true
-            this.axios.get(this.api)
+            this.axios.get('https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
+                '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric')
                 .then((response) => {
                     this.weatherData = response.data
                     this.locality = this.weatherData.name
@@ -93,41 +132,52 @@ export default {
                 return day.toLocaleString("en-us", {weekday: "long"}); // Friday
             }
         },
-        logOut() {
-            this.$store.dispatch('auth/logout');
-            this.$router.push('/login');
-        }
+        async retrieveFavouritePlaces() {
+            UserService.getUserFavouritePlaces()
+                .then(response => {
+                    this.favouritePlaces = response.data.data.favourite_places;
+                    //console.log(this.favouritePlaces)
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        },
+
     }
 }
 </script>
 
 <style lang="scss">
-
+/*
 .weather-details {
-    background-image: url('../assets/images/cloudy-sky-day.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    //min-height: 100vh;
+background-image: url('../assets/images/cloudy-sky-day.jpg');
+background-repeat: no-repeat;
+background-size: cover;
+//min-height: 100vh;
 }
 
 /*
 .auth-container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-    position: relative;
-    overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    //min-height: 480px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+0 10px 10px rgba(0, 0, 0, 0.22);
+position: relative;
+overflow: hidden;
+width: 768px;
+max-width: 100%;
+//min-height: 480px;
 }
 */
-.primary-container {
+
+.weather-details {
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
     overflow: hidden;
     height: 800px;
+    background-image: url('../assets/images/cloudy-sky-day.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 </style>

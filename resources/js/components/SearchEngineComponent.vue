@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="search-engine-container">
         <!--<input type="text" v-model="keyword">
         -->
         <input type="text" class="form-input" @input="debounceSearch" placeholder="Search">
@@ -19,29 +19,65 @@
         <h4>Pure json</h4>
         <h5>{{this.searched}}</h5>
 
-     -->
-        <h4 v-for="city in this.searchedCities">
+
+        <div class="" v-for="city in this.searchedCities">
             {{city.id}}
             {{city.name}}
             <br>
-        </h4>
+        </div>
+        -->
+        <div v-if="message">
+            <div class="serached-places">
+                <div class="bg-danger border border-primary mb-1" v-for="place in this.searchedPlaces">
+                    <div v-if="routeName === 'Home'" class="searched-place" @click='getWeatherDataForSelectedPlace(place.id)' :key='place.id'>
+                        <span class="cursor-pointer">{{place.id}} {{place.name}}</span>
+                    </div>
+                    <div v-else class="searched-place" @click='addPlaceToFavourites(place)' :key='place.id'>
+                        <span class="cursor-pointer">{{place.id}} {{place.name}} {{place.state}} {{place.country}}</span>
+                    </div>
 
+
+                </div>
+            </div>
+            <!--
+            <ul class="">
+                <li><h6 class="dropdown-header">Dropdown header</h6></li>
+                <li v-for="city in this.searchedCities">
+                    <a class="dropdown-item">
+                        {{city.id}} {{city.name}}
+                    </a>
+                </li>
+            </ul>
+            -->
+        </div>
 
     </div>
 </template>
 
 <script>
-import citiesData from "../assets/cities.list.json";
+import placesData from "../assets/cities.list.json";
+import { useRouter } from 'vue-router';
+import {computed} from "vue";
+import UserService from "../services/user-service";
 export default {
     name: "Register",
+    emits: [
+        'getForecastForSelectedPlace',
+        ],
+    setup () {
+        const routeName = computed(() => {
+            return useRouter().currentRoute.value.name;
+        })
+        return { routeName }
+    },
     data() {
         return {
             keyword: null,
-            Cities: citiesData,
+            Places: placesData,
             searched: '',
             awaitingSearch: false,
 
-            searchedCities: [],
+            searchedPlaces: [],
             message: null,
             typing: null,
             debounce: null
@@ -80,15 +116,16 @@ export default {
     },
 
     computed: {
-        filteredCities() {
+        filteredPlaces() {
             if(this.message) {
                 //console.log(this.message)
-                return this.Cities
-                    .filter((city) => {
-                        return  city.name.match(this.message);
+                return this.Places
+                    .filter((place) => {
+                        return  place.name.match(this.message);
                     })
 
             }
+        },
             /*
      return this.Cities
          .filter((x) => {
@@ -102,10 +139,15 @@ export default {
              return match;
          })
          */
-        },
+
+
     },
     methods: {
-
+        getWeatherDataForSelectedPlace(placeiId) {
+            this.$emit("getForecastForSelectedPlace", placeiId)
+            //alert(placeiId)
+            //this.$root.$emit('a-far-away-event', 'Adnan')
+        },
         debounceSearch(event) {
             this.message = null
             this.typing = 'You are typing...'
@@ -114,9 +156,15 @@ export default {
                 this.typing = null
                 this.message = event.target.value
 
-                this.searchedCities = this.filteredCities
+                this.searchedPlaces = this.filteredPlaces
 
             }, 600)
+
+        },
+        addPlaceToFavourites(place) {
+            //alert("dodawanie miasta do ulubionych "  + place.id + place.name)
+            UserService.addUserFavouritePlace(place)
+            this.$router.push('/favourites')
 
         },
         getResults() {
@@ -163,6 +211,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.search-engine-container {
+    max-width: 15em;
+}
+.serached-places {
+    //min-height: 5em;
+}
+.searched-place {
+    cursor: pointer;
+}
 </style>

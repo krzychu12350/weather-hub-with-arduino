@@ -11,7 +11,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from "./store/store";
 
-import ToastPlugin from 'vue-toast-notification';
+import ToastPlugin, {useToast} from 'vue-toast-notification';
 // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -23,10 +23,11 @@ export const app = createApp(App)
     .use(ToastPlugin)
     .mount("#app")
 
-let instance = app.$toast.open('You did it!');
+const $toast = useToast();
+let instance = $toast.success('You did it!');
 
 // Force dismiss specific toast
 instance.dismiss();
 
 // Dismiss all opened toast immediately
-app.$toast.clear();
+$toast.clear();

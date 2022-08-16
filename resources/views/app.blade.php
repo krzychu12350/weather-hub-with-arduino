@@ -17,15 +17,13 @@
             }
         </style>
 
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet"
-              href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
         @vite('resources/css/app.css')
+
     </head>
     <body>
         <div id="app"></div>
+
         @vite('resources/js/app.js')
+
     </body>
 </html>

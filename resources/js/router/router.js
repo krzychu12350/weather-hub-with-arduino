@@ -2,6 +2,8 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import TestLoginPage from "../views/TestLoginPage.vue";
 import AuthenticationPage from "../views/AuthenticationPage.vue";
+import FavouritePlacesPage from "../views/FavouritePlacesPage.vue";
+import AddingFavouritePlacePage from "../views/AddingFavouritePlacePage.vue";
 
 const routes = [
     {
@@ -10,10 +12,21 @@ const routes = [
         component: Home,
     },
     {
-        path: "/login",
+        path: "/auth",
         name: "AuthenticationPage",
         component: AuthenticationPage,
     },
+    {
+        path: "/favourites",
+        name: "FavouritePlacesPage",
+        component: FavouritePlacesPage,
+    },
+    {
+        path: "/add-favourite",
+        name: "AddingFavouritePlacePage",
+        component: AddingFavouritePlacePage,
+    },
+
     /*
     {
         path: "/register",
@@ -35,11 +48,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/register'];
+    const publicPages = ['/auth'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
     if (authRequired && !loggedIn) {
-        next('/login');
+        next('/auth');
     } else {
         next();
     }

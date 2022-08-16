@@ -10,9 +10,17 @@
                     <span class="name">Weather Hub</span>
                 </div>
             </div>
-
+            <!--
             <i @click="toggleSidebar"
                class='bx bx-chevron-right toggle'></i>
+            -->
+            <box-icon
+                @click="toggleSidebar"
+                class="toggle"
+                type="regular"
+                name="chevron-right"
+                color="white"
+            ></box-icon>
         </header>
 
         <div class="menu-bar">
@@ -24,32 +32,50 @@
                 </li>
                 -->
                 <li class="nav-link">
-                    <a href="#">
-                        <i class='bx bx-home-alt icon'></i>
-                        <span class="text nav-text">Dashboard</span>
-                    </a>
+                    <router-link :to="{ name: 'Home' }">
+                        <!--<i class='bx bx-home-alt icon'></i>-->
+
+                        <div class="icon">
+                            <box-icon type="regular" name="home-alt" color="white" ></box-icon>
+                        </div>
+                        <span class="text nav-text">Forecast</span>
+                    </router-link>
                 </li>
                 <li class="nav-link">
-                    <a href="#"  v-on:click.prevent="testPostLogout">
-                        <i class='bx bx-heart icon'></i>
-                        <span class="text nav-text">Favourite locations</span>
-                    </a>
+                    <router-link :to="{ name: 'FavouritePlacesPage' }">
+                            <!--<i class='bx bx-heart icon'></i>-->
+                            <div class="icon d-flex justify-content-center">
+                                <box-icon class="" type="regular" name="heart" color="white" ></box-icon>
+                            </div>
+
+
+                            <span class="text nav-text">Favourite places</span>
+                    </router-link>
                 </li>
 
             </div>
 
             <div class="bottom-content">
-                <li class="">
-                    <a href="#" v-on:click.prevent="logOut">
-                        <i class='bx bx-log-out icon'></i>
+                <li class="mode">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#logout-confirmation">
+                        <!--<i class='bx bx-log-out icon'></i> v-on:click.prevent="logOut"-->
+
+                        <div class="icon d-flex justify-content-center">
+                            <box-icon class="" type="regular" name="log-out" color="white" ></box-icon>
+                        </div>
                         <span class="text nav-text">Logout</span>
                     </a>
                 </li>
 
                 <li class="mode">
-                    <div class="sun-moon">
+                    <div class="icon d-flex justify-content-center">
+                        <!--
                         <i class='bx bx-moon icon moon'></i>
                         <i class='bx bx-sun icon sun'></i>
+                        -->
+
+                        <box-icon class="" type="regular" name="moon" color="white" ></box-icon>
+
                     </div>
                     <span class="mode-text text">Dark mode</span>
                     <!--
@@ -64,6 +90,7 @@
 </template>
 
 <script>
+import ToastService from "../services/toast-service";
 export default {
     name: "SidebarComponent",
     data() {
@@ -81,7 +108,8 @@ export default {
         logOut() {
             this.$store.dispatch('auth/logout');
             this.$router.push("/login");
-            this.showLogoutToast()
+            ToastService.showSuccessToast("You have been logged out successfully !!!")
+            //this.showLogoutToast()
         },
         showLogoutToast() {
             this.$toast.open({
@@ -221,7 +249,7 @@ body.dark {
         }
     }
 
-    .home .text {
+    .primary-place-forecast .text {
         //color: $text-color;
     }
 }
@@ -250,7 +278,7 @@ body.dark {
             transform: translateY(-50%) rotate(0deg);
         }
 
-        .home {
+        .primary-place-forecast {
             //left: var(--side-nav-width, $side-nav-width);
         }
     }
@@ -448,7 +476,7 @@ body.dark {
     }
 
     ~ {
-        .home {
+        .primary-place-forecast {
             // left: 78px;
             // height: 100vh;
             // width: calc(100% - var(--side-nav-width, $side-nav-width));

@@ -34,6 +34,7 @@
 <script>
 import * as yup from "yup";
 import {ErrorMessage, Field, Form} from "vee-validate";
+import ToastService from "../services/toast-service";
 
 export default {
     name: "SignUpComponent",
@@ -91,7 +92,8 @@ export default {
                     this.successful = true;
                     this.loading = false;
                     this.$router.go();
-                    this.showToastOnRegisterSuccess()
+                    ToastService.showSuccessToast(this.message)
+                    //this.showToastOnRegisterSuccess()
                 },
                 (error) => {
                     this.message =

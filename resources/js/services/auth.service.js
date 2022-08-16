@@ -1,13 +1,15 @@
 import axios from 'axios';
 import authHeader from './auth-header';
+import ToastService from "./toast-service";
 //const API_URL = 'http://localhost:8080/api/auth/';
 const API_URL = 'http://localhost:8000/api/';
 
 class AuthService {
     login(user) {
         //console.log('auhserice:' + user.email)
+
         return axios
-            .post(API_URL + 'login', {
+            .post('http://localhost:8000/api/login', {
                 //username: user.username,
                 email: user.email,
                 password: user.password
@@ -18,7 +20,6 @@ class AuthService {
                     localStorage.setItem('user', JSON.stringify(response.data));
                     console.log('dane usera' + localStorage.getItem('user'))
                 }
-
                 return response.data;
             });
     }
