@@ -1,15 +1,17 @@
 <template>
-    <div class=" d-flex align-items-center justify-content-center vh-100">
-        <div class="col-10 primary-container">
-            <div class="row h-100">
+    <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
+
+        <div class="col-12 primary-container">
+            <div class="row min-vh-100">
 
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
                 <div class="col-7">
 
-                    <SearchEngineComponent @get-forecast-for-selected-place="getForecastForSelectedPlace"/>
-                    <h2 class="color text-dark">Your favourite places</h2>
+                    <!--<SearchEngineComponent @get-forecast-for-selected-place="getForecastForSearchedPlace"/>-->
+                    <SearchEngineComponent />
+                    <h2 class="color text-white">Your favourite places</h2>
 
                     <div class="d-flex mt-4">
                         <div class="col-2 me-4" v-for="favouritePlace in favouritePlaces">
@@ -26,9 +28,16 @@
                             ></FavouritePlaceComponent>
                         </div>
                     </div>
+                    <DailyForecastComponent></DailyForecastComponent>
+                    <HourlyForecastComponent></HourlyForecastComponent>
+
+
+
 
                 </div>
                 <div class="weather-details col-4">
+                    <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
+                    <!--
                     <section class="primary-place-forecast">
 
                         <div v-if="loading" class="d-flex justify-content-center align-items-center min-vh-100">
@@ -51,11 +60,11 @@
                             </div>
                         </div>
                     </section>
-
+                    -->
                 </div>
             </div>
         </div>
-    </div>
+  <!--  </div>-->
 </template>
 
 <script>
@@ -64,74 +73,28 @@ import SidebarComponent from "../components/SidebarComponent.vue";
 import SearchEngineComponent from "../components/SearchEngineComponent.vue";
 import UserService from '../services/user-service';
 import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
+import Globals from "../globals";
+import CurrentWeatherDataComponent from "../components/CurrentWeatherDataComponent.vue";
+import DailyForecastComponent from "../components/DailyForecastComponent.vue";
+import HourlyForecastComponent from "../components/HourlyForecastComponent.vue";
 export default {
     name: "Home",
     components: {
+        HourlyForecastComponent,
+        DailyForecastComponent,
         FavouritePlaceComponent,
         MoonLoader,
         SidebarComponent,
-        SearchEngineComponent
+        SearchEngineComponent,
+        CurrentWeatherDataComponent
     },
-    data() {
-        return {
-            api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
-                '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',
-            weatherData: {},
-            loading: false,
-            locality: "",
-            temp: null,
-            icon: "",
-            description: "",
-            currentDate: "",
-            favouritePlaces: null,
-            placeId: '763829',
-        }
-    },
-    mounted() {
-        //this.getForecast()
-        //this.retrieveFavouritePlaces()
-    },
-    created() {
-        this.getForecast()
-        this.retrieveFavouritePlaces()
-    },
+
+  data() {
+      return {
+          favouritePlaces: Array,
+          }
+      },
     methods: {
-        async getForecastForSelectedPlace(placeId) {
-            this.placeId = placeId
-            this.getForecast()
-            //console.log(this.placeId+ 'efqfeqfqf')
-        },
-        async getForecast(placeId) {
-            //this.placeId = s
-            //console.log(this.placeId+ 'efqfeqfqf')
-            this.loading = true
-            this.axios.get('https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
-                '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric')
-                .then((response) => {
-                    this.weatherData = response.data
-                    this.locality = this.weatherData.name
-                    this.temp = this.weatherData.main.temp
-                    this.icon = 'https://openweathermap.org/img/wn/' + this.weatherData.weather[0].icon + '@2x.png'
-                    this.description = this.weatherData.weather[0].description
-                    this.currentDate = this.createDate(this.weatherData.dt, "long")
-                })
-                .catch(err => console.log(err.message))
-                .finally(() => (this.loading = false))
-        },
-        createDate(dt, type) {
-            let day = new Date(dt * 1000);
-            if (type === "long") {
-                let options = {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                };
-                return day.toLocaleString("en-us", options); // Friday, January 15, 2021
-            } else {
-                return day.toLocaleString("en-us", {weekday: "long"}); // Friday
-            }
-        },
         async retrieveFavouritePlaces() {
             UserService.getUserFavouritePlaces()
                 .then(response => {
@@ -142,17 +105,99 @@ export default {
                     console.log(e);
                 });
         },
+    },
+    mounted() {
+        this.retrieveFavouritePlaces()
+    },
+    /*
+  //api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
+  //    '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',
+  //api: Globals.API_URL + '&id=' + this.placeId + '&units=metric',
+  weatherData: {},
+  loading: false,
+  locality: "",
+  temp: null,
+  icon: "",
+  description: "",
+  currentDate: "",
+  favouritePlaces: null,
 
-    }
+}
+},
+mounted() {
+//this.getForecast()
+//this.retrieveFavouritePlaces()
+},
+created() {
+this.getForecast()
+this.retrieveFavouritePlaces()
+},
+methods: {
+async getForecastForSelectedPlace(placeId) {
+  this.placeId = placeId
+  await this.getForecast()
+  //console.log(this.placeId+ 'efqfeqfqf')
+},
+async getForecast(placeId) {
+  //this.placeId = s
+  //console.log(this.placeId+ 'efqfeqfqf')
+  this.loading = true
+  this.axios.get(Globals.API_URL + '&id=' + this.placeId + '&units=metric')
+      .then((response) => {
+          this.weatherData = response.data
+          this.locality = this.weatherData.name
+          this.temp = this.weatherData.main.temp
+          this.icon = 'https://openweathermap.org/img/wn/' + this.weatherData.weather[0].icon + '@2x.png'
+          this.description = this.weatherData.weather[0].description
+          this.currentDate = this.createDate(this.weatherData.dt, "long")
+      })
+      .catch(err => console.log(err.message))
+      .finally(() => (this.loading = false))
+},
+createDate(dt, type) {
+  let day = new Date(dt * 1000);
+  if (type === "long") {
+      let options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+      };
+      return day.toLocaleString("en-us", options); // Friday, January 15, 2021
+  } else {
+      return day.toLocaleString("en-us", {weekday: "long"}); // Friday
+  }
+},
+async retrieveFavouritePlaces() {
+  UserService.getUserFavouritePlaces()
+      .then(response => {
+          this.favouritePlaces = response.data.data.favourite_places;
+          //console.log(this.favouritePlaces)
+      })
+      .catch(e => {
+          console.log(e);
+      });
+},
+
+}
+*/
 }
 </script>
 
 <style lang="scss">
-/*
+.primary-container {
+    background-image: url('../assets/images/cloudy-sky-day.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .weather-details {
+    /*
 background-image: url('../assets/images/cloudy-sky-day.jpg');
 background-repeat: no-repeat;
 background-size: cover;
+
+     */
 //min-height: 100vh;
 }
 
@@ -169,7 +214,7 @@ max-width: 100%;
 //min-height: 480px;
 }
 */
-
+/*
 .weather-details {
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
@@ -180,4 +225,8 @@ max-width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+ */
+
+
 </style>

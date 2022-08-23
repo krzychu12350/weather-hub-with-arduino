@@ -27,7 +27,7 @@ export default {
     methods: {
         logOut() {
             this.$store.dispatch('auth/logout');
-            this.$router.push("/login");
+            this.$router.push("/auth");
             ToastService.showSuccessToast("You have been logged out successfully !!!")
             //this.showLogoutToast()
         },

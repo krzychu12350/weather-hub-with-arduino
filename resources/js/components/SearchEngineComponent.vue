@@ -60,9 +60,9 @@ import { useRouter } from 'vue-router';
 import {computed} from "vue";
 import UserService from "../services/user-service";
 export default {
-    name: "Register",
+    name: "SearchEngine",
     emits: [
-        'getForecastForSelectedPlace',
+        'passSearchedPlaceId',
         ],
     setup () {
         const routeName = computed(() => {
@@ -143,8 +143,10 @@ export default {
 
     },
     methods: {
-        getWeatherDataForSelectedPlace(placeiId) {
-            this.$emit("getForecastForSelectedPlace", placeiId)
+        getWeatherDataForSelectedPlace(placeId) {
+            //this.$emit("passSearchedPlaceId", placeId)
+            this.emitter.emit('passSearchedPlaceId',
+                {'value': placeId})
             //alert(placeiId)
             //this.$root.$emit('a-far-away-event', 'Adnan')
         },
