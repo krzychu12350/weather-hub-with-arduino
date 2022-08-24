@@ -28,8 +28,32 @@
                             ></FavouritePlaceComponent>
                         </div>
                     </div>
-                    <DailyForecastComponent></DailyForecastComponent>
-                    <HourlyForecastComponent></HourlyForecastComponent>
+
+
+
+
+                    <!--
+                        <button v-on:click="show = !show">
+                            Toggle transition
+                        </button>
+                        Duration:
+                        <input v-model="duration" type="range" min="100" max="3000">
+                        {{duration}}ms
+
+                    <button @click="isHumAndTempsCharVisible = !isHumAndTempsCharVisible">
+                        Toggle transition
+                    </button>
+                           -->
+                        <fade-transition mode="out-in" :duration="500">
+                            <!--<div v-if="isHumAndTempsCharVisible" class="box"></div>-->
+                            <TemperatureAndHumidityChartComponent v-if="isHumAndTempsCharVisible"></TemperatureAndHumidityChartComponent>
+                            <div v-else>
+                                <DailyForecastComponent></DailyForecastComponent>
+                                <HourlyForecastComponent></HourlyForecastComponent>
+                            </div>
+
+
+                        </fade-transition>
 
 
 
@@ -77,23 +101,35 @@ import Globals from "../globals";
 import CurrentWeatherDataComponent from "../components/CurrentWeatherDataComponent.vue";
 import DailyForecastComponent from "../components/DailyForecastComponent.vue";
 import HourlyForecastComponent from "../components/HourlyForecastComponent.vue";
+import TemperatureAndHumidityChartComponent from "../components/TemperatureAndHumidityChartComponent.vue";
+import FadeTransition from "../components/FadeTransition.vue";
 export default {
     name: "Home",
     components: {
+        TemperatureAndHumidityChartComponent,
         HourlyForecastComponent,
         DailyForecastComponent,
         FavouritePlaceComponent,
         MoonLoader,
         SidebarComponent,
         SearchEngineComponent,
-        CurrentWeatherDataComponent
+        CurrentWeatherDataComponent,
+        FadeTransition,
     },
 
   data() {
       return {
           favouritePlaces: Array,
+          isHumAndTempsCharVisible: false,
           }
       },
+    created() {
+        this.emitter.on('showValOfHumidityAndTempsChart', (evt) => {
+            //alert(evt.isHumAndTempsCharVisible);
+            this.isHumAndTempsCharVisible = !this.isHumAndTempsCharVisible
+
+        })
+    },
     methods: {
         async retrieveFavouritePlaces() {
             UserService.getUserFavouritePlaces()
@@ -105,6 +141,7 @@ export default {
                     console.log(e);
                 });
         },
+
     },
     mounted() {
         this.retrieveFavouritePlaces()
@@ -230,4 +267,18 @@ max-width: 100%;
  */
 
 
+
+.box {
+    width: 200px;
+    height: 200px;
+    margin-top: 20px;
+    background-color: rgb(108, 141, 213);
+    box-shadow: rgba(108, 141, 213, 0.5) 0px 6px 20px;
+    border-radius: 10px;
+}
+.red-box {
+    @extend .box;
+    background-color: rgb(251, 17, 116);
+    box-shadow: rgba(251, 17, 116, 0.5) 0px 6px 20px;
+}
 </style>

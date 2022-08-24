@@ -34,19 +34,17 @@
         <!--<area-chart :stacked="true" :library="chartOptions" :points="false" curve="false"
                     :legend="false" :discrete="true" :data="hourlyForecastDataChart"></area-chart>
                     -->
-        <apexchart type="area" height="500" :options="chartOptions" :series="series"></apexchart>
+        <apexchart class="col-10" type="area" width="100%" :options="chartOptions" :series="series"></apexchart>
         <!--<HourlyCharComponent></HourlyCharComponent>-->
     </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
-import HourlyCharComponent from "./HourlyChartComponent.vue";
 
 export default {
     name: "HourlyForecastComponent",
     components: {
-        HourlyCharComponent,
         apexchart: VueApexCharts,
     },
     data() {
@@ -105,17 +103,11 @@ export default {
     },
     methods: {
         updateChart(hours, temps) {
-            console.log("start")
-
-
-            //const newData = [100,500,2000]
             this.series = [{
                 name: 'temps',
                 data: temps
-            }]
-            console.log("end")
-            console.log(this.series)
-
+            }
+            ]
             this.chartOptions = {
                 fill: {
                     type: 'solid',

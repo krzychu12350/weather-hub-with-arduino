@@ -13,8 +13,9 @@ import store from "./store/store";
 
 import mitt from 'mitt';
 const emitter = mitt();
-
-
+axios.defaults.withCredentials = false
+axios.defaults.baseURL = 'http://localhost:8000/'
+//axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 import ToastPlugin, {useToast} from 'vue-toast-notification';
 // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';

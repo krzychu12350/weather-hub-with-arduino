@@ -5,8 +5,8 @@ export default function authHeader() {
     return { headers: { Authorization: 'Bearer ' +
                                    user.access_token,
                                    //'Content-Type': 'application/json',
-                                   'Access-Control-Allow-Origin': 'http://localhost:8000',
-                                   'Access-Control-Allow-Credentials': 'true'
+                                   //'Access-Control-Allow-Origin': 'http://localhost:8000',
+                                   //'Access-Control-Allow-Credentials': 'true'
                                     }}; // for Spring Boot back-end
     //return { 'x-access-token': user.accessToken };       // for Node.js Express back-end
   } else {

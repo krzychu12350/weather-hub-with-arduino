@@ -6,20 +6,28 @@
                  src="https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?h=350&auto=compress&cs=tinysrgb"
                  alt="Card image cap">
                  -->
-                <box-icon v-if="isUserFavouritePlace" @click="deleteFavouritePlace(this.placeId)" type="regular" name="x" color="white" ></box-icon>
-                <box-icon
-                    v-else
-                    type="regular"
-                    name="plus"
-                    color="white"
-                    @click="routeToAddingFavouritePlacePage"
-                ></box-icon>
+            <box-icon v-if="isUserFavouritePlace" @click="deleteFavouritePlace(this.placeId)" type="regular" name="x" color="white"></box-icon>
+            <box-icon
+                v-else
+                type="regular"
+                name="plus"
+                color="white"
+                @click="routeToAddingFavouritePlacePage"
+            ></box-icon>
             <!--
                  data-bs-toggle="modal"
                  data-bs-target="#exampleModal"
              -->
-                <h4 class="place-name text-center">{{ placeId }} {{ place }}</h4>
+            <h4 class="place-name text-center">{{ placeId }} {{ place }}</h4>
 
+            <box-icon
+                v-if="isUserFavouritePlace"
+                :class="[isArrowClicked ? 'rotate-arrow' : 'red']"
+                @click="showChart"
+                type="regular"
+                name="down-arrow-alt"
+                color="white"
+            ></box-icon>
 
                 <!--
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
@@ -52,12 +60,13 @@ export default {
         }
     },
     emits: ['refreshUserFavouritePlaces'],
-    /*
+
     data() {
         return {
-            isUserFavouritePlace: true,
+            //isUserFavouritePlace: true,
+            isArrowClicked: false,
         }
-    },*/
+    },
     methods: {
         addFavouritePlace(favouritePlace) {
            alert('dziala dodawanie' + favouritePlace)
@@ -71,12 +80,23 @@ export default {
         },
         routeToAddingFavouritePlacePage() {
             this.$router.push('add-favourite')
+        },
+        showChart(event) {
+           // alert(event.target)
+            //event.target.css('background-color', 'red')
+            //this.arrowDirection = "down-arrow-alt"
+            this.isArrowClicked = !this.isArrowClicked
+            this.emitter.emit('showValOfHumidityAndTempsChart',
+                {})
         }
     }
 }
 </script>
 
 <style scoped>
+.rotate-arrow {
+    transform: rotate(180deg);
+}
 .place-name {
     color: white;
 }
