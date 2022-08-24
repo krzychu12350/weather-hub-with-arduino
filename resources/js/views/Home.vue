@@ -189,6 +189,7 @@ async retrieveFavouritePlaces() {
     background-image: url('../assets/images/cloudy-sky-day.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+
 }
 
 .weather-details {

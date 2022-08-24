@@ -20,15 +20,19 @@ import ToastPlugin, {useToast} from 'vue-toast-notification';
 //import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
-import VueChartkick from 'vue-chartkick'
-import 'chartkick/chart.js'
+//import VueChartkick from 'vue-chartkick'
+//import 'chartkick/chart.js'
+import VueApexCharts from "vue3-apexcharts";
+
 
 export const app = createApp(App)
     .use(router)
     .use(store)
     .use(VueAxios, axios)
-    .use(VueChartkick)
+    //.use(VueChartkick)
+    .use(VueApexCharts)
     .use(ToastPlugin)
+
 app.config.globalProperties.emitter = emitter
 app.mount("#app")
 

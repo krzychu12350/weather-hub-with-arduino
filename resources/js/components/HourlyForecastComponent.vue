@@ -31,52 +31,185 @@
     </div>
     <div v-if="!isSummaryWasClicked" class="daily-container d-flex flex-row">
 
-        <area-chart :data="{'00:00': 21, '03:00': 5}"></area-chart>
+        <!--<area-chart :stacked="true" :library="chartOptions" :points="false" curve="false"
+                    :legend="false" :discrete="true" :data="hourlyForecastDataChart"></area-chart>
+                    -->
+        <apexchart type="area" height="500" :options="chartOptions" :series="series"></apexchart>
+        <!--<HourlyCharComponent></HourlyCharComponent>-->
     </div>
 </template>
 
 <script>
+import VueApexCharts from "vue3-apexcharts";
+import HourlyCharComponent from "./HourlyChartComponent.vue";
+
 export default {
     name: "HourlyForecastComponent",
+    components: {
+        HourlyCharComponent,
+        apexchart: VueApexCharts,
+    },
     data() {
         return {
             hourlyForecastData: Array,
             isSummaryWasClicked: Boolean,
             hourlyForecastDataChart: Array,
+            /*
+            chartOptions: {
+                layout: {
+                    padding: {
+                        left: 100,
+                        right: 5,
+                        top: 50,
+                        bottom: 2
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            display: false
+                        },
+                        gridLines: {
+                            lineWidth: 0
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            display: false
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }
+                }
+            },
+            */
+
+            series: [],
+            chartOptions: {}
+
         }
     },
     created() {
         this.emitter.on('loadHourlyForecastForSpecificDay', (evt) => {
-            console.log('day: ' + evt.day);
-            console.log('weather data: ' + evt.weatherData)
+            //console.log('day: ' + evt.day);
+            //console.log('weather data: ' + evt.weatherData)
             this.hourlyForecastData = evt.weatherData
-            this.prepareHourlyForecastData(this.hourlyForecastData)
-            console.log(this.hourlyForecastData)
+            this.hourlyForecastDataChart = this.prepareHourlyForecastData(this.hourlyForecastData)
+            this.updateChart(this.hourlyForecastDataChart[0], this.hourlyForecastDataChart[1])
+            //console.log(this.hourlyForecastDataChart[0])
             //this.retrieveForecastForFiveDays(evt.value)
-
         })
+
+
     },
     methods: {
+        updateChart(hours, temps) {
+            console.log("start")
+
+
+            //const newData = [100,500,2000]
+            this.series = [{
+                name: 'temps',
+                data: temps
+            }]
+            console.log("end")
+            console.log(this.series)
+
+            this.chartOptions = {
+                fill: {
+                    type: 'solid',
+                    opacity: 0.3,
+                    colors: ['#fff']
+                },
+                grid: {
+                    show: false,
+                },
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    sparkline: {
+                        enabled: false,
+                    },
+                    toolbar: {
+                        show: false,
+                    },
+                    selection: {
+                        enabled: false,
+                    },
+                    zoom: {
+                        enabled: false,
+                    },
+                },
+                dataLabels: {
+                    enabled: true
+                },
+                stroke: {
+                    width: 1,
+                    curve: 'smooth',
+                    colors: ['rgba(255,255,255,0.52)'],
+                },
+                xaxis: {
+                    tooltip: {
+                        enabled: false,
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                    //type: 'datetime',
+                    //categories: ['11', '12', '13', '14', '15', '16', '17'],
+                    categories: hours,
+                    labels: {
+                        show: true,
+                        style: {
+                            fontSize: '16px',
+                            fontFamily: 'Arial, sans-serif',
+                            colors: ['#fff','#fff','#fff','#fff', '#fff','#fff', '#fff','#fff'],
+
+                        },
+                    },
+                },
+                yaxis: {
+                    show: false,
+                    tooltip: {
+                        enabled: false,
+                        x: {
+                            show: false,
+                        },
+                    },
+
+                },
+                tooltip: {
+                    enabled: false,
+                    x: {
+                        show: false,
+                    }
+                },
+            }
+
+        },
         getHourFromDateTimestamp(unixTimestamp) {
             return new Date(unixTimestamp * 1000).getHours() - 2 + ':00'
         },
 
         prepareHourlyForecastData(hourlyForecastData) {
             //console.log(hourlyForecastData)
+            const hoursData = []
+            const tempsData = []
             hourlyForecastData.forEach(singleHour => {
                 console.log(Math.round(singleHour.main.temp))
                 console.log(singleHour.weather[0].icon)
                 console.log(this.getHourFromDateTimestamp(singleHour.dt))
-                hourlyWeatherData.push{this.getHourFromDateTimestamp(singleHour.dt), Math.round(singleHour.main.temp)}
+                hoursData.push(this.getHourFromDateTimestamp(singleHour.dt))
+                tempsData.push(Math.round(singleHour.main.temp) + '°')
             })
 
+            return [hoursData, tempsData]
         }
-
 
     }
 }
 </script>
 
 <style scoped>
-
 </style>
