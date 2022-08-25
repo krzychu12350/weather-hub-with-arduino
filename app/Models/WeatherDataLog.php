@@ -17,6 +17,7 @@ class WeatherDataLog extends Model
     protected $fillable = [
         'temperature',
         'humidity',
+        'favourite_place_id',
     ];
 
     /**
