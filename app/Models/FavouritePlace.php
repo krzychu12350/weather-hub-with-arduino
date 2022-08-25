@@ -24,10 +24,27 @@ class FavouritePlace extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'pivot',
+    ];
+
+    /**
      * The users that belong to the favourite place.
      */
     public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    /**
+     * Get the weather data logs for the specific favourite place.
+     */
+    public function weatherDataLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WeatherDataLog::class);
     }
 }

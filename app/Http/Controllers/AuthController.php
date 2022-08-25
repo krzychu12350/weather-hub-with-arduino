@@ -112,7 +112,9 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User found',
-            'data' => auth('api')->user()->with('favouritePlaces')->find(auth()->id())
+            'data' => auth('api')->user()
+                ->with('favouritePlaces.weatherDataLogs')
+                ->find(auth()->id())
         ], 200);
     }
 

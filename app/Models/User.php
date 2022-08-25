@@ -67,6 +67,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function favouritePlaces(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(FavouritePlace::class);
+        return $this->belongsToMany(FavouritePlace::class)
+            ->withPivot('user_id', 'favourite_place_id', 'created_at', 'updated_at')->withTimestamps();
     }
 }

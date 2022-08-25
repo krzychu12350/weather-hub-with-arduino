@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavouritePlaceController;
+use App\Http\Controllers\WeatherDataLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['api', 'cors']
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [AuthController::class, 'userProfile']);
     Route::apiResource('/favourite-places', FavouritePlaceController::class);
+    Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
+        ->only(['index', 'store']);
 });
 
 
