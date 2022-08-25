@@ -132,7 +132,7 @@ export default {
     },
     methods: {
         async retrieveFavouritePlaces() {
-            UserService.getUserFavouritePlaces()
+            UserService.getUserProfileData()
                 .then(response => {
                     this.favouritePlaces = response.data.data.favourite_places;
                     //console.log(this.favouritePlaces)

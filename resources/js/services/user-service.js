@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8080/api/';
 const config = { headers: authHeader() };
 
 class UserService {
-    async getUserFavouritePlaces() {
+    async getUserProfileData() {
         //return axios.get('http://localhost:8000/api/profile', config);
 
         return axios.get('http://localhost:8000/api/profile',
