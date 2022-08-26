@@ -92,7 +92,7 @@ export default {
                     //this.getMaxDate(this.fiveDaysForecastData)
                     this.fiveDaysForecastData = this.groupFiveDaysForecastBySingleDay(response.data.list)
                     this.singleDaysForecastData = this.processDataForEverySingleDay(this.fiveDaysForecastData)
-                    console.log(this.singleDaysForecastData)
+                    //console.log(this.singleDaysForecastData)
                 })
                 .catch(e => {
                     console.log(e);
@@ -163,7 +163,7 @@ export default {
                 //console.log("End day")
                 days.push([dayOfWeek, dayOfMonth, maxDailyTemp, minDailyTemp, dailyIcon, dailyDescription])
                 })
-            console.log(days)
+            //console.log(days)
             return days
         },
 
@@ -191,8 +191,8 @@ export default {
 
             //let minDate = new Date(fiveDaysForecastData.reduce((first,second) => first > second ? second: first).dt * 1000);
             //console.log(`Min date = ${minDate}`
-            console.log(`Max date = ${minDate.getDate()}`);
-            console.log(`Max date = ${maxDate.getDate()}`);
+            //console.log(`Max date = ${minDate.getDate()}`);
+            //console.log(`Max date = ${maxDate.getDate()}`);
             //console.log(Math.max(...this.fiveDaysForecastData.map(e => e.dt)));
 
             /*

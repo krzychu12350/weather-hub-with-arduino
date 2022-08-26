@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8080/api/';
 const config = { headers: authHeader() };
 
 class UserService {
-    async getUserFavouritePlaces() {
+    async getUserProfileData() {
         //return axios.get('http://localhost:8000/api/profile', config);
 
         return axios.get('http://localhost:8000/api/profile',
@@ -43,6 +43,16 @@ class UserService {
                 //alert(response.data.message)
                 ToastService.showSuccessToast(response.data.message)
                 return response.data;
+            })
+            .catch(e => {
+                    console.log(e)
+                }
+            );
+    }
+    async getWeatherDataLogsForFavouritePlaces() {
+        return axios.get('http://localhost:8000/api/weather-data-logs', authHeader())
+            .then(response => {
+                return response.data.data.favourite_places;
             })
             .catch(e => {
                     console.log(e)

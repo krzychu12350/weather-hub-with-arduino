@@ -23,7 +23,7 @@
             <box-icon
                 v-if="isUserFavouritePlace"
                 :class="[isArrowClicked ? 'rotate-arrow' : 'red']"
-                @click="showChart"
+                @click="showChart(placeId)"
                 type="regular"
                 name="down-arrow-alt"
                 color="white"
@@ -81,13 +81,14 @@ export default {
         routeToAddingFavouritePlacePage() {
             this.$router.push('add-favourite')
         },
-        showChart(event) {
+        showChart(placeId) {
+            //alert(placeId)
            // alert(event.target)
             //event.target.css('background-color', 'red')
             //this.arrowDirection = "down-arrow-alt"
             this.isArrowClicked = !this.isArrowClicked
             this.emitter.emit('showValOfHumidityAndTempsChart',
-                {})
+                {placeId})
         }
     }
 }

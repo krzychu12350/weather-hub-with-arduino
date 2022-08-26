@@ -24,16 +24,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => ''], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::apiResource('/favourite-places', FavouritePlaceController::class)
+        ->only(['index']);
+    Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
+        ->only(['store']);
+
+
 });
 
-Route::group(['middleware' => ['api', 'cors']
+Route::group(['middleware' => ['auth:api', 'cors']
     ], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [AuthController::class, 'userProfile']);
-    Route::apiResource('/favourite-places', FavouritePlaceController::class);
+    Route::apiResource('/favourite-places', FavouritePlaceController::class)
+        ->only(['store', 'show', 'destroy']);
     Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
-        ->only(['index', 'store']);
+        ->only(['index']);
 });
 
 

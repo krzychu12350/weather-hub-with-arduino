@@ -5,6 +5,8 @@
 
 <script>
 import ConfirmationModalComponent from "./components/ConfirmationModalComponent.vue";
+import WeatherService from "./services/weather-service";
+
 export default {
     name: "App",
     components: {

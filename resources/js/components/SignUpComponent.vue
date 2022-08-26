@@ -9,10 +9,10 @@
             <Field name="email" type="text" class="form-input" placeholder="Email"/>
             <ErrorMessage name="email" class="error-feedback"/>
 
-            <Field name="password" type="password" class="form-input" placeholder="Password"/>
+            <Field name="password" type="password" class="form-input" placeholder="Password" autocomplete="on"/>
             <ErrorMessage name="password" class="error-feedback"/>
 
-            <Field name="password_confirmation" type="password" class="form-input" placeholder="Password confirmation"/>
+            <Field name="password_confirmation" type="password" class="form-input" placeholder="Password confirmation" autocomplete="on"/>
             <ErrorMessage name="password_confirmation" class="error-feedback"/>
 
             <button :disabled="loading">

@@ -1,8 +1,11 @@
 import axios from 'axios';
 import Globals from "../globals";
+import authHeader from "./auth-header";
+import ToastService from "./toast-service";
 class WeatherService {
     getCurrentForecast(placeId) {
-        return axios.get(Globals.API_URL + 'weather?appid=' + Globals.APP_ID + '&id=' + placeId + '&units=metric',)
+        return axios.get(Globals.OPEN_WEATHER_MAP_API_URL + 'weather?appid=' +
+            Globals.OPEN_WEATHER_MAP_APP_ID + '&id=' + placeId + '&units=metric')
             /*
             .then((response) => {
                 this.weatherData = response.data
@@ -19,7 +22,8 @@ class WeatherService {
              */
     }
     getFiveDaysForecast(placeId) {
-        return axios.get(Globals.API_URL + 'forecast?appid=' + Globals.APP_ID + '&id=' + placeId + '&units=metric',)
+        return axios.get(Globals.OPEN_WEATHER_MAP_API_URL + 'forecast?appid=' +
+            Globals.OPEN_WEATHER_MAP_APP_ID + '&id=' + placeId + '&units=metric')
     }
 }
 export default new WeatherService();

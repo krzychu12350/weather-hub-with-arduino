@@ -15,10 +15,10 @@ class AuthService {
                 password: user.password
             })
             .then(response => {
-                console.log("Recived token " + response.data.access_token)
+                //console.log("Recived token " + response.data.access_token)
                 if (response.data.access_token) {
                     localStorage.setItem('user', JSON.stringify(response.data));
-                    console.log('dane usera' + localStorage.getItem('user'))
+                    //console.log('dane usera' + localStorage.getItem('user'))
                 }
                 return response.data;
             });
