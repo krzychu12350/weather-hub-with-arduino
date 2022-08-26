@@ -2,7 +2,7 @@
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
 
         <div class="col-12 primary-container">
-            <div class="row min-vh-100">
+            <div class="row min-vh-100 w-100">
 
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>
@@ -44,17 +44,25 @@
                         Toggle transition
                     </button>
                            -->
-                        <fade-transition mode="out-in" :duration="500">
+
                             <!--<div v-if="isHumAndTempsCharVisible" class="box"></div>-->
-                            <TemperatureAndHumidityChartComponent v-if="isHumAndTempsCharVisible"></TemperatureAndHumidityChartComponent>
-                            <div v-else>
-                                <DailyForecastComponent></DailyForecastComponent>
-                                <HourlyForecastComponent></HourlyForecastComponent>
-                            </div>
 
-
-                        </fade-transition>
-
+                    <!--<TemperatureAndHumidityChartComponent
+                    v-if="isHumAndTempsCharVisible"
+                    :triggerData="this.chartData">
+                    </TemperatureAndHumidityChartComponent>
+                    -->
+                    <fade-transition mode="out-in" :duration="500">
+                        <div v-if="isHumAndTempsCharVisible">
+                            <TemperatureAndHumidityChartComponent
+                                :triggerData="this.chartData">
+                            </TemperatureAndHumidityChartComponent>
+                        </div>
+                        <div v-else>
+                            <DailyForecastComponent></DailyForecastComponent>
+                            <HourlyForecastComponent></HourlyForecastComponent>
+                        </div>
+                    </fade-transition>
 
 
 
@@ -97,12 +105,12 @@ import SidebarComponent from "../components/SidebarComponent.vue";
 import SearchEngineComponent from "../components/SearchEngineComponent.vue";
 import UserService from '../services/user-service';
 import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
-import Globals from "../globals";
 import CurrentWeatherDataComponent from "../components/CurrentWeatherDataComponent.vue";
 import DailyForecastComponent from "../components/DailyForecastComponent.vue";
 import HourlyForecastComponent from "../components/HourlyForecastComponent.vue";
 import TemperatureAndHumidityChartComponent from "../components/TemperatureAndHumidityChartComponent.vue";
 import FadeTransition from "../components/FadeTransition.vue";
+
 export default {
     name: "Home",
     components: {
@@ -121,16 +129,59 @@ export default {
       return {
           favouritePlaces: Array,
           isHumAndTempsCharVisible: false,
+          callIntervalMethod: null,
+          weatherDataLogs: Array,
+          toBeWatched: false,
+          chartData: Array
           }
       },
-    created() {
+
+    async created() {
+        await this.retrieveFavouritePlaces()
+        await this.retrieveWeatherDataLogs()
+
         this.emitter.on('showValOfHumidityAndTempsChart', (evt) => {
-            //alert(evt.isHumAndTempsCharVisible);
+            //alert(evt.placeId + 'home vue');
             this.isHumAndTempsCharVisible = !this.isHumAndTempsCharVisible
+            //console.log(this.processSpecificPlaceWeatherLogs(evt.placeId))
+            if (this.isHumAndTempsCharVisible) {
+                this.chartData = this.processSpecificPlaceWeatherLogs(evt.placeId)
+            }
+
+            //console.log(chartData)
+
+            //this.emitter.emit('passChartData', {chartData})
+
 
         })
+
+
+    },
+    beforeUnmount () {
+        clearInterval(this.callIntervalMethod)
     },
     methods: {
+        filterWeatherDataLogs (weatherDataLogs, placeId) {
+            //console.log(placeId)
+            //console.log(weatherDataLogs.find(place => place.id === placeId))
+            //console.log(weatherDataLogs.find(place => place.id === placeId))
+            const result = Array.isArray(weatherDataLogs) ? weatherDataLogs.find(place => place.id === placeId) : 0;
+            //console.log(result)
+            return result
+
+            //return weatherDataLogs
+
+        },
+        processSpecificPlaceWeatherLogs (placeId) {
+            let place = JSON.parse(JSON.stringify(this.filterWeatherDataLogs(this.weatherDataLogs, placeId)))
+            //console.log(place[0].weather_data_logs)
+            let seriesOfTemperatures = place.weather_data_logs.map(singleLog => singleLog.temperature);
+            let seriesOfHumidity = place.weather_data_logs.map(singleLog => singleLog.humidity);
+            let seriesOfCreatedAt = place.weather_data_logs.map(singleLog => singleLog.created_at);
+            //console.log(seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt)
+            return [seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt]
+
+        },
         async retrieveFavouritePlaces() {
             UserService.getUserProfileData()
                 .then(response => {
@@ -141,11 +192,27 @@ export default {
                     console.log(e);
                 });
         },
+        async retrieveWeatherDataLogs () {
+            this.weatherDataLogs = await UserService.getWeatherDataLogsForFavouritePlaces()
+            this.callIntervalMethod = setInterval(async () => {
+                //console.log("Działa powtarzanie")
+                this.weatherDataLogs = await UserService.getWeatherDataLogsForFavouritePlaces()
+                console.log(this.weatherDataLogs)
+            },  1830000)
+
+
+        },
+        //1830000
+        //3000
 
     },
+    /*
     mounted() {
         this.retrieveFavouritePlaces()
     },
+
+     */
+
     /*
   //api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
   //    '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',

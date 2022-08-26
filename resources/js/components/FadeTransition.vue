@@ -13,6 +13,9 @@ export default {
         duration: {
             type: Number,
             default: 1000
+        },
+        listeners: {
+
         }
     },
     computed: {
@@ -22,7 +25,7 @@ export default {
                 afterEnter: this.cleanUpDuration,
                 beforeLeave: this.setDuration,
                 afterLeave: this.cleanUpDuration,
-                ...this.$listeners
+                ...this.$attrs
             };
         }
     },

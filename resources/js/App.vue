@@ -12,28 +12,6 @@ export default {
     components: {
         ConfirmationModalComponent
     },
-    data () {
-        return {
-            weatherDataLog: null,
-            allFavouritePlaces: Array,
-        }
-    },
-    methods: {
-        fetchAndSaveWeatherDataLog () {
-            this.weatherDataLog = setInterval(() => {
-                //console.log("Działa powtarzanie")
-            },  1800000)
-        },
-    },
-
-    onBeforeUnmount () {
-        //clearInterval(this.weatherDataLog)
-    },
-    created () {
-        //this.fetchAndSaveWeatherDataLog()
-
-    }
-
 }
 </script>
 

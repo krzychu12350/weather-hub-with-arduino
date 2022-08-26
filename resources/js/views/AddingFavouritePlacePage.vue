@@ -1,6 +1,6 @@
 <template>
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
-        <div class="col-12 primary-container">
+        <div class="col-12 primary-container w-100">
             <div class="row min-vh-100">
                 <div class="col-1">
                     <SidebarComponent></SidebarComponent>

@@ -4,7 +4,7 @@
             <h1 class="mb-4">Sign in</h1>
             <Field name="email" type="text" class="form-input" placeholder="Email"/>
             <ErrorMessage name="email" class="error-feedback"/>
-            <Field name="password" type="password" class="form-input" placeholder="Password"/>
+            <Field name="password" type="password" class="form-input" placeholder="Password" autocomplete="on"/>
             <ErrorMessage name="password" class="error-feedback"/>
             <a href="#">Forgot your password?</a>
             <button :disabled="loading">

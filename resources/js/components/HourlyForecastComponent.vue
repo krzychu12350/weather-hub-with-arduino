@@ -189,9 +189,9 @@ export default {
             const hoursData = []
             const tempsData = []
             hourlyForecastData.forEach(singleHour => {
-                console.log(Math.round(singleHour.main.temp))
-                console.log(singleHour.weather[0].icon)
-                console.log(this.getHourFromDateTimestamp(singleHour.dt))
+                //console.log(Math.round(singleHour.main.temp))
+                //console.log(singleHour.weather[0].icon)
+                //console.log(this.getHourFromDateTimestamp(singleHour.dt))
                 hoursData.push(this.getHourFromDateTimestamp(singleHour.dt))
                 tempsData.push(Math.round(singleHour.main.temp) + '°')
             })

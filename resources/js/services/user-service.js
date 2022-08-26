@@ -49,6 +49,16 @@ class UserService {
                 }
             );
     }
+    async getWeatherDataLogsForFavouritePlaces() {
+        return axios.get('http://localhost:8000/api/weather-data-logs', authHeader())
+            .then(response => {
+                return response.data.data.favourite_places;
+            })
+            .catch(e => {
+                    console.log(e)
+                }
+            );
+    }
   getUserBoard() {
     return axios.get(API_URL + 'user', { headers: authHeader() });
   }

@@ -26,10 +26,9 @@ Route::group(['prefix' => ''], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::apiResource('/favourite-places', FavouritePlaceController::class)
         ->only(['index']);
-    /*
     Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
         ->only(['store']);
-    */
+
 
 });
 
