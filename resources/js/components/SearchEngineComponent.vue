@@ -2,9 +2,40 @@
     <div class="search-engine-container">
         <!--<input type="text" v-model="keyword">
         -->
+        <span v-if="typing">You are typing || Searching....</span>
+        <span v-if="message">You typed: {{message}}</span>
+        <input type="text" @input="debounceSearch">
+
+        <p class="position-absolute" v-if="noResults">Sorry, no results for {{search}}</p>
+        <div class="searched-place-container w-25">
+            <div v-if="routeName === 'Home'"
+                 v-for="(p, i) in results.slice(0, 5)"
+                 :key="p.id"
+                 @click='getWeatherDataForSelectedPlace(p.id)'
+                 class="searched-place">
+                {{ p.id }} {{ p.name }} {{ p.country }}
+            </div>
+            <div
+                v-if="routeName === 'AddingFavouritePlacePage'"
+                v-for="(p, i) in results.slice(0, 5)"
+                :key="p.id"
+                @click='addPlaceToFavourites(p)'
+                class="searched-place">
+                {{ p.id }} {{ p.name }} {{ p.country }}
+
+            </div>
+        </div>
+
+
+
+        <!--
         <input type="text" class="form-input" @input="debounceSearch" placeholder="Search">
         <span v-if="typing">You are typing(Searing...)</span>
         <span v-if="message">You typed: {{message}}</span>
+        -->
+
+
+
         <!--
         <ul v-if="Cities.length > 0">
             <li v-for="city in Cities" :key="city.id" v-text="city.name"></li>
@@ -26,6 +57,8 @@
             <br>
         </div>
         -->
+
+        <!--
         <div v-if="message">
             <div class="serached-places">
                 <div class="bg-danger border border-primary mb-1" v-for="place in this.searchedPlaces">
@@ -39,27 +72,28 @@
 
                 </div>
             </div>
-            <!--
-            <ul class="">
-                <li><h6 class="dropdown-header">Dropdown header</h6></li>
-                <li v-for="city in this.searchedCities">
-                    <a class="dropdown-item">
-                        {{city.id}} {{city.name}}
-                    </a>
-                </li>
-            </ul>
-            -->
+
+
+
         </div>
+          -->
 
     </div>
+
 </template>
 
 <script>
 import placesData from "../assets/cities.list.json";
 import { useRouter } from 'vue-router';
 import {computed} from "vue";
+import fuse from "fuse.js"
+import {debounce} from "lodash";
+
+import { JsonSearch, ResultList, ResultListItem, ResultTitle, SearchInput, SearchResults } from 'vue-json-search'
+import {useVueFuse} from "vue-fuse";
 import UserService from "../services/user-service";
-export default {
+
+export default{
     name: "SearchEngine",
     emits: [
         'passSearchedPlaceId',
@@ -68,7 +102,62 @@ export default {
         const routeName = computed(() => {
             return useRouter().currentRoute.value.name;
         })
-        return { routeName }
+
+        const myList = [
+            {'name': 'aaaa'},
+            {'name': 'bbbb'},
+            {'name': 'cccc'},
+            {'name': 'abc'},
+            {'name': 'xyz'},
+            {'name': 'aaaa'},
+            {'name': 'bbbb'},
+            {'name': 'cccc'},
+            {'name': 'abc'},
+            {'name': 'xyz'},
+            {'name': 'aaaa'},
+            {'name': 'bbbb'},
+            {'name': 'cccc'},
+            {'name': 'abc'},
+            {'name': 'xyz'},
+            {'name': 'aaaa'},
+            {'name': 'bbbb'},
+            {'name': 'cccc'},
+            {'name': 'abc'},
+            {'name': 'xyz'},
+            {'name': 'aaaa'},
+            {'name': 'bbbb'},
+            {'name': 'cccc'},
+            {'name': 'abc'},
+            {'name': 'xyz'},
+            ]
+
+        const options = {
+            keys: [{name: 'name', weight: 2}],
+            includeScore: true,
+            //minMatchCharLength: 4,
+            threshold:0.0,
+            //useExtendedSearch: true
+        }
+        const myList2 = placesData
+
+
+
+
+        /*
+        const debouncedWatch = debounce((newValue, oldValue) => {
+            console.log("New value:", newValue);
+
+
+        }, 300);
+        */
+        const { search, results, noResults} = useVueFuse(myList2, options)
+
+        return {
+            search,
+            results,
+            noResults,
+            routeName,
+        }
     },
     data() {
         return {
@@ -77,13 +166,19 @@ export default {
             searched: '',
             awaitingSearch: false,
 
+
             searchedPlaces: [],
             message: null,
             typing: null,
-            debounce: null
+            debounce: null,
+            debouncedWatch: null,
+
+
         };
     },
+
     watch: {
+
 
         /*
       searchCities() {
@@ -156,11 +251,12 @@ export default {
             clearTimeout(this.debounce)
             this.debounce = setTimeout(() => {
                 this.typing = null
-                this.message = event.target.value
+                this.search = event.target.value
 
-                this.searchedPlaces = this.filteredPlaces
 
-            }, 600)
+                //this.searchedPlaces = this.filteredPlaces
+                //console.log(this.results)
+            }, 400)
 
         },
         addPlaceToFavourites(place) {
@@ -222,5 +318,10 @@ export default {
 }
 .searched-place {
     cursor: pointer;
+}
+.searched-place-container {
+    background-color: white;
+    z-index: 3;
+    position: absolute;
 }
 </style>

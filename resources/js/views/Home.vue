@@ -11,6 +11,8 @@
 
                     <!--<SearchEngineComponent @get-forecast-for-selected-place="getForecastForSearchedPlace"/>-->
                     <SearchEngineComponent />
+                    <!--<TestSearch></TestSearch>-->
+
                     <h2 class="color text-white">Your favourite places</h2>
 
                     <div class="d-flex mt-4">
