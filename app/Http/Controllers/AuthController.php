@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class AuthController extends Controller
 {
+
+
     /**
      * Create a new AuthController instance.
      *
@@ -87,10 +91,7 @@ class AuthController extends Controller
     public function logout(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            //auth('api')->logout();
-            //dd($request);
             auth('api')->logout();
-            //$request->session()->invalidate();
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully logged out'

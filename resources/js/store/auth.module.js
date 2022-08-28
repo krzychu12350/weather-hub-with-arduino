@@ -1,4 +1,7 @@
 import AuthService from '../services/auth.service';
+import EventBus from "../common/EventBus";
+import ToastService from "../services/toast-service";
+import TokenService from "../services/token.service";
 //z tym userem cos chyba jest nie tak
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
@@ -22,8 +25,25 @@ export const auth = {
             );
         },
         logout({ commit }) {
-            AuthService.logout()
-            commit('logout');
+            return AuthService.logout().then(
+                response => {
+                    console.log(response)
+                    commit('logout');
+                    ToastService.showSuccessToast(response.message)
+                },
+                error => {
+                    this.content =
+                        (error.response && error.response.data && error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    if (error.response && error.response.status === 403) {
+                        EventBus.dispatch("logout");
+                    }
+                }
+            );
+            //console.log(AuthService.logout())
+            //localStorage.removeItem('user')
+
         },
         register({ commit }, user) {
             return AuthService.register(user).then(
@@ -36,6 +56,9 @@ export const auth = {
                     return Promise.reject(error);
                 }
             );
+        },
+        refreshToken({ commit }, accessToken) {
+            commit('refreshToken', accessToken);
         }
     },
     mutations: {
@@ -56,6 +79,10 @@ export const auth = {
         },
         registerFailure(state) {
             state.status.loggedIn = false;
+        },
+        refreshToken(state, accessToken) {
+            state.status.loggedIn = true;
+            state.user = { ...state.user, accessToken: accessToken };
         }
     }
 };

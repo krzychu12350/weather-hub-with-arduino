@@ -24,7 +24,8 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 import VueApexCharts from "vue3-apexcharts";
 
 
-
+import setupInterceptors from './services/setupInterceptors';
+setupInterceptors(store);
 
 export const app = createApp(App)
     .use(router)

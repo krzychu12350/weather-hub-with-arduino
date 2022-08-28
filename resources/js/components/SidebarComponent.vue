@@ -91,6 +91,7 @@
 
 <script>
 import ToastService from "../services/toast-service";
+import AuthService from "../services/auth.service";
 export default {
     name: "SidebarComponent",
     data() {
@@ -106,9 +107,10 @@ export default {
             this.isDisplay = !this.isDisplay;
         },
         logOut() {
-            this.$store.dispatch('auth/logout');
-            this.$router.push("/login");
-            ToastService.showSuccessToast("You have been logged out successfully !!!")
+            //this.$store.dispatch('auth/logout');
+            //AuthService.logout()
+            //this.$router.push("/auth");
+           // ToastService.showSuccessToast("You have been logged out successfully !!!")
             //this.showLogoutToast()
         },
         showLogoutToast() {
