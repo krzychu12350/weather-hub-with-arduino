@@ -1,15 +1,17 @@
 <template>
     <nav class="sidebar position-relative" :class="[ isCollapsed ? 'close' : '' ]">
         <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="../assets/images/logo.png" alt="logo">
-                </span>
+            <router-link :to="{ name: 'Home' }">
+                <div class="image-text">
+                    <span class="image">
+                        <img src="../assets/images/logo.png" alt="logo">
+                    </span>
 
-                <div class="text logo-text">
-                    <span class="name">Weather Hub</span>
+                    <div class="text logo-text">
+                        <span class="name">Weather Hub</span>
+                    </div>
                 </div>
-            </div>
+            </router-link>
             <!--
             <i @click="toggleSidebar"
                class='bx bx-chevron-right toggle'></i>
@@ -108,7 +110,7 @@ export default {
         logOut() {
             this.$store.dispatch('auth/logout');
             this.$router.push("/login");
-            ToastService.showSuccessToast("You have been logged out successfully !!!")
+            ToastService.showToast("You have been logged out successfully !!!", "success")
             //this.showLogoutToast()
         },
         showLogoutToast() {
@@ -125,15 +127,8 @@ export default {
 </script>
 
 <style lang="scss">
-/* Google Font Import - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+
 
 /* ===== Colors ===== */
 $body-color: #E4E9F7;
@@ -265,6 +260,12 @@ body.dark {
     background: linear-gradient(to right, #08C8F6, #2698f8);
     transition: $tran-05;
     z-index: 2;
+
+    @media only screen and (max-width: 768px) {
+        &.close {
+            width: 100%;
+        }
+    }
 
     &.close {
         width: 80px;

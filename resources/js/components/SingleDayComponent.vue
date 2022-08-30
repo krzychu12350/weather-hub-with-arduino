@@ -26,13 +26,14 @@ export default {
 </script>
 
 <style lang="scss">
+@use "sass:math";
 @mixin down_arrow($arrow_width: 20%, $arrow_height: 20%) {
     $height: 100% - $arrow_height;
-    $left_arrow_pos: 50% - ($arrow_width / 2);
-    $right_arrow_pos: 50% + ($arrow_width / 2);
+    $left_arrow_pos: 50% - math.div($arrow_width, 2);
+    $right_arrow_pos: 50% + math.div($arrow_width, 2);
     clip-path: polygon(0 0, 100% 0, 100% $height, $right_arrow_pos $height, 50% 100%, $left_arrow_pos $height, 0 $height);
     -webkit-clip-path: polygon(0 0, 100% 0, 100% $height, $right_arrow_pos $height, 50% 100%, $left_arrow_pos $height, 0 $height);
-    margin-bottom: -($arrow_height / 2);
+    margin-bottom: - math.div($arrow_height, 2);
 }
 .bg-image {
     //background-image: url(https://unsplash.it/1500/750?image=1041);

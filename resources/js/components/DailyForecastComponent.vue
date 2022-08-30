@@ -1,6 +1,8 @@
 <template>
     <h2 class="color text-white">Daily</h2>
-    <div class="daily-container d-flex flex-row">
+    <div v-if="this.windowWidth <= 1025" class="daily-container col-11">
+
+
         <!--
         <SingleDayComponent></SingleDayComponent>
         <SingleDayComponent></SingleDayComponent>
@@ -25,16 +27,30 @@
             {{ singleDay[5] }}
             {{ singleDay[6] }}
             -->
-        <div @click="showHourlyForecastForSpecificDay(singleDay[1])" v-for="singleDay in singleDaysForecastData">
-            <SingleDayComponent
-                :dayOfWeek=singleDay[0]
-                :dayOfMonth=singleDay[1]
-                :maxDailyTemp=singleDay[2]
-                :minDailyTemp=singleDay[3]
-                :iconOfDay= singleDay[4]
-                :descriptionOfDay=singleDay[5]
-            ></SingleDayComponent>
-        </div>
+
+        <Carousel :items-to-show="3" :autoplay="6000" :wrap-around="true">
+            <Slide
+                @click="showHourlyForecastForSpecificDay(singleDay[1])"
+                   v-for="singleDay in this.singleDaysForecastData">
+                <div
+                    class="carousel__item">
+                    <SingleDayComponent
+                        :dayOfWeek=singleDay[0]
+                        :dayOfMonth=singleDay[1]
+                        :maxDailyTemp=singleDay[2]
+                        :minDailyTemp=singleDay[3]
+                        :iconOfDay= singleDay[4]
+                        :descriptionOfDay=singleDay[5]
+                    ></SingleDayComponent>
+                </div>
+
+            </Slide>
+            <template #addons>
+                <Navigation />
+            </template>
+        </Carousel>
+
+
 
             <!--
             <div v-for="singleHour in singleDay">
@@ -44,18 +60,34 @@
             </div>
             -->
 
-
     </div>
+    <div v-else class="daily-container col-11 d-flex flex-row">
+        <div class="" @click="showHourlyForecastForSpecificDay(singleDay[1])" v-for="singleDay in singleDaysForecastData">
+            <SingleDayComponent
+                :dayOfWeek=singleDay[0]
+                :dayOfMonth=singleDay[1]
+                :maxDailyTemp=singleDay[2]
+                :minDailyTemp=singleDay[3]
+                :iconOfDay= singleDay[4]
+                :descriptionOfDay=singleDay[5]
+            ></SingleDayComponent>
+        </div>
+    </div>
+
 </template>
 
 <script>
 import SingleDayComponent from "./SingleDayComponent.vue";
 import WeatherService from "../services/weather-service";
-
+import {Carousel, Navigation, Slide} from "vue3-carousel";
+import 'vue3-carousel/dist/carousel.css';
 export default {
     name: "DailyForecastComponent",
     components: {
-        SingleDayComponent
+        SingleDayComponent,
+        Carousel,
+        Slide,
+        Navigation,
     },
     data() {
         return {
@@ -64,6 +96,7 @@ export default {
             startDate: Date,
             endDate: Date,
             singleDaysForecastData: Array,
+            windowWidth: window.innerWidth
         }
     },
     created() {
@@ -166,6 +199,9 @@ export default {
             //console.log(days)
             return days
         },
+        onResize() {
+            this.windowWidth = window.innerWidth
+        },
 
         getMaxDate(fiveDaysForecastData) {
             //console.log(fiveDaysForecastData.reduce((first,second) => first > second ? first : second).dt)
@@ -216,12 +252,30 @@ export default {
         },
 
     },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener('resize', this.onResize);
+        })
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.onResize);
+    },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+
 .single-day-container:hover {
     background-color: red;
     cursor: pointer;
+}
+.carousel__icon {
+    fill: #FFFFFF !important;
+}
+.carousel__prev, .carousel__next {
+    background-color: transparent;
+}
+.carousel__prev:hover, .carousel__next:hover {
+   border: 1px solid #FFFFFF;
 }
 </style>

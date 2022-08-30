@@ -1,5 +1,5 @@
 <template>
-    <section class="primary-place-forecast">
+    <section class="primary-place-forecast me-4">
 
         <div v-if="loading" class="d-flex justify-content-center align-items-center min-vh-100">
             <div>
@@ -7,33 +7,108 @@
                 <h3>Loading...</h3>
             </div>
         </div>
-        <div class="container d-flex align-items-center flex-column">
+        <div class="container d-flex align-items-center flex-column text-center">
             <div class="m-1">
-                <h1>{{ this.place }}  {{ this.country }}</h1>
+                <h2 class="place-location">{{ this.place }} {{ this.country }}</h2>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-1">
                 <img class="image " :src=this.icon>
-                <h1>{{ this.temp }}° C</h1>
+                <span class="current-temp">{{ this.temp }}° C</span>
             </div>
-            <div class="d-flex justify-content-center flex-column">
-                <span>{{ this.description }}</span><br/>
-                <span>{{ this.currentDate }}</span>
-                <span>Temp min: {{ this.tempMin }}° C</span><br/>
-                <span>Temp max: {{ this.tempMax }}° C</span><br/>
-                <span>Temp pressure: {{ this.pressure }} hPa</span><br/>
-                <span>Temp humidity: {{ this.humidity }}%</span>
+            <span class="description">{{ this.description }}</span><br/>
+            <span class="current-date"><b>{{ this.currentDate }}</b></span>
 
-                <span> Wind speed: {{ this.windSpeed }} m/s</span>
-                <span> Wind direction: {{ this.windDeg }} degrees (meteorological)</span>
-                <span> Wind gust: {{ this.windGust }} m/s</span>
+            <div class="d-flex justify-content-center flex-row mt-3">
+                <div class="d-flex flex-column mb-2 me-4">
+                    <span class="weather-detail flex-column">
+                        Temp min
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-temperature-full"
+                            color="white"
+                            size="sm"/>
+                        {{ this.tempMin }}° C
+                    </span>
 
-                <span> Visibility: {{ this.visibility }} km</span>
+                    <span class="weather-detail">
+                        Temp min
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-temperature-full"
+                            color="white"
+                            size="sm"/>
+                        {{ this.tempMax }}° C
+                    </span>
 
-                <span> Cloudy: {{ this.cloudy }}%</span>
-                <span> Sunrise: {{ this.sunrise }}</span>
-                <span> Sunset: {{ this.sunset }}</span>
+                    <span class="weather-detail">Pressure {{ this.pressure }}hPa</span>
 
+                    <span class="weather-detail">
+                        Humidity
+                         <font-awesome-icon
+                             class="temp-icon"
+                             icon="fa-solid fa-droplet"
+                             color="white"
+                             size="sm"/>
+                        {{ this.humidity }}%
+                    </span>
+                </div>
+                <div class="d-flex flex-column mb-2 me-4">
+                    <span class="weather-detail">
+                        Wind speed
+                             <font-awesome-icon
+                                 class="temp-icon"
+                                 icon="fa-solid fa-wind"
+                                 color="white"
+                                 size="sm"/>
+                        {{ this.windSpeed }} m/s
+                    </span><br/>
+                    <!-- Wind direction  degrees (meteorological) -->
 
+                    <span class="weather-detail"> Wind direction {{ this.windDeg }}</span><br/>
+
+                    <span class="weather-detail"> Wind gust {{ this.windGust }} m/s</span><br/>
+                </div>
+                <div class="d-flex flex-column mb-2 me-4">
+                    <span class="weather-detail">
+                        Visibility
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-eye"
+                            color="white"
+                            size="sm"/>
+                        {{ this.visibility }} km
+                    </span>
+
+                    <span class="weather-detail">
+                        Cloudy:
+                             <font-awesome-icon
+                                 class="temp-icon"
+                                 icon="fa-solid fa-cloud"
+                                 color="white"
+                                 size="sm"/>
+                        {{ this.cloudy }}%
+                    </span><br/>
+
+                    <span class="weather-detail">
+                        Sunrise
+                             <font-awesome-icon
+                                 class="temp-icon"
+                                 icon="fa-solid fa-moon"
+                                 color="white"
+                                 size="sm"/>
+                        {{ this.sunrise }}
+                    </span>
+
+                    <span class="weather-detail">
+                        Sunset
+                               <font-awesome-icon
+                                   class="temp-icon"
+                                   icon="fa-solid fa-sun"
+                                   color="white"
+                                   size="sm"/>
+                        {{ this.sunset }}
+                    </span>
+                </div>
             </div>
         </div>
     </section>
@@ -41,7 +116,6 @@
 
 <script>
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
-import UserService from '../services/user-service';
 import WeatherService from "../services/weather-service";
 
 export default {
@@ -125,7 +199,7 @@ export default {
                     this.windSpeed = this.weatherData.wind.speed
                     this.windDeg = this.weatherData.wind.deg
                     this.windGust = this.weatherData.wind.gust
-                    this.visibility = this.weatherData.visibility/1000
+                    this.visibility = this.weatherData.visibility / 1000
 
                     this.cloudy = this.weatherData.clouds.all
                     this.sunrise = this.createTimeFromUnixTimestamp(this.weatherData.sys.sunrise)
@@ -156,7 +230,7 @@ export default {
             /* Create a new JavaScript Date object based on Unix timestamp.
             Multiplied it by 1000 to convert it into milliseconds */
             return new Date(unixTimestamp * 1000).toLocaleTimeString("default",
-              {hour: '2-digit', minute:'2-digit'});
+                {hour: '2-digit', minute: '2-digit'});
             /*
             // Generate date string
             console.log(date.toLocaleDateString("en-US"));   // Prints: 5/6/2022
@@ -187,6 +261,26 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.place-location {
+    color: #FFFFFF;
+    font-size: 4.5em;
+}
+.current-temp {
+    color: #FFFFFF;
+    font-size: 4em;
+}
+.description {
+    color: #FFFFFF;
+    font-size: 3em;
+    font-weight: normal;
+}
+.current-date {
+    color: #FFFFFF;
+    font-size: 1.5em;
+}
+.weather-detail {
+    color: #FFFFFF;
+    font-size: 1em;
+}
 </style>

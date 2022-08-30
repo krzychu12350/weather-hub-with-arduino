@@ -1,56 +1,37 @@
 <template>
-    <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
-        <div class="col-12 primary-container">
-            <div class="row min-vh-100 w-100">
+    <div class="col-12 primary-container w-100 min-vh-100 d-flex">
+        <!--<div class="row min-vh-100">-->
 
-                <div class="col-1">
-                    <SidebarComponent></SidebarComponent>
-                </div>
-                <div class="col-7">
-                    <h2 class="color text-dark">Your favourite places</h2>
-
-                    <div class="d-flex mt-4">
-                        <div class="col-2 me-4" v-for="favouritePlace in favouritePlaces">
-                            <FavouritePlaceComponent
-                                v-bind:isUserFavouritePlace="true"
-                                v-bind:placeId="favouritePlace.id"
-                                v-bind:place="favouritePlace.name"
-                                @refresh-user-favourite-places="retrieveFavouritePlaces"
-                            ></FavouritePlaceComponent>
-                        </div>
-                        <div class="col-2 me-4">
-                             <FavouritePlaceComponent
-                                 v-bind:isUserFavouritePlace="false"
-                                 v-bind:place="'Add new place'"
-                             ></FavouritePlaceComponent>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog ">
-                        <div class="modal-content border-0">
-                            <div class="modal-header d-flex justify-content-center">
-                                <h5 id="exampleModalLabel">Add new favourite place</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body d-flex justify-content-center">
-                                <SearchEngineComponent/>
-
-                            </div>
-                            <div class="modal-footer d-flex justify-content-center">
-                                <button type="button" data-bs-dismiss="modal">Close</button>
-                                <button type="button">Add place</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+        <div class="col-3 col-md-2 col-lg-1">
+            <SidebarComponent></SidebarComponent>
         </div>
-    <!--</div>-->
+
+
+
+        <div class="col-9 col-md-10 col-lg-11 mt-2">
+            <section id="favourite-places" class="me-4">
+                <h2 class="color text-white">Your favourite places</h2>
+                <div class="row justify-content-md-center justify-content-lg-start">
+                    <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
+                        <FavouritePlaceComponent
+                            v-bind:isUserFavouritePlace="true"
+                            v-bind:placeId="favouritePlace.id"
+                            v-bind:place="favouritePlace.name"
+                            v-bind:country="favouritePlace.country"
+                            v-bind:currentWeatherData="this.getForecastFavouritePlace(favouritePlace.id)"
+                            @refresh-user-favourite-places="retrieveFavouritePlaces"
+                        ></FavouritePlaceComponent>
+                    </div>
+                    <div class="col-12 col-md-5 col-lg-2 me-4">
+                        <FavouritePlaceComponent
+                            v-bind:isUserFavouritePlace="false"
+                            v-bind:place="'Add new place'"
+                        ></FavouritePlaceComponent>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -58,6 +39,8 @@ import SidebarComponent from "../components/SidebarComponent.vue";
 import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
 import SearchEngineComponent from "../components/SearchEngineComponent.vue";
 import UserService from "../services/user-service";
+import WeatherService from "../services/weather-service";
+
 export default {
     name: "FavouritePlacesPage",
     components: {
@@ -75,7 +58,7 @@ export default {
         this.retrieveFavouritePlaces()
     },
     methods: {
-         async retrieveFavouritePlaces() {
+        async retrieveFavouritePlaces() {
             UserService.getUserProfileData()
                 .then(response => {
                     this.favouritePlaces = response.data.data.favourite_places;
@@ -83,6 +66,15 @@ export default {
                 .catch(e => {
                     console.log(e);
                 });
+        },
+        getForecastFavouritePlace(placeId) {
+            return WeatherService.getCurrentForecast(placeId)
+                .then((response) => {
+
+                    return response.data
+                    //console.log(this.weatherDataOfFavPlace)
+                })
+                .catch(err => console.log(err.message))
         },
     },
 }

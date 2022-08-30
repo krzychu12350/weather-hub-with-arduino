@@ -1,57 +1,110 @@
 <template>
-    <div class="d-flex justify-content-between">
-        <h2 class="color text-white">Hourly</h2>
-        <div>
-            <button
-                @click="this.isSummaryWasClicked =
-                    !this.isSummaryWasClicked">
-                Summary
-            </button>
-            <button
-                @click="this.isSummaryWasClicked =
-                    !this.isSummaryWasClicked">
-                Details</button>
+    <div class="col-11 mb-4">
+        <div class="d-flex justify-content-between">
+            <h2 class="color text-white">Hourly</h2>
+            <div class="gap-2 justify-content-md-end">
+                <button
+                    class="switch-button"
+                    @click="this.isSummaryWasClicked =
+                        !this.isSummaryWasClicked">
+                    Summary
+                </button>
+                <button
+                    class="switch-button"
+                    @click="this.isSummaryWasClicked =
+                        !this.isSummaryWasClicked">
+                    Details
+                </button>
+            </div>
+        </div>
+        <div v-if="isSummaryWasClicked">
+            <div v-if="this.windowWidth <= 1025" class="hourly-container ms-2 col-11">
+                <Carousel :items-to-show="3" :autoplay="8000" :wrap-around="false">
+                    <Slide v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
+                        <div class="carousel__item">
+                            <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
+                            <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
+                            <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
+                            <span class="single-day-details">{{ singleHour.main.humidity }}%<br></span>
+                            <span class="single-day-details"><b>{{ this.getHourFromDateTimestamp(singleHour.dt) }}</b><br></span>
+
+                            <!--
+                            <div class="carousel__item">
+
+                                <div class="card" style="width: 230px">
+                                    <img
+                                        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+                                        class="card-img-top"
+                                        alt="..."
+                                    />
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">
+                                            This is a longer card with supporting text below as a natural
+                                            lead-in to additional content. This content is a little bit
+                                            longer.
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                         {{this.getDayOfMonthFromDateTimestamp(singleHour.dt)}}<br>
+                            -->
+                        </div>
+                    </Slide>
+                    <template #addons>
+                        <Navigation />
+                    </template>
+                </Carousel>
+            </div>
+
+            <div v-else class="hourly-container d-flex flex-row col-11">
+                <div v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
+                    <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
+                    <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
+                    <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
+                    <span class="single-day-details">{{ singleHour.main.humidity }}%<br></span>
+                    <span class="single-day-details"><b>{{ this.getHourFromDateTimestamp(singleHour.dt) }}</b><br></span>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div v-if="!isSummaryWasClicked" class="daily-container d-flex justify-content-center d-md-block">
+
+            <!--<area-chart :stacked="true" :library="chartOptions" :points="false" curve="false"
+                        :legend="false" :discrete="true" :data="hourlyForecastDataChart"></area-chart>
+                        -->
+            <apexchart class="col-10 h-50" height="400" type="area" width="100%" :options="chartOptions" :series="series"></apexchart>
+            <!--<HourlyCharComponent></HourlyCharComponent>-->
         </div>
     </div>
 
-    <div v-if="isSummaryWasClicked" class="daily-container d-flex flex-row">
-        <div class="me-4" v-for="(singleHour, key, index) in this.hourlyForecastData">
 
-
-
-            <!--{{this.getDayOfMonthFromDateTimestamp(singleHour.dt)}}<br>
-            -->
-            <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
-            <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
-            <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
-            <span class="single-day-details">{{ singleHour.main.humidity }}%<br></span>
-            <span class="single-day-details"><b>{{ this.getHourFromDateTimestamp(singleHour.dt) }}</b><br></span>
-
-        </div>
-    </div>
-    <div v-if="!isSummaryWasClicked" class="daily-container d-flex flex-row">
-
-        <!--<area-chart :stacked="true" :library="chartOptions" :points="false" curve="false"
-                    :legend="false" :discrete="true" :data="hourlyForecastDataChart"></area-chart>
-                    -->
-        <apexchart class="col-10" type="area" width="100%" :options="chartOptions" :series="series"></apexchart>
-        <!--<HourlyCharComponent></HourlyCharComponent>-->
-    </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import {Carousel, Navigation, Slide} from "vue3-carousel";
+import 'vue3-carousel/dist/carousel.css';
+
+
 
 export default {
     name: "HourlyForecastComponent",
     components: {
         apexchart: VueApexCharts,
+        Carousel,
+        Slide,
+        Navigation,
     },
     data() {
         return {
             hourlyForecastData: Array,
             isSummaryWasClicked: Boolean,
             hourlyForecastDataChart: Array,
+            windowWidth: window.innerWidth,
             /*
             chartOptions: {
                 layout: {
@@ -197,11 +250,26 @@ export default {
             })
 
             return [hoursData, tempsData]
-        }
-
-    }
+        },
+        onResize() {
+            this.windowWidth = window.innerWidth
+        },
+    },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener('resize', this.onResize);
+        })
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.onResize);
+    },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.switch-button {
+    padding: 5px 5px;
+    font-size: 10px;
+}
+
 </style>

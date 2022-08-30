@@ -2,11 +2,12 @@ import {useToast} from "vue-toast-notification";
 
 
 class ToastService {
-    showSuccessToast(serverMessage) {
+    showToast(serverMessage, type) {
+        //const type = "success"
         const toast = useToast();
         toast.open({
             message: serverMessage,
-            type: "success",
+            type: type,
             duration: 5000,
             position: 'top',
             dismissible: true

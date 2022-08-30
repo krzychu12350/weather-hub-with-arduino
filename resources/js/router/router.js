@@ -1,6 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
-import TestLoginPage from "../views/TestLoginPage.vue";
 import AuthenticationPage from "../views/AuthenticationPage.vue";
 import FavouritePlacesPage from "../views/FavouritePlacesPage.vue";
 import AddingFavouritePlacePage from "../views/AddingFavouritePlacePage.vue";
@@ -34,11 +33,6 @@ const routes = [
         component: Register,
     },
      */
-    {
-        path: "/test-login",
-        name: "Test-Login",
-        component: TestLoginPage,
-    }
 ]
 
 const router = createRouter({

@@ -11,11 +11,13 @@
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                 <span>Sign In</span>
             </button>
+            <!--
             <div class="form-group">
                 <div v-if="message" class="alert alert-danger" role="alert">
                     {{ message }}
                 </div>
             </div>
+            -->
         </Form>
     </div>
 </template>
@@ -50,7 +52,7 @@ export default {
                     this.$router.push("/")
                     //this.showToastOnLoginSuccess();
                     //alert(user.message)
-                    ToastService.showSuccessToast(user.message)
+                    ToastService.showToast(user.message, "success")
                 },
                 (error) => {
                     this.loading = false;
@@ -60,6 +62,8 @@ export default {
                             error.response.data.message) ||
                         error.message ||
                         error.toString();
+                    ToastService.showToast(this.message, "error")
+
                 }
             );
         },

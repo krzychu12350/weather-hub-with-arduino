@@ -40,7 +40,7 @@ export default {
     methods: {
         toogleSignInAndSignUp() {
             this.isSignIn = !this.isSignIn;
-            this.$router.replace({ path: '/' })
+            this.$router.replace({path: '/'})
         }
     }
 }
@@ -202,6 +202,42 @@ form {
 
 .auth-container.right-panel-active .overlay-container {
     transform: translateX(-100%);
+}
+
+@media (max-width: 768px) {
+    .auth-container.right-panel-active .sign-up-container {
+        transform: translateY(100%);
+        //z translateX na translateY w res
+    }
+    .auth-container.right-panel-active .sign-in-container {
+        //z translateX na translateY w res
+        transform: translateY(0%);
+    }
+
+    .auth-container {
+        overflow: initial;
+    }
+    .sign-in-container {
+        width: 100%;
+    }
+    .sign-up-container {
+        width: 100%;
+    }
+    .auth-container.right-panel-active .overlay-container {
+        transform: translateY(0%);
+    }
+    .auth-container.right-panel-active .overlay-left {
+        transform: translateY(0%);
+    }
+    .auth-container.right-panel-active .overlay-right {
+        transform: translateY(0%);
+    }
+    .overlay-container {
+        left: 0;
+        width: 100%;
+    }
+
+
 }
 
 .overlay {

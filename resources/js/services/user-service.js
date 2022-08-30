@@ -26,7 +26,7 @@ class UserService {
             }, authHeader())
             .then(response => {
                 //alert(response.data.message)
-                ToastService.showSuccessToast(response.data.message)
+                ToastService.showToast(response.data.message, "success")
                 return response.data;
             })
             .catch(e => {
@@ -41,7 +41,7 @@ class UserService {
                 , authHeader())
             .then(response => {
                 //alert(response.data.message)
-                ToastService.showSuccessToast(response.data.message)
+                ToastService.showToast(response.data.message, "success")
                 return response.data;
             })
             .catch(e => {

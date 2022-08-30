@@ -1,36 +1,46 @@
 <template>
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
 
-        <div class="col-12 primary-container">
-            <div class="row min-vh-100 w-100">
+        <div class="col-12 primary-container w-100 min-vh-100 d-flex">
+            <!--<div class="row min-vh-100">-->
 
-                <div class="col-1">
+                <div class="col-3 col-md-2 col-lg-1">
                     <SidebarComponent></SidebarComponent>
                 </div>
-                <div class="col-7">
 
-                    <!--<SearchEngineComponent @get-forecast-for-selected-place="getForecastForSearchedPlace"/>-->
-                    <SearchEngineComponent />
+
+
+                <div class="col-9 col-md-10 col-lg-11 mt-2">
+                   <!-- <TopBarComponent class=""></TopBarComponent>-->
+                    <!--<SearchEngineComponent @get-forecast-for-selected-place="getForecastForSearchedPlace"/>
+                    <SearchEngineComponent />-->
+
                     <!--<TestSearch></TestSearch>-->
 
-                    <h2 class="color text-white">Your favourite places</h2>
 
-                    <div class="d-flex mt-4">
-                        <div class="col-2 me-4" v-for="favouritePlace in favouritePlaces">
-                            <FavouritePlaceComponent
-                                v-bind:isUserFavouritePlace="true"
-                                v-bind:placeId="favouritePlace.id"
-                                v-bind:place="favouritePlace.name"
-                            ></FavouritePlaceComponent>
-                        </div>
-                        <div class="col-2 me-4">
-                            <FavouritePlaceComponent
-                                v-bind:isUserFavouritePlace="false"
-                                v-bind:place="'Add new place'"
-                            ></FavouritePlaceComponent>
-                        </div>
-                    </div>
+                    <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
+                    <section id="favourite-places" class="me-4">
+                        <h2 class="color text-white">Your favourite places</h2>
 
+                        <div class="row justify-content-md-center justify-content-lg-start">
+                            <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
+                                <FavouritePlaceComponent
+                                    @click="getWeatherDataForSelectedPlace(favouritePlace.id)"
+                                    v-bind:isUserFavouritePlace="true"
+                                    v-bind:placeId="favouritePlace.id"
+                                    v-bind:place="favouritePlace.name"
+                                    v-bind:country="favouritePlace.country"
+                                    v-bind:currentWeatherData="this.getForecastFavouritePlace(favouritePlace.id)"
+                                ></FavouritePlaceComponent>
+                            </div>
+                            <div class="col-12 col-md-5 col-lg-2 me-4">
+                                <FavouritePlaceComponent
+                                    v-bind:isUserFavouritePlace="false"
+                                    v-bind:place="'Add new place'"
+                                ></FavouritePlaceComponent>
+                            </div>
+                        </div>
+                    </section>
 
 
 
@@ -61,17 +71,20 @@
                             </TemperatureAndHumidityChartComponent>
                         </div>
                         <div v-else>
-                            <DailyForecastComponent></DailyForecastComponent>
-                            <HourlyForecastComponent></HourlyForecastComponent>
+                            <section id="daily-forecast" class="">
+                                <DailyForecastComponent></DailyForecastComponent>
+                                <HourlyForecastComponent></HourlyForecastComponent>
+                            </section>
                         </div>
                     </fade-transition>
 
 
 
                 </div>
+                <!--
                 <div class="weather-details col-4">
-                    <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
-                    <!--
+
+
                     <section class="primary-place-forecast">
 
                         <div v-if="loading" class="d-flex justify-content-center align-items-center min-vh-100">
@@ -94,10 +107,11 @@
                             </div>
                         </div>
                     </section>
-                    -->
+
                 </div>
+                -->
             </div>
-        </div>
+       <!-- </div>-->
   <!--  </div>-->
 </template>
 
@@ -112,10 +126,13 @@ import DailyForecastComponent from "../components/DailyForecastComponent.vue";
 import HourlyForecastComponent from "../components/HourlyForecastComponent.vue";
 import TemperatureAndHumidityChartComponent from "../components/TemperatureAndHumidityChartComponent.vue";
 import FadeTransition from "../components/FadeTransition.vue";
+import TopBarComponent from "../components/TopBarComponent.vue";
+import WeatherService from "../services/weather-service";
 
 export default {
     name: "Home",
     components: {
+        TopBarComponent,
         TemperatureAndHumidityChartComponent,
         HourlyForecastComponent,
         DailyForecastComponent,
@@ -134,11 +151,13 @@ export default {
           callIntervalMethod: null,
           weatherDataLogs: Array,
           toBeWatched: false,
-          chartData: Array
+          chartData: Array,
+          weatherDataOfFavPlace: Object,
           }
       },
 
     async created() {
+
         await this.retrieveFavouritePlaces()
         await this.retrieveWeatherDataLogs()
 
@@ -202,11 +221,22 @@ export default {
                 console.log(this.weatherDataLogs)
             },  1830000)
 
-
         },
         //1830000
         //3000
+        getWeatherDataForSelectedPlace(placeId) {
+            this.emitter.emit('passSearchedPlaceId',
+                {'value': placeId})
+        },
+        getForecastFavouritePlace(placeId) {
+            return WeatherService.getCurrentForecast(placeId)
+                .then((response) => {
 
+                    return response.data
+                    //console.log(this.weatherDataOfFavPlace)
+                })
+                .catch(err => console.log(err.message))
+        },
     },
     /*
     mounted() {
@@ -292,7 +322,7 @@ async retrieveFavouritePlaces() {
 
 <style lang="scss">
 .primary-container {
-    background-image: url('../assets/images/cloudy-sky-day.jpg');
+    background-image: url('../assets/images/cloudy-night-sky-moon.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 

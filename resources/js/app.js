@@ -1,6 +1,6 @@
-//import './bootstrap';
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
+
 import 'boxicons'
 //import "bootstrap/dist/css/bootstrap.min.css"
 //import "bootstrap/dist/js/bootstrap.js"
@@ -23,6 +23,20 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 import VueApexCharts from "vue3-apexcharts";
 
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+/* import specific icons */
+import {fas, faUserSecret} from '@fortawesome/free-solid-svg-icons'
+import {far} from "@fortawesome/free-regular-svg-icons";
+
+/* add icons to the library */
+library.add(faUserSecret)
+library.add(fas)
+library.add(far)
 
 
 
@@ -32,7 +46,7 @@ export const app = createApp(App)
     .use(VueAxios, axios)
     //.use(VueChartkick)
     .use(VueApexCharts)
-
+    .component('font-awesome-icon', FontAwesomeIcon)
     .use(ToastPlugin)
 
 app.config.globalProperties.emitter = emitter

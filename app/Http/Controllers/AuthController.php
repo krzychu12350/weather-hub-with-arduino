@@ -62,7 +62,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Invalid Inputs',
+                'message' => 'Invalid email or password',
                 'error' => $validator->errors()
             ], 401);
         }

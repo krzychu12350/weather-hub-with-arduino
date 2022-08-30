@@ -22,11 +22,13 @@
             ></span>
                 Sign Up
             </button>
+            <!--
             <div class="form-group">
                 <div v-if="message" class="alert alert-danger" role="alert">
                     {{ message }}
                 </div>
             </div>
+            -->
         </Form>
     </div>
 </template>
@@ -92,7 +94,7 @@ export default {
                     this.successful = true;
                     this.loading = false;
                     this.$router.go();
-                    ToastService.showSuccessToast(this.message)
+                    ToastService.showToast(this.message, "success")
                     //this.showToastOnRegisterSuccess()
                 },
                 (error) => {
@@ -104,6 +106,8 @@ export default {
                         error.toString();
                     this.successful = false;
                     this.loading = false;
+                    console.log(this.message)
+                    ToastService.showToast(this.message, "error")
                 }
             );
 

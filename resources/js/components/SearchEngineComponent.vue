@@ -2,6 +2,10 @@
     <div class="search-engine-container">
         <!--<input type="text" v-model="keyword">
         -->
+
+
+
+
         <span v-if="typing">You are typing || Searching....</span>
         <span v-if="message">You typed: {{message}}</span>
         <input type="text" @input="debounceSearch">
@@ -24,7 +28,10 @@
                 {{ p.id }} {{ p.name }} {{ p.country }}
 
             </div>
+
+
         </div>
+
 
 
 
@@ -140,16 +147,6 @@ export default{
         }
         const myList2 = placesData
 
-
-
-
-        /*
-        const debouncedWatch = debounce((newValue, oldValue) => {
-            console.log("New value:", newValue);
-
-
-        }, 300);
-        */
         const { search, results, noResults} = useVueFuse(myList2, options)
 
         return {
@@ -165,7 +162,6 @@ export default{
             Places: placesData,
             searched: '',
             awaitingSearch: false,
-
 
             searchedPlaces: [],
             message: null,
@@ -256,7 +252,7 @@ export default{
 
                 //this.searchedPlaces = this.filteredPlaces
                 //console.log(this.results)
-            }, 400)
+            }, 800)
 
         },
         addPlaceToFavourites(place) {
@@ -324,4 +320,9 @@ export default{
     z-index: 3;
     position: absolute;
 }
+
+
+
+
+
 </style>
