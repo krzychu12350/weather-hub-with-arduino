@@ -1,6 +1,8 @@
 <template>
     <nav class="sidebar position-relative" :class="[ isCollapsed ? 'close' : '' ]">
+
         <header>
+            <!--
             <router-link :to="{ name: 'Home' }">
                 <div class="image-text">
                     <span class="image">
@@ -12,7 +14,7 @@
                     </div>
                 </div>
             </router-link>
-            <!--
+
             <i @click="toggleSidebar"
                class='bx bx-chevron-right toggle'></i>
             -->
@@ -23,7 +25,9 @@
                 name="chevron-right"
                 color="white"
             ></box-icon>
+
         </header>
+
 
         <div class="menu-bar">
             <div class="menu">
@@ -101,6 +105,11 @@ export default {
             isDisplay: false,
             info: null,
         }
+    },
+    created() {
+        this.emitter.on('triggerToggling', () => {
+            this.toggleSidebar()
+        })
     },
     methods: {
         toggleSidebar() {
@@ -409,15 +418,11 @@ body.dark {
     }
 
     .menu-bar {
-        height: calc(100% - 55px);
+        height: calc(100% - 10px);
         @include flex_property(column, null, space-between);
 
         &::-webkit-scrollbar {
             display: none;
-        }
-
-        .menu {
-            margin-top: 40px;
         }
 
         .mode {

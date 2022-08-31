@@ -19,9 +19,9 @@
         </div>
         <div v-if="isSummaryWasClicked">
             <div v-if="this.windowWidth <= 1025" class="hourly-container ms-2 col-11">
-                <Carousel :items-to-show="3" :autoplay="8000" :wrap-around="false">
+                <Carousel :settings="settings" :breakpoints="breakpoints" :items-to-show="3" :autoplay="8000" :wrap-around="false">
                     <Slide v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
-                        <div class="carousel__item">
+                        <div class="carousel__item me-4">
                             <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
                             <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
                             <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
@@ -59,7 +59,7 @@
             </div>
 
             <div v-else class="hourly-container d-flex flex-row col-11">
-                <div v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
+                <div class="me-4" v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
                     <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
                     <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
                     <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
@@ -71,7 +71,7 @@
 
 
         </div>
-        <div v-if="!isSummaryWasClicked" class="daily-container d-flex justify-content-center d-md-block">
+        <div v-if="!isSummaryWasClicked" class="hourly-chart-container d-flex justify-content-center d-lg-block">
 
             <!--<area-chart :stacked="true" :library="chartOptions" :points="false" curve="false"
                         :legend="false" :discrete="true" :data="hourlyForecastDataChart"></area-chart>
@@ -98,6 +98,33 @@ export default {
         Carousel,
         Slide,
         Navigation,
+    },
+    setup() {
+        return {
+            // carousel settings
+            settings: {
+                itemsToShow: 1,
+                snapAlign: "center"
+            },
+            // breakpoints are mobile first
+            // any settings not specified will fallback to the carousel settings
+            breakpoints: {
+                // 700px and up
+                700: {
+                    itemsToShow: 3,
+                    snapAlign: "center"
+                },
+                768: {
+                    itemsToShow: 4,
+                    snapAlign: "center"
+                },
+                // 1024 and up
+                1024: {
+                    itemsToShow: 5,
+                    snapAlign: "center"
+                }
+            }
+        };
     },
     data() {
         return {
@@ -234,13 +261,25 @@ export default {
 
         },
         getHourFromDateTimestamp(unixTimestamp) {
-            return new Date(unixTimestamp * 1000).getHours() - 2 + ':00'
+            //return new Date(unixTimestamp * 1000).getHours() - 2 + ':00'
+            const anHour = new Date(unixTimestamp * 1000)
+            anHour.setHours(anHour.getHours() - 2)
+            return anHour.toLocaleTimeString('en-US', {
+                // en-US can be set to 'default' to use user's browser settings
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+
+
+
         },
 
         prepareHourlyForecastData(hourlyForecastData) {
             //console.log(hourlyForecastData)
             const hoursData = []
             const tempsData = []
+            //console.log(hourlyForecastData)
+            if (Array.isArray(hourlyForecastData)) {
             hourlyForecastData.forEach(singleHour => {
                 //console.log(Math.round(singleHour.main.temp))
                 //console.log(singleHour.weather[0].icon)
@@ -248,7 +287,9 @@ export default {
                 hoursData.push(this.getHourFromDateTimestamp(singleHour.dt))
                 tempsData.push(Math.round(singleHour.main.temp) + '°')
             })
-
+            }
+            //console.log(hoursData)
+            //console.log(tempsData)
             return [hoursData, tempsData]
         },
         onResize() {

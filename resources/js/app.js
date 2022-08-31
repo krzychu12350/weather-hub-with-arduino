@@ -38,13 +38,14 @@ library.add(faUserSecret)
 library.add(fas)
 library.add(far)
 
-
+import vClickOutside from "click-outside-vue3"
 
 export const app = createApp(App)
     .use(router)
     .use(store)
     .use(VueAxios, axios)
     //.use(VueChartkick)
+    .use(vClickOutside)
     .use(VueApexCharts)
     .component('font-awesome-icon', FontAwesomeIcon)
     .use(ToastPlugin)

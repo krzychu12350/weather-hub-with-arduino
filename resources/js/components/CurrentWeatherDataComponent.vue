@@ -17,7 +17,7 @@
             </div>
             <span class="description">{{ this.description }}</span><br/>
             <span class="current-date"><b>{{ this.currentDate }}</b></span>
-
+            <span class="lastUpdateTime text-white mt-2">Last update at {{ this.lastUpdateDate }}</span>
             <div class="d-flex justify-content-center flex-row mt-3">
                 <div class="d-flex flex-column mb-2 me-4">
                     <span class="weather-detail flex-column">
@@ -117,6 +117,7 @@
 <script>
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 import WeatherService from "../services/weather-service";
+import UserService from "../services/user-service";
 
 export default {
     name: "CurrentWeatherDataComponent",
@@ -150,6 +151,7 @@ export default {
             cloudy: Number,
             sunrise: Number,
             sunset: Number,
+            lastUpdateDate: Date,
         }
     },
     mounted() {
@@ -158,6 +160,7 @@ export default {
     },
     created() {
         this.getForecast(this.placeId)
+        this.updateIntervalCurrentWeather(this.placeId)
         //this.retrieveFavouritePlaces()
         this.emitter.on('passSearchedPlaceId', (evt) => {
             //alert(evt.value);
@@ -186,6 +189,10 @@ export default {
                     this.weatherData = response.data
                     this.place = this.weatherData.name
                     this.country = this.weatherData.sys.country
+
+                   // alert(this.weatherData.weather[0].icon)
+                    this.emitter.emit('passCurrentWeatherIcon', {icon: this.weatherData.weather[0].icon})
+
                     this.icon = 'https://openweathermap.org/img/wn/' + this.weatherData.weather[0].icon + '@2x.png'
                     this.description = this.weatherData.weather[0].description
                     this.currentDate = this.createDate(this.weatherData.dt, "long")
@@ -204,9 +211,13 @@ export default {
                     this.cloudy = this.weatherData.clouds.all
                     this.sunrise = this.createTimeFromUnixTimestamp(this.weatherData.sys.sunrise)
                     this.sunset = this.createTimeFromUnixTimestamp(this.weatherData.sys.sunset)
+                    let currentTime = new Date();
+                    this.lastUpdateDate = currentTime.toLocaleTimeString("default",
+                        {hour: '2-digit', minute: '2-digit'});
                 })
                 .catch(err => console.log(err.message))
                 .finally(() => (this.loading = false))
+
         },
 
         createDate(dt, type) {
@@ -243,7 +254,12 @@ export default {
             console.log(date.toLocaleTimeString("default")); // Prints: 1:10:34 PM
 
              */
-        }
+        },
+        async updateIntervalCurrentWeather (placeId) {
+            this.callIntervalMethod = setInterval(async () => {
+                await this.getForecast(placeId)
+            },  1800000)
+        },
 
         /*
         async retrieveFavouritePlaces() {
@@ -264,7 +280,7 @@ export default {
 <style lang="scss">
 .place-location {
     color: #FFFFFF;
-    font-size: 4.5em;
+    font-size: 3em;
 }
 .current-temp {
     color: #FFFFFF;
@@ -272,12 +288,12 @@ export default {
 }
 .description {
     color: #FFFFFF;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: normal;
 }
 .current-date {
     color: #FFFFFF;
-    font-size: 1.5em;
+    font-size: 1.25em;
 }
 .weather-detail {
     color: #FFFFFF;

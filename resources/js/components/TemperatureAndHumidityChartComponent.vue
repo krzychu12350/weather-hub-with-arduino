@@ -4,6 +4,7 @@
         <li>{{ item }}</li>
     </ul>
     -->
+    <h2 class="color text-white">Graph of temperature and humidity over time</h2>
 
     <apexchart class="col-10" height=500px type="area" :options="chartOptions" :series="series"></apexchart>
 </template>
@@ -175,6 +176,12 @@ export default {
                 grid: {
                     show: false,
                 },
+                legend: {
+                    show: true,
+                    labels: {
+                        colors: '#fff',
+                    },
+                },
                 chart: {
                     height: 350,
                     type: 'area',
@@ -213,8 +220,7 @@ export default {
                         style: {
                             fontSize: '16px',
                             fontFamily: 'Arial, sans-serif',
-                            colors: ['#fff','#fff','#fff','#fff', '#fff','#fff', '#fff','#fff'],
-
+                            colors: '#fff',
                         },
                     },
                 },

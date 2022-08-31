@@ -203,7 +203,7 @@ export default {
 }
 .cloudy, .wind-speed{
     margin-left: 1em;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: white;
 }
 .card{

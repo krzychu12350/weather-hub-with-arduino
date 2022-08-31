@@ -10,7 +10,14 @@
 
                 <div class="modal-footer d-flex justify-content-center">
                     <button type="button" data-bs-dismiss="modal">No</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#logout-confirmation" v-on:click="logOut">Yes</button>
+                    <button
+                        class="close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-bs-target="#logout-confirmation"
+                        @click="logOut">
+                        Yes
+                    </button>
                 </div>
             </div>
         </div>
@@ -21,15 +28,19 @@
 
 <script>
 import ToastService from "../services/toast-service";
-
+import { Modal } from 'bootstrap'
 export default {
     name: "ConfirmationModalComponent",
+    data () {
+        return {
+            someModal: "",
+        }
+    },
     methods: {
         logOut() {
             this.$store.dispatch('auth/logout');
             this.$router.push("/auth");
             ToastService.showToast("You have been logged out successfully !!!", "success")
-            //this.showLogoutToast()
         },
     }
 }

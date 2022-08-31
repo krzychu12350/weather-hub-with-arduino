@@ -28,7 +28,7 @@
             {{ singleDay[6] }}
             -->
 
-        <Carousel :items-to-show="3" :autoplay="6000" :wrap-around="true">
+        <Carousel :settings="settings" :breakpoints="breakpoints" :items-to-show="3" :autoplay="6000" :wrap-around="true">
             <Slide
                 @click="showHourlyForecastForSpecificDay(singleDay[1])"
                    v-for="singleDay in this.singleDaysForecastData">
@@ -62,7 +62,7 @@
 
     </div>
     <div v-else class="daily-container col-11 d-flex flex-row">
-        <div class="" @click="showHourlyForecastForSpecificDay(singleDay[1])" v-for="singleDay in singleDaysForecastData">
+        <div class=""  @click="showHourlyForecastForSpecificDay(singleDay[1])" v-for="singleDay in singleDaysForecastData">
             <SingleDayComponent
                 :dayOfWeek=singleDay[0]
                 :dayOfMonth=singleDay[1]
@@ -81,6 +81,8 @@ import SingleDayComponent from "./SingleDayComponent.vue";
 import WeatherService from "../services/weather-service";
 import {Carousel, Navigation, Slide} from "vue3-carousel";
 import 'vue3-carousel/dist/carousel.css';
+import {orderBy} from "lodash";
+import moment from "moment";
 export default {
     name: "DailyForecastComponent",
     components: {
@@ -89,6 +91,33 @@ export default {
         Slide,
         Navigation,
     },
+    setup() {
+        return {
+            // carousel settings
+            settings: {
+                itemsToShow: 1,
+                snapAlign: "center"
+            },
+            // breakpoints are mobile first
+            // any settings not specified will fallback to the carousel settings
+            breakpoints: {
+                // 700px and up
+                700: {
+                    itemsToShow: 3,
+                    snapAlign: "center"
+                },
+                768: {
+                    itemsToShow: 4,
+                    snapAlign: "center"
+                },
+                // 1024 and up
+                1024: {
+                    itemsToShow: 5,
+                    snapAlign: "center"
+                }
+            }
+        };
+    },
     data() {
         return {
             fiveDaysForecastData: Array,
@@ -96,7 +125,8 @@ export default {
             startDate: Date,
             endDate: Date,
             singleDaysForecastData: Array,
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
+
         }
     },
     created() {
@@ -104,13 +134,17 @@ export default {
         this.emitter.on('passSearchedPlaceId', (evt) => {
             //alert(evt.value);
             this.retrieveForecastForFiveDays(evt.value)
+            this.showHourlyForecastForSpecificDay(1)
 
         })
+
+        //this.showHourlyForecastForSpecificDay(singleDay[1])
+
 
     },
     methods: {
         showHourlyForecastForSpecificDay(dayOfMonth) {
-            //console.log(this.fiveDaysForecastData[24])
+            //console.log(this.fiveDaysForecastData)
             this.emitter.emit('loadHourlyForecastForSpecificDay', {'day': dayOfMonth,
                 'weatherData': this.fiveDaysForecastData[dayOfMonth]})
         },
@@ -125,11 +159,13 @@ export default {
                     //this.getMaxDate(this.fiveDaysForecastData)
                     this.fiveDaysForecastData = this.groupFiveDaysForecastBySingleDay(response.data.list)
                     this.singleDaysForecastData = this.processDataForEverySingleDay(this.fiveDaysForecastData)
-                    //console.log(this.singleDaysForecastData)
+                    //console.log(this.singleDaysForecastData[0][1])
+                    this.showHourlyForecastForSpecificDay(this.singleDaysForecastData[0][1])
                 })
                 .catch(e => {
                     console.log(e);
                 });
+
         },
         getDayOfMonthFromDateTimestamp(unixTimestamp) {
             //return new Date(unixTimestamp * 1000).toLocaleDateString("default", {})
@@ -150,10 +186,19 @@ export default {
                 return hour;
             }, [])
         },
+        sortDays (fiveDaysForecastData) {
+            return fiveDaysForecastData.sort((day) => {
+                return day[0].dt
+            }).reverse()
+        },
         processDataForEverySingleDay(fiveDaysForecastData) {
-            let sum = 0;
-            let days = [];
+            let days = []
+            this.sortDays(fiveDaysForecastData)
+            //console.log(fiveDaysForecastData)
+
+
             fiveDaysForecastData.forEach(singleDay => {
+                //console.log(singleDay)
                 //console.log("SingleDay ")
                 //console.log("Start day")
                 let dayOfMonth = this.getDayOfMonthFromDateTimestamp(singleDay[0].dt)
@@ -181,9 +226,11 @@ export default {
 
                 //getDayOfWeekFromDateTimestamp
                 //TO FIX
-                let dailyIcon = singleDay[0].weather[0].icon
-                //console.log(dailyIcon)
-                let dailyDescription = singleDay[0].weather[0].description
+
+                let dailyIcon = singleDay[Math.floor(singleDay.length/2)].weather[0].icon
+                //console.log(singleDay.length)
+                //console.log(singleDay[Math.floor(singleDay.length/2)])
+                let dailyDescription = singleDay[Math.floor(singleDay.length/2)].weather[0].description
                 //console.log(dailyDescription)
 
                 //singleDay.reduce((a, b) => a + b, 0) / arr.length;

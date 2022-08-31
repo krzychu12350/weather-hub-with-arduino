@@ -1,7 +1,8 @@
 <template>
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
-
-        <div class="col-12 primary-container w-100 min-vh-100 d-flex">
+        <TopBarComponent :nameOfTheSubpage="'Forecast'"></TopBarComponent>
+        <!--<img :src="imageUrl">-->
+        <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
             <!--<div class="row min-vh-100">-->
 
                 <div class="col-3 col-md-2 col-lg-1">
@@ -20,7 +21,7 @@
 
                     <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
                     <section id="favourite-places" class="me-4">
-                        <h2 class="color text-white">Your favourite places</h2>
+                        <h2 class="color text-white mt-4 mb-4">Your favourite places</h2>
 
                         <div class="row justify-content-md-center justify-content-lg-start">
                             <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
@@ -128,7 +129,8 @@ import TemperatureAndHumidityChartComponent from "../components/TemperatureAndHu
 import FadeTransition from "../components/FadeTransition.vue";
 import TopBarComponent from "../components/TopBarComponent.vue";
 import WeatherService from "../services/weather-service";
-
+import Globals from "../globals";
+import moment from "moment";
 export default {
     name: "Home",
     components: {
@@ -143,7 +145,6 @@ export default {
         CurrentWeatherDataComponent,
         FadeTransition,
     },
-
   data() {
       return {
           favouritePlaces: Array,
@@ -153,9 +154,11 @@ export default {
           toBeWatched: false,
           chartData: Array,
           weatherDataOfFavPlace: Object,
+          imageUrl: new URL("../assets/images/weather-conditions/" +
+              Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
+
           }
       },
-
     async created() {
 
         await this.retrieveFavouritePlaces()
@@ -173,10 +176,20 @@ export default {
 
             //this.emitter.emit('passChartData', {chartData})
 
-
         })
 
 
+    },
+    mounted() {
+
+        this.emitter.on('passCurrentWeatherIcon', (evt) => {
+            //alert(evt.value);
+            //console.log(evt.icon)
+            Globals.CURRENT_WEATHER_ICON = evt.icon
+            const icon = evt.icon
+            //const icon = "04d"
+            this.imageUrl = new URL("../assets/images/weather-conditions/" + icon + "-bg-img.jpg", import.meta.url).href
+        })
     },
     beforeUnmount () {
         clearInterval(this.callIntervalMethod)
@@ -198,8 +211,12 @@ export default {
             //console.log(place[0].weather_data_logs)
             let seriesOfTemperatures = place.weather_data_logs.map(singleLog => singleLog.temperature);
             let seriesOfHumidity = place.weather_data_logs.map(singleLog => singleLog.humidity);
-            let seriesOfCreatedAt = place.weather_data_logs.map(singleLog => singleLog.created_at);
+            //let seriesOfCreatedAt = place.weather_data_logs.map(singleLog => singleLog.created_at);
+            let seriesOfCreatedAt = place.weather_data_logs
+                .map(singleLog =>  moment(singleLog.created_at).format("MM/DD/YYYY hh:mm"));
+
             //console.log(seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt)
+
             return [seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt]
 
         },
@@ -237,147 +254,41 @@ export default {
                 })
                 .catch(err => console.log(err.message))
         },
+
     },
-    /*
-    mounted() {
-        this.retrieveFavouritePlaces()
-    },
-
-     */
-
-    /*
-  //api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
-  //    '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',
-  //api: Globals.API_URL + '&id=' + this.placeId + '&units=metric',
-  weatherData: {},
-  loading: false,
-  locality: "",
-  temp: null,
-  icon: "",
-  description: "",
-  currentDate: "",
-  favouritePlaces: null,
-
-}
-},
-mounted() {
-//this.getForecast()
-//this.retrieveFavouritePlaces()
-},
-created() {
-this.getForecast()
-this.retrieveFavouritePlaces()
-},
-methods: {
-async getForecastForSelectedPlace(placeId) {
-  this.placeId = placeId
-  await this.getForecast()
-  //console.log(this.placeId+ 'efqfeqfqf')
-},
-async getForecast(placeId) {
-  //this.placeId = s
-  //console.log(this.placeId+ 'efqfeqfqf')
-  this.loading = true
-  this.axios.get(Globals.API_URL + '&id=' + this.placeId + '&units=metric')
-      .then((response) => {
-          this.weatherData = response.data
-          this.locality = this.weatherData.name
-          this.temp = this.weatherData.main.temp
-          this.icon = 'https://openweathermap.org/img/wn/' + this.weatherData.weather[0].icon + '@2x.png'
-          this.description = this.weatherData.weather[0].description
-          this.currentDate = this.createDate(this.weatherData.dt, "long")
-      })
-      .catch(err => console.log(err.message))
-      .finally(() => (this.loading = false))
-},
-createDate(dt, type) {
-  let day = new Date(dt * 1000);
-  if (type === "long") {
-      let options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-      };
-      return day.toLocaleString("en-us", options); // Friday, January 15, 2021
-  } else {
-      return day.toLocaleString("en-us", {weekday: "long"}); // Friday
-  }
-},
-async retrieveFavouritePlaces() {
-  UserService.getUserFavouritePlaces()
-      .then(response => {
-          this.favouritePlaces = response.data.data.favourite_places;
-          //console.log(this.favouritePlaces)
-      })
-      .catch(e => {
-          console.log(e);
-      });
-},
-
-}
-*/
 }
 </script>
 
-<style lang="scss">
-.primary-container {
-    background-image: url('../assets/images/cloudy-night-sky-moon.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-
-}
-
-.weather-details {
-    /*
-background-image: url('../assets/images/cloudy-sky-day.jpg');
-background-repeat: no-repeat;
-background-size: cover;
-
-     */
-//min-height: 100vh;
-}
+<style>
 
 /*
-.auth-container {
-background-color: #fff;
-border-radius: 10px;
-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-0 10px 10px rgba(0, 0, 0, 0.22);
-position: relative;
-overflow: hidden;
-width: 768px;
-max-width: 100%;
-//min-height: 480px;
-}
+//https://openweathermap.org/weather-conditions
+//01d
+//02d
+//03d
+//04d
+//09d
+//10d
+//11d
+//13d
+//50d
+
+//01n
+//02n
+//03n
+//04n
+//09n
+//10n
+//11n
+//13n
+//50n
 */
-/*
-.weather-details {
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-    overflow: hidden;
-    height: 800px;
-    background-image: url('../assets/images/cloudy-sky-day.jpg');
-    background-repeat: no-repeat;
+
+.primary-container {
     background-size: cover;
-}
-
- */
-
-
-
-.box {
-    width: 200px;
-    height: 200px;
-    margin-top: 20px;
-    background-color: rgb(108, 141, 213);
-    box-shadow: rgba(108, 141, 213, 0.5) 0px 6px 20px;
-    border-radius: 10px;
-}
-.red-box {
-    @extend .box;
-    background-color: rgb(251, 17, 116);
-    box-shadow: rgba(251, 17, 116, 0.5) 0px 6px 20px;
+    background-repeat: no-repeat;
+    /*
+    background-image: url('../assets/images/cloudy-night-sky-moon.jpg');
+    */
 }
 </style>

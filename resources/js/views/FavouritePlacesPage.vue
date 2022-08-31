@@ -1,5 +1,6 @@
 <template>
-    <div class="col-12 primary-container w-100 min-vh-100 d-flex">
+    <TopBarComponent :nameOfTheSubpage="'Favourite places'"></TopBarComponent>
+    <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
         <!--<div class="row min-vh-100">-->
 
         <div class="col-3 col-md-2 col-lg-1">
@@ -10,7 +11,7 @@
 
         <div class="col-9 col-md-10 col-lg-11 mt-2">
             <section id="favourite-places" class="me-4">
-                <h2 class="color text-white">Your favourite places</h2>
+                <h2 class="color text-white mt-4 mb-4">Your favourite places</h2>
                 <div class="row justify-content-md-center justify-content-lg-start">
                     <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
                         <FavouritePlaceComponent
@@ -40,23 +41,29 @@ import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
 import SearchEngineComponent from "../components/SearchEngineComponent.vue";
 import UserService from "../services/user-service";
 import WeatherService from "../services/weather-service";
+import TopBarComponent from "../components/TopBarComponent.vue";
+import Globals from "../globals";
 
 export default {
     name: "FavouritePlacesPage",
     components: {
         FavouritePlaceComponent,
         SidebarComponent,
-        SearchEngineComponent
+        SearchEngineComponent,
+        TopBarComponent
     },
     data() {
         return {
             favouritePlaces: null,
             modalShow: false,
+            imageUrl: new URL("../assets/images/weather-conditions/" +
+                Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
         }
     },
     created() {
         this.retrieveFavouritePlaces()
     },
+
     methods: {
         async retrieveFavouritePlaces() {
             UserService.getUserProfileData()
