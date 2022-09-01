@@ -1,0 +1,17 @@
+{
+    "name": "Weather Hub",
+    "short_name": "LPT",
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "description": "The best weather app ever",
+    "display": "fullscreen",
+    "theme_color": "#2196F3",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
