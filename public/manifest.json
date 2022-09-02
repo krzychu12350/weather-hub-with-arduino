@@ -6,6 +6,7 @@
     "description": "The best weather app ever",
     "display": "fullscreen",
     "theme_color": "#2196F3",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "logo.png",

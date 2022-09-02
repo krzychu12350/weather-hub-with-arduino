@@ -194,6 +194,7 @@ export default {
         processDataForEverySingleDay(fiveDaysForecastData) {
             let days = []
             this.sortDays(fiveDaysForecastData)
+            this.sortDays(fiveDaysForecastData)
             //console.log(fiveDaysForecastData)
 
 

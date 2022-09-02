@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- PWA  -->
-        <meta name="theme-color" content="#6777ef"/>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+        <meta name="description" content="The best weather app ever">
+        <meta name="keywords" content="weather app">
+        <title>{{ config('app.name') }}</title>
+
+        <!-- Startup Image  -->
+        <link href="{{ asset('logo.png') }}" rel="apple-touch-startup-image">
+
         <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
         <link rel="manifest" href="{{ asset('/manifest.json') }}">
-
-        <title>{{ config('app.name') }}</title>
+        <meta name="theme-color" content="#2196F3"/>
         <meta name="csrf-token" value="{{ csrf_token() }}" />
-
+        <!-- Orientation  -->
+        <meta name="screen-orientation" content="portrait">
         <!-- Fonts
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">-->
         <style>
