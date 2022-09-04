@@ -28,7 +28,6 @@ export default {
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     //font-family: 'BioRhyme', serif;
-
     //font-family: 'Cormorant', serif;
 
     //font-family: 'Piazzolla', serif;
@@ -52,6 +51,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     */
+    background-color: #2698f8f5;
 }
 /*
 .container {
