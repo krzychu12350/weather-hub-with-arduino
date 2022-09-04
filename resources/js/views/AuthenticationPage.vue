@@ -132,25 +132,29 @@ form {
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    max-width: 20em;
 }
 
 .auth-container {
+    /*
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
-    position: relative;
+    //position: relative;
     overflow: hidden;
     width: 768px;
     max-width: 100%;
     min-height: 480px;
+
+     */
 }
 
 .form-container {
     position: absolute;
     top: 0;
     height: 100%;
-    transition: all 0.6s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .sign-in-container {
@@ -224,9 +228,9 @@ form {
         width: 100%;
     }
     .auth-container.right-panel-active .overlay-container {
-        transform: translateY(0%);
+        transform: translateY(-100%);
     }
-    .auth-container.right-panel-active .overlay-left {
+    .auth-container.right-panel-active .overlay.form-container-left {
         transform: translateY(0%);
     }
     .auth-container.right-panel-active .overlay-right {
@@ -234,9 +238,18 @@ form {
     }
     .overlay-container {
         left: 0;
+        top: 100%;
         width: 100%;
     }
-
+    .auth-container.right-panel-active .overlay {
+        transform: translateY(0%) !important;
+    }
+    .overlay-right {
+        transform: translateY(0) !important;
+    }
+    .overlay-left {
+        transform: translateY(-20%) !important;
+    }
 
 }
 
