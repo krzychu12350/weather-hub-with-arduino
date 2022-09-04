@@ -27,9 +27,8 @@ export const auth = {
         logout({ commit }) {
             return AuthService.logout().then(
                 response => {
-                    console.log(response)
+                    ToastService.showToast(response.message)
                     commit('logout');
-                    ToastService.showSuccessToast(response.message)
                 },
                 error => {
                     this.content =

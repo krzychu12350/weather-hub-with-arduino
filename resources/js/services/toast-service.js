@@ -9,8 +9,7 @@ class ToastService {
             message: serverMessage,
             type: type,
             duration: 5000,
-            position: 'top',
-            dismissible: true
+            position: 'top-right'
         })
     }
 }

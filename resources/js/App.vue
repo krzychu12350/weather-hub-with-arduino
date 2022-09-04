@@ -2,7 +2,7 @@
 
     <router-view/>
 
-    <ConfirmationModalComponent></ConfirmationModalComponent>
+    <ConfirmationModalComponent class="text-center"></ConfirmationModalComponent>
 </template>
 
 <script>
