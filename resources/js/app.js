@@ -39,6 +39,8 @@ library.add(fas)
 library.add(far)
 
 import vClickOutside from "click-outside-vue3"
+import setupInterceptors from './services/setupInterceptors';
+setupInterceptors(store);
 
 export const app = createApp(App)
     .use(router)

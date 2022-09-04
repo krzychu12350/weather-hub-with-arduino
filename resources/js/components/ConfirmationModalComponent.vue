@@ -1,6 +1,5 @@
 <template>
-
-    <div class="modal" id="logout-confirmation" tabindex="-1">
+    <div v-show="showModal" class="modal" id="logout-confirmation" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content border-0">
                 <div class="modal-header">
@@ -23,25 +22,35 @@
         </div>
     </div>
 
-
 </template>
 
 <script>
-import ToastService from "../services/toast-service";
-import { Modal } from 'bootstrap'
+import EventBus from "../common/EventBus";
+import TokenService from "../services/token.service";
+
 export default {
     name: "ConfirmationModalComponent",
     data () {
         return {
-            someModal: "",
+            showModal: true,
         }
     },
     methods: {
         logOut() {
+            this.showModal = !this.showModal
             this.$store.dispatch('auth/logout');
-            this.$router.push("/auth");
             ToastService.showToast("You have been logged out successfully !!!", "success")
+            TokenService.removeUser()
+            this.$router.go("/auth")
         },
+    },
+    mounted() {
+        EventBus.on("logout", () => {
+            this.logOut();
+        });
+    },
+    beforeUnmount() {
+        EventBus.remove("logout");
     }
 }
 </script>

@@ -28,13 +28,13 @@ Route::group(['prefix' => ''], function () {
         ->only(['index']);
     Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
         ->only(['store']);
-
+    Route::post('/logout', [AuthController::class, 'logout']);
 
 });
 
 Route::group(['middleware' => ['auth:api', 'cors']
     ], function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [AuthController::class, 'userProfile']);
     Route::apiResource('/favourite-places', FavouritePlaceController::class)

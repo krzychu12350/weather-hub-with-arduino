@@ -1,6 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 import ToastService from "./toast-service";
+import api from "./api";
 const API_URL = 'http://localhost:8080/api/';
 const config = { headers: authHeader() };
 
@@ -8,7 +9,7 @@ class UserService {
     async getUserProfileData() {
         //return axios.get('http://localhost:8000/api/profile', config);
 
-        return axios.get('http://localhost:8000/api/profile',
+        return api.get('http://localhost:8000/api/profile',
             authHeader())
 
   }
