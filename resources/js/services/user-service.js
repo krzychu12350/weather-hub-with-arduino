@@ -9,7 +9,7 @@ class UserService {
     async getUserProfileData() {
         //return axios.get('http://localhost:8000/api/profile', config);
 
-        return api.get('http://localhost:8000/api/profile',
+        return axios.get('http://localhost:8000/api/profile',
             authHeader())
 
   }
@@ -60,17 +60,6 @@ class UserService {
                 }
             );
     }
-  getUserBoard() {
-    return axios.get(API_URL + 'user', { headers: authHeader() });
-  }
-
-  getModeratorBoard() {
-    return axios.get(API_URL + 'mod', { headers: authHeader() });
-  }
-
-  getAdminBoard() {
-    return axios.get(API_URL + 'admin', { headers: authHeader() });
-  }
 }
 
 export default new UserService();

@@ -63,7 +63,6 @@ export default {
     created() {
         this.retrieveFavouritePlaces()
     },
-
     methods: {
         async retrieveFavouritePlaces() {
             UserService.getUserProfileData()

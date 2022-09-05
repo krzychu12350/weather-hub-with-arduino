@@ -160,7 +160,6 @@ export default {
           }
       },
     async created() {
-
         await this.retrieveFavouritePlaces()
         await this.retrieveWeatherDataLogs()
 

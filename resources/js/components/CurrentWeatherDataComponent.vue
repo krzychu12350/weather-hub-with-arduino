@@ -118,6 +118,7 @@
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 import WeatherService from "../services/weather-service";
 import UserService from "../services/user-service";
+import Globals from "../globals";
 
 export default {
     name: "CurrentWeatherDataComponent",
@@ -154,13 +155,17 @@ export default {
             lastUpdateDate: Date,
         }
     },
-    mounted() {
+    async mounted() {
         //this.getForecast()
         //this.retrieveFavouritePlaces()
+        this.placeId = await this.getUserPrimaryPlaceId()
+        console.log("current " + this.placeId)
+
     },
-    created() {
-        this.getForecast(this.placeId)
-        this.updateIntervalCurrentWeather(this.placeId)
+    async created() {
+
+        await this.getForecast(this.placeId)
+        await this.updateIntervalCurrentWeather(this.placeId)
         //this.retrieveFavouritePlaces()
         this.emitter.on('passSearchedPlaceId', (evt) => {
             //alert(evt.value);
@@ -170,6 +175,17 @@ export default {
 
     },
     methods: {
+        getUserPrimaryPlaceId() {
+            return UserService.getUserProfileData()
+                .then(response => {
+                    //this.favouritePlaces = response.data.data.favourite_places;
+                    return response.data.data.primary_place_id
+                    //console.log("global" + Globals.PRIMARY_PLACE_ID)
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        },
         async getForecastForSelectedPlace(placeId) {
             this.placeId = placeId
             await this.getForecast()
@@ -184,7 +200,7 @@ export default {
             this.axios.get('https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
                 '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric')
             */
-            WeatherService.getCurrentForecast(placeId)
+            await WeatherService.getCurrentForecast(placeId)
                 .then((response) => {
                     this.weatherData = response.data
                     this.place = this.weatherData.name
