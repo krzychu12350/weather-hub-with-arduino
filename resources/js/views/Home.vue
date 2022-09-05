@@ -138,6 +138,7 @@ import moment from "moment";
 import { nextTick, ref } from 'vue';
 import HorizontalLineComponent from "../components/HorizontalLineComponent.vue";
 import {useRouter} from "vue-router";
+import ToastService from "../services/toast-service";
 export default {
     name: "Home",
     components: {
@@ -248,6 +249,9 @@ export default {
         async retrieveFavouritePlaces() {
             UserService.getUserProfileData()
                 .then(response => {
+                    //console.log(response.data.data.name)
+                    ToastService.showToast("Hello " + response.data.data.name +
+                        ", check out the latest weather forecast right now !!!", 'info')
                     this.favouritePlaces = response.data.data.favourite_places;
                     //console.log(this.favouritePlaces)
                 })

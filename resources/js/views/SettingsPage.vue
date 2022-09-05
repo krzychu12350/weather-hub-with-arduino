@@ -17,7 +17,9 @@
             </div>
             <HorizontalLineComponent/>
             <h3 class="color text-white">Your account</h3>
-            <button class="delete-button mt-2">Delete account</button>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#deleting-confirmation">
+                <button class="delete-button mt-2">Delete account</button>
+            </a>
 
         </div>
     </div>

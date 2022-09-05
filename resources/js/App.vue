@@ -1,18 +1,20 @@
 <template>
 
     <router-view/>
-
+    <UserAccountDeletingConfirmationModalComponent class="text-center"></UserAccountDeletingConfirmationModalComponent>
     <LogoutConfirmationModalComponent class="text-center"></LogoutConfirmationModalComponent>
 </template>
 
 <script>
 import LogoutConfirmationModalComponent from "./components/LogoutConfirmationModalComponent.vue";
+import UserAccountDeletingConfirmationModalComponent from "./components/UserAccountDeletingConfirmationModalComponent.vue";
 import SidebarComponent from "./components/SidebarComponent.vue";
 export default {
     name: "App",
     components: {
         SidebarComponent,
-        LogoutConfirmationModalComponent
+        LogoutConfirmationModalComponent,
+        UserAccountDeletingConfirmationModalComponent,
     },
 }
 </script>

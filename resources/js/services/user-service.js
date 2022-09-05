@@ -72,6 +72,17 @@ class UserService {
                 }
             );
     }
+
+    async deleteUserAccount() {
+        return axios.delete('http://localhost:8000/api/user-delete', authHeader())
+            .then(response => {
+                ToastService.showToast(response.data.message, "success")
+                return response.data;
+            })
+            .catch(e => {
+                    console.log(e)
+                });
+    }
 }
 
 export default new UserService();
