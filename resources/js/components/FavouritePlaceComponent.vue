@@ -31,7 +31,7 @@
                  data-bs-target="#exampleModal"
              -->
 
-            <span class="place-name text-center">{{ place }} <br>{{country}}</span>
+            <span class="place-name text-center">{{ place }}<br>{{ this.decodeAlphaTwo(country) }}</span>
             <div v-if="!!this.weatherData" class="d-flex justify-content-around">
                 <div class="d-flex flex-column">
                     <span class="current-temp">
@@ -99,6 +99,7 @@
 import UserService from '../services/user-service';
 import {useRouter} from 'vue-router';
 import {computed} from "vue";
+import * as iso from "iso-3166-1";
 
 export default {
     name: "FavouritePlaceComponent",
@@ -146,6 +147,11 @@ export default {
 
     },
     methods: {
+        decodeAlphaTwo(alphaTwo) {
+            if(alphaTwo)
+                return iso.whereAlpha2(alphaTwo).country
+
+        },
         addFavouritePlace(favouritePlace) {
            alert('dziala dodawanie' + favouritePlace)
             //UserService.deleteUserFavouritePlace(placeId)

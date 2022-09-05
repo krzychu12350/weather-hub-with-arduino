@@ -9,11 +9,20 @@
         </div>
         <div class="container d-flex align-items-center flex-column text-center">
             <div class="m-1">
-                <h2 class="place-location">{{ this.place }} {{ this.country }}</h2>
+                <h2 class="place-location">{{ this.place }}, {{ this.country }}</h2>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-1">
                 <img class="image " :src=this.icon>
-                <span class="current-temp">{{ this.temp }}° C</span>
+                <span class="current-temp">{{ this.temp }}°</span>
+                <div class="d-flex flex-column ms-4">
+                    <div id="metric-unit" class="mb-1" @click="setUnitOfMeasurement('metric')">
+                        <span class="temp-unit">C</span>
+                    </div>
+                    <div id="imperial-unit" @click="setUnitOfMeasurement('imperial')">
+                        <span class="temp-unit">F</span>
+                    </div>
+                </div>
+
             </div>
             <span class="description">{{ this.description }}</span><br/>
             <span class="current-date"><b>{{ this.currentDate }}</b></span>
@@ -118,6 +127,8 @@
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 import WeatherService from "../services/weather-service";
 import UserService from "../services/user-service";
+import * as iso from "iso-3166-1";
+import Globals from "../globals";
 
 export default {
     name: "CurrentWeatherDataComponent",
@@ -154,10 +165,7 @@ export default {
             lastUpdateDate: Date,
         }
     },
-    mounted() {
-        //this.getForecast()
-        //this.retrieveFavouritePlaces()
-    },
+
     created() {
         this.getForecast(this.placeId)
         this.updateIntervalCurrentWeather(this.placeId)
@@ -170,6 +178,13 @@ export default {
 
     },
     methods: {
+        setUnitOfMeasurement(unitName) {
+            Globals.UNIT_OF_MEASUREMENT = unitName
+            //console.log(Globals.UNIT_OF_MEASUREMENT + ' changed')
+            this.getForecast(this.placeId)
+            this.emitter.emit('passSearchedPlaceId',
+                {'value': this.placeId})
+        },
         async getForecastForSelectedPlace(placeId) {
             this.placeId = placeId
             await this.getForecast()
@@ -188,7 +203,7 @@ export default {
                 .then((response) => {
                     this.weatherData = response.data
                     this.place = this.weatherData.name
-                    this.country = this.weatherData.sys.country
+                    this.country = iso.whereAlpha2(this.weatherData.sys.country).country
 
                    // alert(this.weatherData.weather[0].icon)
                     this.emitter.emit('passCurrentWeatherIcon', {icon: this.weatherData.weather[0].icon})
@@ -298,5 +313,15 @@ export default {
 .weather-detail {
     color: #FFFFFF;
     font-size: 1em;
+}
+.temp-unit {
+    color: #FFFFFF;
+    font-size: 1.5em;
+}
+#metric-unit:hover, #imperial-unit:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    font-weight: bold;
+    //border: 2px solid white;
 }
 </style>

@@ -134,7 +134,7 @@ export default {
         this.emitter.on('passSearchedPlaceId', (evt) => {
             //alert(evt.value);
             this.retrieveForecastForFiveDays(evt.value)
-            this.showHourlyForecastForSpecificDay(1)
+            //this.showHourlyForecastForSpecificDay(1)
 
         })
 
