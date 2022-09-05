@@ -2,7 +2,7 @@
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
         <TopBarComponent :nameOfTheSubpage="'Forecast'"></TopBarComponent>
         <!--<img :src="imageUrl">-->
-        <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
+        <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" v-if="renderComponent" class="col-12 primary-container w-100 min-vh-100 d-flex">
             <!--<div class="row min-vh-100">-->
 
                 <div class="col-3 col-md-2 col-lg-1">
@@ -22,7 +22,6 @@
                     <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
                     <section id="favourite-places" class="me-4">
                         <h2 class="color text-white mt-4 mb-4">Your favourite places</h2>
-
                         <div class="row justify-content-md-center justify-content-lg-start">
                             <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
                                 <FavouritePlaceComponent
@@ -131,6 +130,7 @@ import TopBarComponent from "../components/TopBarComponent.vue";
 import WeatherService from "../services/weather-service";
 import Globals from "../globals";
 import moment from "moment";
+import { nextTick, ref } from 'vue';
 export default {
     name: "Home",
     components: {
@@ -145,6 +145,21 @@ export default {
         CurrentWeatherDataComponent,
         FadeTransition,
     },
+    setup() {
+        const renderComponent = ref(true);
+
+        const forceRerender = async () => {
+            // Remove MyComponent from the DOM
+            renderComponent.value = false;
+
+            // Wait for the change to get flushed to the DOM
+            await nextTick();
+
+            // Add the component back in
+            renderComponent.value = true;
+        };
+        return { renderComponent, forceRerender }
+    },
   data() {
       return {
           favouritePlaces: Array,
@@ -156,7 +171,6 @@ export default {
           weatherDataOfFavPlace: Object,
           imageUrl: new URL("../assets/images/weather-conditions/" +
               Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
-
           }
       },
     async created() {
@@ -170,13 +184,13 @@ export default {
             if (this.isHumAndTempsCharVisible) {
                 this.chartData = this.processSpecificPlaceWeatherLogs(evt.placeId)
             }
-
             //console.log(chartData)
-
             //this.emitter.emit('passChartData', {chartData})
 
         })
-
+        this.emitter.on('rerenderPage', () => {
+            this.forceRerender()
+        })
 
     },
     mounted() {
@@ -194,6 +208,10 @@ export default {
         clearInterval(this.callIntervalMethod)
     },
     methods: {
+        reload() {
+            alert("dziala")
+            this.$forceUpdate()
+        },
         filterWeatherDataLogs (weatherDataLogs, placeId) {
             //console.log(placeId)
             //console.log(weatherDataLogs.find(place => place.id === placeId))

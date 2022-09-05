@@ -306,7 +306,7 @@ export default{
     },
     methods: {
         getWeatherDataForSelectedPlace(placeId) {
-            //this.$emit("passSearchedPlaceId", placeId)
+            this.$emit("passSearchedPlaceId", placeId)
             this.emitter.emit('passSearchedPlaceId',
                 {'value': placeId})
             //alert(placeiId)
