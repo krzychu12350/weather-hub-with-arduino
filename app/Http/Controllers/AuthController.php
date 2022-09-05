@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,9 +25,9 @@ class AuthController extends Controller
 
     /**
      * Get a JWT via given credentials.
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function login(Request $request): \Illuminate\Http\JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -53,9 +54,9 @@ class AuthController extends Controller
 
     /**
      * Register a User.
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function register(Request $request): \Illuminate\Http\JsonResponse
+    public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:3|max:50',
@@ -86,9 +87,9 @@ class AuthController extends Controller
 
     /**
      * Log the user out (Invalidate the token).
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function logout(Request $request): \Illuminate\Http\JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         try {
             auth('api')->logout();
@@ -105,23 +106,8 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function userProfile(Request $request): \Illuminate\Http\JsonResponse
-    {
-        return response()->json([
-            'status' => true,
-            'message' => 'User found',
-            'data' => auth('api')->user()
-                ->with('favouritePlaces.weatherDataLogs')
-                ->find(auth()->id())
-        ], 200);
-    }
-
-    /**
      * Refresh a token.
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh(Request $request)
     {
@@ -131,7 +117,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      * @param  string $token
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {

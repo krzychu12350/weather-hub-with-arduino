@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,8 +25,9 @@ class FavouritePlaceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
+    /*
     public function index()
     {
         $favouritePlaces = FavouritePlace::all();
@@ -36,12 +38,12 @@ class FavouritePlaceController extends Controller
             "data" => $favouritePlaces
         ]);
     }
-
+    */
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -95,8 +97,9 @@ class FavouritePlaceController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
+    /*
     public function show(int $id)
     {
         $favouritePlace = FavouritePlace::find($id);
@@ -113,14 +116,15 @@ class FavouritePlaceController extends Controller
             "data" => $favouritePlace
         ]);
     }
-
+    */
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
+    /*
     public function update(Request $request, FavouritePlace $favouritePlace)
     {
         $request_data = $request->all();
@@ -152,12 +156,12 @@ class FavouritePlaceController extends Controller
             "data" => $favouritePlace
         ]);
     }
-
+    */
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {

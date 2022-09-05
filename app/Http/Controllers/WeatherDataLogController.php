@@ -39,35 +39,37 @@ class WeatherDataLogController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
-    {
-        $request_data = $request->all();
+    /*
+   public function store(Request $request)
+   {
+       $request_data = $request->all();
 
-        $validator = Validator::make($request_data, [
-            'temperature' => 'required|integer',
-            'humidity' => 'required|integer|min:0|max:100',
-            'favourite_place_id' => 'required|integer',
-        ]);
+       $validator = Validator::make($request_data, [
+           'temperature' => 'required|integer',
+           'humidity' => 'required|integer|min:0|max:100',
+           'favourite_place_id' => 'required|integer',
+       ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid Inputs',
-                'error' => $validator->errors()
-            ]);
-        }
-        //dd($request_data, $request_data['favourite_place_id']);
-        $weatherDataLog = new WeatherDataLog;
-        $weatherDataLog->temperature = $request_data['temperature'];
-        $weatherDataLog->humidity = $request_data['humidity'];
-        $weatherDataLog->favouritePlace()->associate($request_data['favourite_place_id']);
-        $weatherDataLog->save();
-        //$weatherDataLog = WeatherDataLog::create($request_data);
+       if ($validator->fails()) {
+           return response()->json([
+               'status' => false,
+               'message' => 'Invalid Inputs',
+               'error' => $validator->errors()
+           ]);
+       }
+       //dd($request_data, $request_data['favourite_place_id']);
+       $weatherDataLog = new WeatherDataLog;
+       $weatherDataLog->temperature = $request_data['temperature'];
+       $weatherDataLog->humidity = $request_data['humidity'];
+       $weatherDataLog->favouritePlace()->associate($request_data['favourite_place_id']);
+       $weatherDataLog->save();
+       //$weatherDataLog = WeatherDataLog::create($request_data);
 
-        return response()->json([
-            "success" => true,
-            "message" => "Weather data log was saved successfully.",
-            "data" => $weatherDataLog,
-        ]);
-    }
+       return response()->json([
+           "success" => true,
+           "message" => "Weather data log was saved successfully.",
+           "data" => $weatherDataLog,
+       ]);
+   }
+   */
 }
