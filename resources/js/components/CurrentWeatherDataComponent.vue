@@ -163,6 +163,7 @@ export default {
             sunrise: Number,
             sunset: Number,
             lastUpdateDate: Date,
+            activeUnit: true,
         }
     },
 
@@ -180,10 +181,7 @@ export default {
     methods: {
         setUnitOfMeasurement(unitName) {
             Globals.UNIT_OF_MEASUREMENT = unitName
-            //console.log(Globals.UNIT_OF_MEASUREMENT + ' changed')
-            this.getForecast(this.placeId)
-            this.emitter.emit('passSearchedPlaceId',
-                {'value': this.placeId})
+            this.emitter.emit('rerenderPage')
         },
         async getForecastForSelectedPlace(placeId) {
             this.placeId = placeId

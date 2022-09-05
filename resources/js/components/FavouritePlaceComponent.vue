@@ -143,8 +143,6 @@ export default {
     },
     async created() {
         this.weatherData = await this.currentWeatherData
-
-
     },
     methods: {
         decodeAlphaTwo(alphaTwo) {
