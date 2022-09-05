@@ -43,6 +43,7 @@ import UserService from "../services/user-service";
 import WeatherService from "../services/weather-service";
 import TopBarComponent from "../components/TopBarComponent.vue";
 import Globals from "../globals";
+import {useRouter} from "vue-router/dist/vue-router";
 
 export default {
     name: "FavouritePlacesPage",
@@ -59,6 +60,10 @@ export default {
             imageUrl: new URL("../assets/images/weather-conditions/" +
                 Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
         }
+    },
+    setup () {
+        const router = useRouter()
+        if(!Globals.PRIMARY_PLACE_ID) router.push({ name: 'SelectPrimaryPlacePage'})
     },
     created() {
         this.retrieveFavouritePlaces()

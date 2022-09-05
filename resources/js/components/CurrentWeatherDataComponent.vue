@@ -132,12 +132,13 @@ import Globals from "../globals";
 
 export default {
     name: "CurrentWeatherDataComponent",
+
     components: {
         MoonLoader,
     },
     data() {
         return {
-            placeId: '763829',
+            placeId: Number,
             /*api: 'https://api.openweathermap.org/data/2.5/weather?id=' + this.placeId +
                 '&appid=7aef87c2b6d81812c53c536b5a1d715c&lang=en&units=metric',*/
             //api: Globals.API_URL + '&id=' + this.placeId + '&units=metric',
@@ -166,23 +167,35 @@ export default {
             activeUnit: true,
         }
     },
-    async mounted() {
+    setup() {
+
+
+
+    },
+    mounted() {
+
         //this.getForecast()
         //this.retrieveFavouritePlaces()
-        this.placeId = await this.getUserPrimaryPlaceId()
-        console.log("current " + this.placeId)
+        //this.placeId = await this.getUserPrimaryPlaceId()
+        //console.log(Globals.PRIMARY_PLACE_ID)
+
 
     },
     async created() {
+        this.placeId = await this.getUserPrimaryPlaceId()
+        Globals.PRIMARY_PLACE_ID = this.placeId
+        if(!Globals.PRIMARY_PLACE_ID) {
+            this.$router.push({ name: 'SelectPrimaryPlacePage'})
+        }
+        //console.log(this.placeId)
         await this.getForecast(this.placeId)
-        await  this.updateIntervalCurrentWeather(this.placeId)
+        await this.updateIntervalCurrentWeather(this.placeId)
         //this.retrieveFavouritePlaces()
         this.emitter.on('passSearchedPlaceId', (evt) => {
             //alert(evt.value);
-            this.placeId = evt.value
+            //this.placeId = evt.value
             this.getForecast(evt.value)
         })
-
     },
     methods: {
         getUserPrimaryPlaceId() {
@@ -199,6 +212,7 @@ export default {
         setUnitOfMeasurement(unitName) {
             Globals.UNIT_OF_MEASUREMENT = unitName
             this.emitter.emit('rerenderPage')
+
         },
         async getForecastForSelectedPlace(placeId) {
             this.placeId = placeId

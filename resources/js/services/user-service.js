@@ -60,6 +60,18 @@ class UserService {
                 }
             );
     }
+    async updateUserPrimaryPlace(placeId) {
+        return axios.put('http://localhost:8000/api/update-primary-place', {
+            primary_place_id: placeId}, authHeader())
+            .then(response => {
+                ToastService.showToast(response.data.message, "success")
+                return response.data;
+            })
+            .catch(e => {
+                    console.log(e)
+                }
+            );
+    }
 }
 
 export default new UserService();

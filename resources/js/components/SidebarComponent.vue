@@ -62,7 +62,19 @@
             </div>
 
             <div class="bottom-content">
-                <li class="mode">
+                <li class="nav-link">
+                    <router-link :to="{ name: 'SettingsPage' }">
+                        <!--<i class='bx bx-heart icon'></i>-->
+                        <div class="icon d-flex justify-content-center">
+                            <font-awesome-icon icon="fa-solid fa-gear" color="white" size="sm"/>
+                        </div>
+
+
+                        <span class="text nav-text">Settings</span>
+                    </router-link>
+
+                </li>
+                <li class="nav-link">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#logout-confirmation">
                         <!--<i class='bx bx-log-out icon'></i> v-on:click.prevent="logOut"-->
 
@@ -73,23 +85,23 @@
                     </a>
                 </li>
 
+
+                <!--
                 <li class="mode">
                     <div class="icon d-flex justify-content-center">
-                        <!--
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                        -->
+
 
                         <box-icon class="" type="regular" name="moon" color="white" ></box-icon>
 
                     </div>
                     <span class="mode-text text">Dark mode</span>
-                    <!--
-                    <div class="toggle-switch">
+
+                lass="toggle-switch">
                         <span class="switch"></span>
                     </div>
-                    -->
+
                 </li>
+                -->
             </div>
         </div>
     </nav>

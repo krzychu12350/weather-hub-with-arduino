@@ -20,6 +20,7 @@
 
 
                     <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
+
                     <section id="favourite-places" class="me-4">
                         <h2 class="color text-white mt-4 mb-4">Your favourite places</h2>
                         <div class="row justify-content-md-center justify-content-lg-start">
@@ -65,14 +66,18 @@
                     </TemperatureAndHumidityChartComponent>
                     -->
                     <fade-transition mode="out-in" :duration="500">
+
                         <div v-if="isHumAndTempsCharVisible">
+                            <HorizontalLineComponent/>
                             <TemperatureAndHumidityChartComponent
                                 :triggerData="this.chartData">
                             </TemperatureAndHumidityChartComponent>
                         </div>
                         <div v-else>
                             <section id="daily-forecast" class="">
+                                <HorizontalLineComponent/>
                                 <DailyForecastComponent></DailyForecastComponent>
+                                <HorizontalLineComponent/>
                                 <HourlyForecastComponent></HourlyForecastComponent>
                             </section>
                         </div>
@@ -131,6 +136,8 @@ import WeatherService from "../services/weather-service";
 import Globals from "../globals";
 import moment from "moment";
 import { nextTick, ref } from 'vue';
+import HorizontalLineComponent from "../components/HorizontalLineComponent.vue";
+import {useRouter} from "vue-router";
 export default {
     name: "Home",
     components: {
@@ -144,8 +151,12 @@ export default {
         SearchEngineComponent,
         CurrentWeatherDataComponent,
         FadeTransition,
+        HorizontalLineComponent,
     },
     setup() {
+        const router = useRouter()
+        if(!Globals.PRIMARY_PLACE_ID) router.push({ name: 'SelectPrimaryPlacePage'})
+
         const renderComponent = ref(true);
 
         const forceRerender = async () => {
@@ -170,7 +181,7 @@ export default {
           chartData: Array,
           weatherDataOfFavPlace: Object,
           imageUrl: new URL("../assets/images/weather-conditions/" +
-              Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
+              Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href,
           }
       },
     async created() {
@@ -189,12 +200,12 @@ export default {
 
         })
         this.emitter.on('rerenderPage', () => {
+
             this.forceRerender()
         })
 
     },
     mounted() {
-
         this.emitter.on('passCurrentWeatherIcon', (evt) => {
             //alert(evt.value);
             //console.log(evt.icon)
@@ -208,10 +219,6 @@ export default {
         clearInterval(this.callIntervalMethod)
     },
     methods: {
-        reload() {
-            alert("dziala")
-            this.$forceUpdate()
-        },
         filterWeatherDataLogs (weatherDataLogs, placeId) {
             //console.log(placeId)
             //console.log(weatherDataLogs.find(place => place.id === placeId))
@@ -233,9 +240,10 @@ export default {
                 .map(singleLog =>  moment(singleLog.created_at).format("MM/DD/YYYY hh:mm"));
 
             //console.log(seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt)
+            if(Globals.UNIT_OF_MEASUREMENT === 'imperial')
+                seriesOfTemperatures = seriesOfTemperatures.map(value => (value * 1.8) + 32)
 
             return [seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt]
-
         },
         async retrieveFavouritePlaces() {
             UserService.getUserProfileData()

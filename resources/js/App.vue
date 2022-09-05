@@ -2,17 +2,17 @@
 
     <router-view/>
 
-    <ConfirmationModalComponent class="text-center"></ConfirmationModalComponent>
+    <LogoutConfirmationModalComponent class="text-center"></LogoutConfirmationModalComponent>
 </template>
 
 <script>
-import ConfirmationModalComponent from "./components/ConfirmationModalComponent.vue";
+import LogoutConfirmationModalComponent from "./components/LogoutConfirmationModalComponent.vue";
 import SidebarComponent from "./components/SidebarComponent.vue";
 export default {
     name: "App",
     components: {
         SidebarComponent,
-        ConfirmationModalComponent
+        LogoutConfirmationModalComponent
     },
 }
 </script>

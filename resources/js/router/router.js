@@ -3,6 +3,8 @@ import Home from "../views/Home.vue";
 import AuthenticationPage from "../views/AuthenticationPage.vue";
 import FavouritePlacesPage from "../views/FavouritePlacesPage.vue";
 import AddingFavouritePlacePage from "../views/AddingFavouritePlacePage.vue";
+import SettingsPage from "../views/SettingsPage.vue";
+import SelectPrimaryPlacePage from "../views/SelectPrimaryPlacePage.vue";
 
 const routes = [
     {
@@ -25,6 +27,17 @@ const routes = [
         name: "AddingFavouritePlacePage",
         component: AddingFavouritePlacePage,
     },
+    {
+        path: "/settings",
+        name: "SettingsPage",
+        component: SettingsPage,
+    },
+    {
+        path: "/select-primary-place",
+        name: "SelectPrimaryPlacePage",
+        component: SelectPrimaryPlacePage,
+    },
+
 
     /*
     {

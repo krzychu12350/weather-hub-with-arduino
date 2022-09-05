@@ -68,8 +68,6 @@
                                 icon="fa-solid fa-location-dot"
                                 color="black" />
                         </div>
-
-
                     </div>
                     <div
                         v-if="routeName === 'AddingFavouritePlacePage'"
@@ -80,6 +78,17 @@
                         {{ p.id }} {{ p.name }} {{ p.country }}
                         <font-awesome-icon icon="fa-solid fa-location-dot" />
                     </div>
+                    <div
+                        v-if="routeName === 'SelectPrimaryPlacePage'"
+                        v-for="(p, i) in results.slice(0, 5)"
+                        :key="p.id"
+                        @click='triggerUpdateOfUserPrimaryPlace(String(p.id))'
+                        class="searched-place">
+                        {{ p.id }} {{ p.name }} {{ p.country }}
+                        <font-awesome-icon icon="fa-solid fa-location-dot" />
+                    </div>
+
+
                 </div>
 
 
@@ -333,9 +342,11 @@ export default{
             this.$router.push('/favourites')
 
         },
+        triggerUpdateOfUserPrimaryPlace(placeId) {
+            UserService.updateUserPrimaryPlace(placeId)
+            this.$router.push('/')
+        },
         onClickOutside (event) {
-
-
             //this.$refs["headline"].reset
             //console.log()
             if(this.message !== "") {

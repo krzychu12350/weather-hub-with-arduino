@@ -8,7 +8,15 @@
                  src="https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?h=350&auto=compress&cs=tinysrgb"
                  alt="Card image cap">
                  -->
-            <div v-if="isUserFavouritePlace && routeName !== 'Home'" class="d-flex justify-content-end">
+            <div v-if="isUserFavouritePlace && routeName === 'SettingsPage'" class="d-flex justify-content-end">
+                <box-icon
+                    @click="goToSelectPrimaryPlacePage(this.placeId)"
+                    type="regular"
+                    name="edit-alt"
+                    color="white"
+                ></box-icon>
+            </div>
+            <div v-if="isUserFavouritePlace && routeName === 'FavouritePlacesPage'" class="d-flex justify-content-end">
                 <box-icon
                     @click="deleteFavouritePlace(this.placeId)"
                     type="regular"
@@ -146,6 +154,7 @@ export default {
     },
     methods: {
         decodeAlphaTwo(alphaTwo) {
+
             if(alphaTwo)
                 return iso.whereAlpha2(alphaTwo).country
 
@@ -175,6 +184,9 @@ export default {
         getWeatherDataForSelectedPlace(placeId) {
             this.emitter.emit('passSearchedPlaceId',
                 {'value': placeId})
+        },
+        goToSelectPrimaryPlacePage() {
+            this.$router.push({name: 'SelectPrimaryPlacePage'})
         },
     }
 }
