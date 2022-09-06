@@ -91,40 +91,40 @@ to allow application connect with database
 
 ## Screenshots
 
-<img src="./readme/images/sign-in.jpg" />
--
-<img src="./readme/images/sign-up.jpg" />
--
-<img src="./readme/images/home-1.jpg" />
--
-<img src="./readme/images/home-dynamic-background.jpg" />
--
-<img src="./readme/images/home-search-engine.jpg" />
--
-<img src="./readme/images/home-2.jpg" />
--
-<img src="./readme/images/home-hourly-chart.jpg" />
--
-<img src="./readme/images/home-historical-temp-and-hum-chart.jpg" />
--
-<img src="./readme/images/favourite-places.jpg" />
--
-<img src="./readme/images/add-favourite-place.jpg" />
--
-<img src="./readme/images/settings-page.jpg" />
--
-<img src="./readme/images/tablet-rwd-1.jpg" />
--
-<img src="./readme/images/tablet-rwd-2.jpg" />
--
-<img src="./readme/images/smartphone-rwd-1.jpg" />
--
-<img src="./readme/images/smartphone-rwd-2.jpg" />
--
-<img src="./readme/images/start-pwa.jpg" />
--
-<img src="./readme/images/pwa.jpg" />
--
+<img src="./readme/images/sign-in.jpg"  alt="sign-in-view"/>
+
+<img src="./readme/images/sign-up.jpg"  alt="sign-up-view"/>
+
+<img src="./readme/images/home-1.jpg"  alt="home-1"/>
+
+<img src="./readme/images/home-dynamic-background.jpg"  alt="home-dynamic-background"/>
+
+<img src="./readme/images/home-search-engine.jpg"  alt="home-search-engine"/>
+
+<img src="./readme/images/home-2.jpg"  alt="home-2"/>
+
+<img src="./readme/images/home-hourly-chart.jpg"  alt="home-hourly-chart"/>
+
+<img src="./readme/images/home-historical-temp-and-hum-chart.jpg"  alt="home-historical-temp-and-hum-chart"/>
+
+<img src="./readme/images/favourite-places.jpg"  alt="favourite-places"/>
+
+<img src="./readme/images/add-favourite-place.jpg"  alt="add-favourite-place"/>
+
+<img src="./readme/images/settings-page.jpg"  alt="settings-page"/>
+
+<img src="./readme/images/tablet-rwd-1.jpg"  alt="tablet-rwd-1"/>
+
+<img src="./readme/images/tablet-rwd-2.jpg"  alt="tablet-rwd-2"/>
+
+<img src="./readme/images/smartphone-rwd-1.jpg"  alt="smartphone-rwd-1"/>
+
+<img src="./readme/images/smartphone-rwd-2.jpg"  alt="smartphone-rwd-2"/>
+
+<img src="./readme/images/start-pwa.jpg"  alt="start-pwa.jpg"/>
+
+<img src="./readme/images/pwa.jpg"  alt="pwa.jpg"/>
+
 
 ## Users already existing in the database
 
