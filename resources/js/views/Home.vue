@@ -244,7 +244,7 @@ export default {
 
             //console.log(seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt)
             if(Globals.UNIT_OF_MEASUREMENT === 'imperial')
-                seriesOfTemperatures = seriesOfTemperatures.map(value => (value * 1.8) + 32)
+                seriesOfTemperatures = seriesOfTemperatures.map(value => ((value * 1.8) + 32).toFixed(0))
 
             return [seriesOfTemperatures, seriesOfHumidity, seriesOfCreatedAt]
         },
