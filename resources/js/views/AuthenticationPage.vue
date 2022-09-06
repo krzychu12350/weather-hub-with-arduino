@@ -14,7 +14,9 @@
                 <div class="overlay">
                     <div class="overlay-panel overlay-right">
                         <h1>Hello, Friend!</h1>
-                        <p>Enter your personal details and check the forecast</p>
+                        <p>Enter your personal details to create new account<br>
+
+                        </p>
                         <button
                             class="ghost"
                             @click="toogleSignInAndSignUp"
@@ -25,7 +27,8 @@
                     </div>
                     <div class="overlay-panel overlay-left">
                         <h1>Welcome Back!</h1>
-                        <p>To check the current forecast please login with your personal info</p>
+                        <p>To check the current forecast please login with your personal details
+                        </p>
                         <button
                             class="ghost"
                             @click="toogleSignInAndSignUp"

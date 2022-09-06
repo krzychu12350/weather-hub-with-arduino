@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,6 +43,7 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -66,9 +67,10 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The favourite places that belong to the user.
      */
-    public function favouritePlaces(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favouritePlaces(): BelongsToMany
     {
         return $this->belongsToMany(FavouritePlace::class)
-            ->withPivot('user_id', 'favourite_place_id', 'created_at', 'updated_at')->withTimestamps();
+            ->withPivot('user_id', 'favourite_place_id', 'created_at', 'updated_at')
+            ->withTimestamps();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WeatherDataLog extends Model
 {
@@ -23,7 +24,7 @@ class WeatherDataLog extends Model
     /**
      * Get the favourite place that owns the weather data log.
      */
-    public function favouritePlace(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function favouritePlace(): BelongsTo
     {
         return $this->belongsTo(FavouritePlace::class);
     }

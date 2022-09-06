@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer( 'humidity');
             $table->timestamps();
             $table->foreignId('favourite_place_id');
-            $table->foreign('favourite_place_id')->references('id')
+            $table->foreign('favourite_place_id')
+                ->references('id')
                 ->on('favourite_places');
         });
     }

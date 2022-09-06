@@ -27,8 +27,8 @@ class UserController extends Controller
     /**
      * Update user's primary place
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Request $request
+     * @param int $id
      * @return JsonResponse
      */
     public function updateUserPrimaryPlace(Request $request)
@@ -51,8 +51,7 @@ class UserController extends Controller
         //dd($user);
         return response()->json([
             'status' => true,
-            'message' => 'User primary place was updated successfully',
-            'data' => auth('api')->user(),
+            'message' => 'User primary place was updated successfully'
         ], 200);
     }
 
@@ -64,7 +63,7 @@ class UserController extends Controller
     public function destroy()
     {
         $user = User::findOrFail(auth('api')->user()->getAuthIdentifier());
-        if($user) {
+        if ($user) {
             $user->delete();
             return response()->json([
                 "status" => true,

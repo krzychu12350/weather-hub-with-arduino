@@ -1,25 +1,22 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class AuthController extends Controller
 {
-
-
     /**
      * Create a new AuthController instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
@@ -42,14 +39,33 @@ class AuthController extends Controller
             ], 422);
         }
 
-        if (! $token = auth('api')->attempt($validator->validated())) {
+        if (!$token = auth('api')->attempt($validator->validated())) {
             return response()->json([
                 'status' => false,
-                'message' => 'Invalid Credentials',
+                'message' => 'Invalid email or password',
             ], 400);
         }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Get the token array structure.
+     * @param string $token
+     * @return JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        $minutes = auth('api')->factory()->getTTL() * 60;
+        $timestamp = now()->addMinute($minutes);
+        $expires_at = date('M d, Y H:i A', strtotime($timestamp));
+        return response()->json([
+            'status' => true,
+            'message' => 'You have been logged in successfully',
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_at' => $expires_at
+        ], 200);
     }
 
     /**
@@ -67,7 +83,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Invalid email or password',
+                'message' => 'Invalid inputs',
                 'error' => $validator->errors()
             ], 401);
         }
@@ -80,7 +96,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'User successfully registered',
+            'message' => 'You have been successfully registered',
             'user' => $user
         ], 201);
     }
@@ -95,12 +111,12 @@ class AuthController extends Controller
             auth('api')->logout();
             return response()->json([
                 'status' => true,
-                'message' => 'Successfully logged out'
+                'message' => 'You have been logged out successfully'
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Sorry, cannot logout'
+                'message' => 'Sorry, we cannot logout'
             ], 500);
         }
     }
@@ -112,24 +128,5 @@ class AuthController extends Controller
     public function refresh(Request $request)
     {
         return $this->respondWithToken(auth('api')->refresh());
-    }
-
-    /**
-     * Get the token array structure.
-     * @param  string $token
-     * @return JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        $minutes = auth('api')->factory()->getTTL() * 60;
-        $timestamp = now()->addMinute($minutes);
-        $expires_at = date('M d, Y H:i A', strtotime($timestamp));
-        return response()->json([
-            'status' => true,
-            'message' => 'Login successful',
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_at' => $expires_at
-        ], 200);
     }
 }
