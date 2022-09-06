@@ -1,34 +1,60 @@
 <template>
     <div class="form-container sign-up-container">
-        <Form @submit="handleRegister" :validation-schema="schema">
+        <Form
+            @submit="handleRegister"
+            :validation-schema="schema"
+        >
             <h1 class="mb-4">Create Account</h1>
-
-            <Field name="name" type="text" class="form-input" placeholder="Name"/>
-            <ErrorMessage name="name" class="error-feedback"/>
-
-            <Field name="email" type="text" class="form-input" placeholder="Email"/>
-            <ErrorMessage name="email" class="error-feedback"/>
-
-            <Field name="password" type="password" class="form-input" placeholder="Password" autocomplete="on"/>
-            <ErrorMessage name="password" class="error-feedback"/>
-
-            <Field name="password_confirmation" type="password" class="form-input" placeholder="Password confirmation" autocomplete="on"/>
-            <ErrorMessage name="password_confirmation" class="error-feedback"/>
-
+            <Field
+                name="name"
+                type="text"
+                class="form-input"
+                placeholder="Name"
+            />
+            <ErrorMessage
+                name="name"
+                class="error-feedback"
+            />
+            <Field
+                name="email"
+                type="text"
+                class="form-input"
+                placeholder="Email"
+            />
+            <ErrorMessage
+                name="email"
+                class="error-feedback"
+            />
+            <Field
+                name="password"
+                type="password"
+                class="form-input"
+                placeholder="Password"
+                autocomplete="on"
+            />
+            <ErrorMessage
+                name="password"
+                class="error-feedback"
+            />
+            <Field
+                name="password_confirmation"
+                type="password"
+                class="form-input"
+                placeholder="Password confirmation"
+                autocomplete="on"
+            />
+            <ErrorMessage
+                name="password_confirmation"
+                class="error-feedback"
+            />
             <button :disabled="loading">
             <span
                 v-show="loading"
-                class="spinner-border spinner-border-sm"
+                class="spinner-border
+                spinner-border-sm"
             ></span>
                 Sign Up
             </button>
-            <!--
-            <div class="form-group">
-                <div v-if="message" class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-            </div>
-            -->
         </Form>
     </div>
 </template>
@@ -64,8 +90,10 @@ export default {
                 .max(40, "Must be maximum 40 characters!"),
             password_confirmation: yup
                 .string()
-                .oneOf([yup.ref('password'), null], 'Passwords must match!')
+                .oneOf([yup.ref('password'), null],
+                    'Passwords must match!')
         });
+
         return {
             successful: false,
             loading: false,
@@ -79,23 +107,21 @@ export default {
         },
     },
     mounted() {
-        if (this.loggedIn) {
-            this.$router.push("/");
-        }
+        if (this.loggedIn) this.$router.push("/");
+
     },
     methods: {
         handleRegister(user) {
             this.message = "";
             this.successful = false;
             this.loading = true;
-            this.$store.dispatch("auth/register", user).then(
-                (data) => {
+            this.$store.dispatch("auth/register", user)
+                .then((data) => {
                     this.message = data.message;
                     this.successful = true;
                     this.loading = false;
                     this.$router.go();
                     ToastService.showToast(this.message, "success")
-                    //this.showToastOnRegisterSuccess()
                 },
                 (error) => {
                     this.message =
@@ -110,21 +136,7 @@ export default {
                     ToastService.showToast(this.message, "error")
                 }
             );
-
-        },
-        showToastOnRegisterSuccess() {
-            this.$toast.open({
-                message: "You have been signed up successfully !!!",
-                type: "success",
-                duration: 5000,
-                position: 'top',
-                dismissible: true
-            })
-        },
-    },
+        }
+    }
 };
 </script>
-
-<style scoped>
-
-</style>

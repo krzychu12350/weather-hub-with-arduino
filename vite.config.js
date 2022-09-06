@@ -20,7 +20,6 @@ export default defineConfig({
         }),
     ],
     server: {
-
         proxy: {
             '/api': {
                 target: [
@@ -33,17 +32,5 @@ export default defineConfig({
             },
             cors: false
         },
-        /*
-        proxy: {
-            '/api': {
-                target: 'http://localhost:8000',
-                changeOrigin: true,
-                secure: false,
-                ws: true,
-            }
-        }
-
-         */
     },
-
 });

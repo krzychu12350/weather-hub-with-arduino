@@ -1,15 +1,21 @@
 <template>
-    <TopBarComponent :nameOfTheSubpage="'Add to Favourite Places'"></TopBarComponent>
-    <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
+    <TopBarComponent :nameOfTheSubpage="'Add to Favourite Places'"/>
+    <div
+        :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }"
+        class="col-12 primary-container w-100 min-vh-100 d-flex"
+    >
         <div class="col-3 col-md-2 col-lg-1">
-            <SidebarComponent></SidebarComponent>
+            <SidebarComponent/>
         </div>
         <div class="col-9 col-md-10 col-lg-11 mt-2 d-flex justify-content-center">
             <div class="d-flex flex-column align-items-center col-4">
-                <h2 class="color text-white">Add favourite </h2>
-                <SearchEngineComponent></SearchEngineComponent>
+                <h2
+                    class="color text-white"
+                >
+                    Add favourite
+                </h2>
+                <SearchEngineComponent/>
             </div>
-
         </div>
     </div>
 </template>
@@ -36,6 +42,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>

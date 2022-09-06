@@ -14,9 +14,6 @@ export default {
             type: Number,
             default: 1000
         },
-        listeners: {
-
-        }
     },
     computed: {
         hooks() {
@@ -48,9 +45,7 @@ export default {
         opacity: 1;
     }
 }
-.fadeIn {
-    animation-name: fadeIn;
-}
+
 @keyframes fadeOut {
     from {
         opacity: 1;
@@ -58,8 +53,5 @@ export default {
     to {
         opacity: 0;
     }
-}
-.fadeOut {
-    animation-name: fadeOut;
 }
 </style>

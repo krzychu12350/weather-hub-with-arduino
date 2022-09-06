@@ -37,15 +37,6 @@ const routes = [
         name: "SelectPrimaryPlacePage",
         component: SelectPrimaryPlacePage,
     },
-
-
-    /*
-    {
-        path: "/register",
-        name: "Register",
-        component: Register,
-    },
-     */
 ]
 
 const router = createRouter({

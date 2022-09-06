@@ -1,12 +1,12 @@
 import axiosInstance from "./api";
 import TokenService from "./token.service";
+
 const setup = (store) => {
     axiosInstance.interceptors.request.use(
         (config) => {
             const token = TokenService.getLocalAccessToken();
             if (token) {
-                config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
-                //config.headers["x-access-token"] = token; // for Node.js Express back-end
+                config.headers["Authorization"] = 'Bearer ' + token;
             }
             return config;
         },
@@ -28,7 +28,7 @@ const setup = (store) => {
                         const rs = await axiosInstance.post("refresh", {
                             refreshToken: TokenService.getLocalRefreshToken(),
                         });
-                        const { accessToken } = rs.data;
+                        const {accessToken} = rs.data;
                         store.dispatch('auth/refreshToken', accessToken);
                         TokenService.updateLocalAccessToken(accessToken);
                         return axiosInstance(originalConfig);

@@ -1,115 +1,97 @@
 <template>
-    <nav class="sidebar position-relative" :class="[ isCollapsed ? 'close' : '' ]">
-
-        <header>
-            <!--
-            <router-link :to="{ name: 'Home' }">
-                <div class="image-text">
-                    <span class="image">
-                        <img src="../assets/images/logo.png" alt="logo">
-                    </span>
-
-                    <div class="text logo-text">
-                        <span class="name">Weather Hub</span>
-                    </div>
-                </div>
-            </router-link>
-
-            <i @click="toggleSidebar"
-               class='bx bx-chevron-right toggle'></i>
-
-            <box-icon
-                @click="toggleSidebar"
-                class="toggle"
-                type="regular"
-                name="chevron-right"
-                color="white"
-            ></box-icon>
-           -->
-        </header>
-
-
+    <nav
+        class="sidebar position-relative"
+        :class="[ isCollapsed ? 'close' : '' ]"
+    >
         <div class="menu-bar">
             <div class="menu">
-                <!--
-                <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="text" placeholder="Search..." :class="[ isDisplay ? '' : 'd-none' ]">
-                </li>
-                -->
                 <li class="nav-link">
-                    <router-link :to="{ name: 'Home' }">
-                        <!--<i class='bx bx-home-alt icon'></i>-->
-
+                    <router-link
+                        :to="{ name: 'Home' }"
+                    >
                         <div class="icon">
-                            <box-icon type="regular" name="home-alt" color="white" ></box-icon>
+                            <box-icon
+                                type="regular"
+                                name="home-alt"
+                                color="white"
+                            ></box-icon>
                         </div>
-                        <span class="text nav-text">Forecast</span>
+                        <span
+                            class="text nav-text"
+                        >Forecast
+                        </span>
                     </router-link>
                 </li>
                 <li class="nav-link">
-                    <router-link :to="{ name: 'FavouritePlacesPage' }">
-                            <!--<i class='bx bx-heart icon'></i>-->
-                            <div class="icon d-flex justify-content-center">
-                                <box-icon class="" type="regular" name="heart" color="white" ></box-icon>
-                            </div>
-
-
-                            <span class="text nav-text">Favourite places</span>
+                    <router-link
+                        :to="{ name: 'FavouritePlacesPage' }"
+                    >
+                        <div
+                            class="icon d-flex
+                            justify-content-center">
+                            <box-icon
+                                type="regular"
+                                name="heart"
+                                color="white"
+                            ></box-icon>
+                        </div>
+                        <span
+                            class="text nav-text"
+                        >
+                            Favourite places
+                        </span>
                     </router-link>
                 </li>
-
             </div>
-
             <div class="bottom-content">
                 <li class="nav-link">
-                    <router-link :to="{ name: 'SettingsPage' }">
-                        <!--<i class='bx bx-heart icon'></i>-->
-                        <div class="icon d-flex justify-content-center">
-                            <font-awesome-icon icon="fa-solid fa-gear" color="white" size="sm"/>
+                    <router-link
+                        :to="{ name: 'SettingsPage' }"
+                    >
+                        <div
+                            class="icon d-flex
+                            justify-content-center">
+                            <font-awesome-icon
+                                icon="fa-solid fa-gear"
+                                color="white"
+                                size="sm"
+                            />
                         </div>
-
-
-                        <span class="text nav-text">Settings</span>
+                        <span
+                            class="text nav-text">
+                            Settings
+                        </span>
                     </router-link>
-
                 </li>
                 <li class="nav-link">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#logout-confirmation">
-                        <!--<i class='bx bx-log-out icon'></i> v-on:click.prevent="logOut"-->
-
-                        <div class="icon d-flex justify-content-center">
-                            <box-icon class="" type="regular" name="log-out" color="white" ></box-icon>
+                    <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#logout-confirmation"
+                    >
+                        <div
+                            class="icon d-flex
+                            justify-content-center"
+                        >
+                            <box-icon
+                                type="regular"
+                                name="log-out"
+                                color="white"
+                            />
                         </div>
-                        <span class="text nav-text">Logout</span>
+                        <span
+                            class="text nav-text"
+                        >
+                            Logout
+                        </span>
                     </a>
                 </li>
-
-
-                <!--
-                <li class="mode">
-                    <div class="icon d-flex justify-content-center">
-
-
-                        <box-icon class="" type="regular" name="moon" color="white" ></box-icon>
-
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                lass="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-
-                </li>
-                -->
             </div>
         </div>
     </nav>
 </template>
 
 <script>
-import ToastService from "../services/toast-service";
-import AuthService from "../services/auth.service";
 export default {
     name: "SidebarComponent",
     data() {
@@ -128,29 +110,12 @@ export default {
         toggleSidebar() {
             this.isCollapsed = !this.isCollapsed;
             this.isDisplay = !this.isDisplay;
-        },
-        logOut() {
-            //this.$store.dispatch('auth/logout');
-            //AuthService.logout()
-            //this.$router.push("/auth");
-           // ToastService.showSuccessToast("You have been logged out successfully !!!")
-            //this.showLogoutToast()
-        },
-        showLogoutToast() {
-            this.$toast.open({
-                message: "You have been logged out successfully !!!",
-                type: "success",
-                duration: 5000,
-                position: 'top',
-                dismissible: true
-            })
-        },
+        }
     }
 }
 </script>
 
 <style lang="scss">
-
 
 
 /* ===== Colors ===== */
@@ -292,7 +257,8 @@ body.dark {
 
     &.close {
         width: 80px;
-        $side-nav-width: 80px÷;
+        $side-nav-width: 80 px÷;
+
         .text {
             // opacity: 0;
             display: none;
@@ -492,14 +458,6 @@ body.dark {
                     }
                 }
             }
-        }
-    }
-
-    ~ {
-        .primary-place-forecast {
-            // left: 78px;
-            // height: 100vh;
-            // width: calc(100% - var(--side-nav-width, $side-nav-width));
         }
     }
 }

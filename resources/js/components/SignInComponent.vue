@@ -1,23 +1,47 @@
 <template>
-    <div class="form-container sign-in-container">
-        <Form @submit="handleLogin" :validation-schema="schema">
-            <h1 class="mb-4">Sign in</h1>
-            <Field name="email" type="text" class="form-input" placeholder="Email"/>
-            <ErrorMessage name="email" class="error-feedback"/>
-            <Field name="password" type="password" class="form-input" placeholder="Password" autocomplete="on"/>
-            <ErrorMessage name="password" class="error-feedback"/>
-            <!--<a href="#">Forgot your password?</a>-->
-            <button class="mt-2" :disabled="loading">
-                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+    <div
+        class="form-container
+        sign-in-container"
+    >
+        <Form
+            @submit="handleLogin"
+            :validation-schema="schema"
+        >
+            <h1 class="mb-4">
+                Sign in
+            </h1>
+            <Field
+                name="email"
+                type="text"
+                class="form-input"
+                placeholder="Email"
+            />
+            <ErrorMessage
+                name="email"
+                class="error-feedback"
+            />
+            <Field
+                name="password"
+                type="password"
+                class="form-input"
+                placeholder="Password"
+                autocomplete="on"
+            />
+            <ErrorMessage
+                name="password"
+                class="error-feedback"
+            />
+            <button
+                class="mt-2"
+                :disabled="loading"
+            >
+                <span
+                    v-show="loading"
+                    class="spinner-border
+                    spinner-border-sm"
+                ></span>
                 <span>Sign In</span>
             </button>
-            <!--
-            <div class="form-group">
-                <div v-if="message" class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-            </div>
-            -->
         </Form>
     </div>
 </template>
@@ -47,11 +71,9 @@ export default {
     methods: {
         handleLogin(user) {
             this.loading = true;
-            this.$store.dispatch("auth/login", user).then(
-                (user) => {
+            this.$store.dispatch("auth/login", user)
+                .then((user) => {
                     this.$router.push("/")
-                    //this.showToastOnLoginSuccess();
-                    //alert(user.message)
                     ToastService.showToast(user.message, "success")
                 },
                 (error) => {
@@ -63,22 +85,12 @@ export default {
                         error.message ||
                         error.toString();
                     ToastService.showToast(this.message, "error")
-
                 }
             );
         },
-        showToastOnLoginSuccess() {
-            this.$toast.open({
-                message: "You have been signed in successfully !!!",
-                type: "success",
-                duration: 5000,
-                position: 'top',
-                dismissible: true
-            })
-        },
         toogleSignInAndSignUp() {
             this.isSignIn = !this.isSignIn;
-        },
+        }
     },
     computed: {
         loggedIn() {
@@ -92,6 +104,4 @@ export default {
     },
 }
 </script>
-<style>
 
-</style>

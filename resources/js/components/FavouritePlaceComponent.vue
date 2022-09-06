@@ -1,82 +1,93 @@
 <template>
         <div
-            class="card card-01 d-flex justify-content-center cursor-pointer p-1"
-             :key="placeId"
+            class="card card-01 d-flex
+            justify-content-center
+            cursor-pointer p-1"
+            :key="placeId"
         >
-            <!--
-            <img class="card-img-top"
-                 src="https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?h=350&auto=compress&cs=tinysrgb"
-                 alt="Card image cap">
-                 -->
-            <div v-if="isUserFavouritePlace && routeName === 'SettingsPage'" class="d-flex justify-content-end">
+            <div
+                v-if="isUserFavouritePlace &&
+                routeName === 'SettingsPage'"
+                class="d-flex justify-content-end"
+            >
                 <box-icon
                     @click="goToSelectPrimaryPlacePage(this.placeId)"
                     type="regular"
                     name="edit-alt"
                     color="white"
-                ></box-icon>
+                />
             </div>
-            <div v-if="isUserFavouritePlace && routeName === 'FavouritePlacesPage'" class="d-flex justify-content-end">
+            <div
+                v-if="isUserFavouritePlace &&
+                routeName === 'FavouritePlacesPage'"
+                class="d-flex justify-content-end"
+            >
                 <box-icon
                     @click="deleteFavouritePlace(this.placeId)"
                     type="regular"
                     name="x"
                     color="white"
-                ></box-icon>
+               />
             </div>
             <div
                 @click="routeToAddingFavouritePlacePage"
                 v-if="!isUserFavouritePlace"
-                class="text-center">
+                class="text-center"
+            >
                 <box-icon
                     type="regular"
                     name="plus"
                     color="white"
-                ></box-icon>
+                />
             </div>
-            <!--
-                 data-bs-toggle="modal"
-                 data-bs-target="#exampleModal"
-             -->
-
-            <span class="place-name text-center">{{ place }}<br>{{ this.decodeAlphaTwo(country) }}</span>
-            <div v-if="!!this.weatherData" class="d-flex justify-content-around">
+            <span
+                class="place-name text-center"
+            >
+                {{ place }}<br>
+                {{ this.decodeAlphaTwo(country) }}
+            </span>
+            <div
+                v-if="!!this.weatherData"
+                class="d-flex justify-content-around"
+            >
                 <div class="d-flex flex-column">
                     <span class="current-temp">
-                        <font-awesome-icon class="temp-icon" icon="fa-solid fa-temperature-full" color="white" size="sm"/>
-                        <!--
-                        <img class="weather-icon"
-                            :src="'https://openweathermap.org/img/wn/' +
-                            `${this.weatherData.weather[0].icon}` +
-                            '@2x.png'">
-                        -->
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-temperature-full"
+                            color="white"
+                            size="sm"
+                        />
                        {{this.weatherData.main.temp.toFixed(0)}}°
                     </span>
                         <span class="description">
                         <i>{{this.weatherData.weather[0].description}}</i>
                     </span>
                 </div>
-
-
                 <div class="d-flex flex-column">
-                    <!--
-                    <div>
-                        <span class="place-name">{{this.weatherData.main.temp_min.toFixed(0)}}°</span>
-                        <span class="place-name">{{this.weatherData.main.temp_max.toFixed(0)}}°</span>
-                    </div>
-                    -->
                    <div>
-                       <font-awesome-icon class="small-icon" icon="fa-solid fa-cloud" color="white" size="sm"/>
-                       <span class="cloudy">{{this.weatherData.clouds.all}}%</span>
+                       <font-awesome-icon
+                           class="small-icon"
+                           icon="fa-solid fa-cloud"
+                           color="white"
+                           size="sm"
+                       />
+                       <span class="cloudy">
+                           {{this.weatherData.clouds.all}}%
+                       </span>
                    </div>
                     <div>
-                        <font-awesome-icon icon="fa-solid fa-wind" color="white" size="sm"/>
-                        <span class="wind-speed">{{this.weatherData.wind.speed}}m/s</span>
+                        <font-awesome-icon
+                            icon="fa-solid fa-wind"
+                            color="white"
+                            size="sm"
+                        />
+                        <span class="wind-speed">
+                            {{this.weatherData.wind.speed}}m/s
+                        </span>
                     </div>
                 </div>
-
             </div>
-
                 <box-icon
                     v-if="isUserFavouritePlace && routeName === 'Home'"
                     href="#temp-and-hum-chart"
@@ -85,25 +96,8 @@
                     type="regular"
                     name="down-arrow-alt"
                     color="white"
-                ></box-icon>
-
-
-
-
-
-
-                <!--
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                    content.</p>
-                <a href="#" class="btn btn-default text-uppercase">Explore</a>
-
-                <div class="card-body">
-                </div>
-                    -->
-
+                />
         </div>
-
-
 </template>
 
 <script>
@@ -146,7 +140,6 @@ export default {
     },
     data() {
         return {
-            //isUserFavouritePlace: true,
             isArrowClicked: false,
             currentTemp: Number,
             weatherData: null
@@ -157,29 +150,17 @@ export default {
     },
     methods: {
         decodeAlphaTwo(alphaTwo) {
-
             if(alphaTwo)
                 return iso.whereAlpha2(alphaTwo).country
-
-        },
-        addFavouritePlace(favouritePlace) {
-           alert('dziala dodawanie' + favouritePlace)
-            //UserService.deleteUserFavouritePlace(placeId)
         },
         deleteFavouritePlace(placeId) {
-            //alert('dziala usuwanie' + placeId)
             UserService.deleteUserFavouritePlace(placeId)
-            //this.$refs.FavouritePlacesPage.retrieveFavouritePlaces()
             this.$emit("refreshUserFavouritePlaces")
         },
         routeToAddingFavouritePlacePage() {
             this.$router.push('add-favourite')
         },
         showChart(placeId) {
-            //alert(placeId)
-           // alert(event.target)
-            //event.target.css('background-color', 'red')
-            //this.arrowDirection = "down-arrow-alt"
             this.isArrowClicked = !this.isArrowClicked
             this.emitter.emit('showValOfHumidityAndTempsChart',
                 {placeId})
@@ -199,66 +180,68 @@ export default {
 .temp-icon {
     margin-right: 0.5rem;
 }
+
 .weather-icon {
     width: 0px;
 }
+
 .small-icon {
     font-size: 1rem;
 }
+
 .current-temp {
     font-size: 1.5em;
     color: #FFFFFF;
 }
+
 .rotate-arrow {
     transform: rotate(180deg);
 }
+
 .place-name {
     font-size: 1.25em;
     color: white;
 }
+
 .description {
     font-size: 0.75em;
     color: white;
 }
+
 .cloudy, .wind-speed{
     margin-left: 1em;
     font-size: 1rem;
     color: white;
 }
+
 .card{
     box-shadow:2px 2px 20px rgba(0,0,0,0.3); margin-bottom:30px;
     min-height: 10em;
-    /*
-    background: linear-gradient(to right, #08C8F6, #2698f8);
-
-
-    background-image: url('../assets/images/stars-night.gif');
-    */
     background-color: transparent;
     background-repeat: no-repeat;
     background-size: cover;
-
     border: 2px solid white;
     cursor: pointer;
 }
+
 .card:hover{
     transform: scale(1.05);
     transition: all 1s ease;
-    /*
-    z-index: 999;
-
-     */
 }
+
 .card-01 .card-body{
     position:relative; padding-top:40px;
 }
+
 .card-01 .badge-box{
     position:absolute;
     top:-20px; left:50%; width:100px; height:100px;margin-left:-50px; text-align:center;
 }
+
 .card-01 .badge-box i{
     background:#006EFF; color:#fff; border-radius:50%;  width:50px; height:50px; line-height:50px; text-align:center; font-size:20px;
 }
+
 .card-01 .height-fix{
     height:455px; overflow:hidden;
 }
@@ -299,63 +282,4 @@ export default {
 }
 .card-01.height-fix .fa{color: #fff;font-size: 22px;margin-right: 18px;};
 
-/*flipper-card*/
-.card-flipper {
-    position: relative;
-    float: left;
-    width: 100%;
-    text-align: center;
-}
-
-.card__front,
-.card__back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.card__back .card{
-    width:100%;
-    height:65vh;
-}
-
-.card__front,
-.card__back {
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
-}
-
-.card__front {
-    background-color: #ff5078;
-}
-
-.card__back {
-    background-color: #1e1e1e;
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-.card-flipper.effect__hover{position:relative;}
-.card-flipper.effect__hover:hover .card__front {
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-
-.card-flipper.effect__hover:hover .card__back {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0);
-}
-
-.card-flipper.effect__random.flipped .card__front {
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-
-.card-flipper.effect__random.flipped .card__back {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0);
-}
 </style>

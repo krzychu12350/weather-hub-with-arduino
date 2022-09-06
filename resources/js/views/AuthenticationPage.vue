@@ -1,20 +1,38 @@
 <template>
-    <section id="login" class="d-flex align-items-center justify-content-center">
-        <div class="auth-container" :class="[ isSignIn ? 'right-panel-active' : '' ]" id="container">
-            <!--  <SignInComponent @changename="myName = $event" v-if="isSignIn"> </SignInComponent>-->
-            <SignInComponent></SignInComponent>
-            <SignUpComponent></SignUpComponent>
+    <section
+        id="login"
+        class="d-flex align-items-center justify-content-center"
+    >
+        <div
+            class="auth-container"
+            :class="[ isSignIn ? 'right-panel-active' : '' ]"
+            id="container"
+        >
+            <SignInComponent />
+            <SignUpComponent />
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-right">
                         <h1>Hello, Friend!</h1>
                         <p>Enter your personal details and check the forecast</p>
-                        <button class="ghost" v-on:click="toogleSignInAndSignUp" id="signUp">Sign Up</button>
+                        <button
+                            class="ghost"
+                            @click="toogleSignInAndSignUp"
+                            id="signUp"
+                        >
+                            Sign Up
+                        </button>
                     </div>
                     <div class="overlay-panel overlay-left">
                         <h1>Welcome Back!</h1>
                         <p>To check the current forecast please login with your personal info</p>
-                        <button class="ghost" v-on:click="toogleSignInAndSignUp" id="signIn">Sign In</button>
+                        <button
+                            class="ghost"
+                            @click="toogleSignInAndSignUp"
+                            id="signIn"
+                        >
+                            Sign In
+                        </button>
                     </div>
                 </div>
             </div>
@@ -40,20 +58,12 @@ export default {
     methods: {
         toogleSignInAndSignUp() {
             this.isSignIn = !this.isSignIn;
-            this.$router.replace({path: '/'})
         }
     }
 }
 </script>
 
 <style lang="scss">
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-
-* {
-    box-sizing: border-box;
-}
-
 #login {
     display: flex;
     justify-content: center;
@@ -132,21 +142,6 @@ form {
     margin: 8px 0;
     width: 100%;
     max-width: 20em;
-}
-
-.auth-container {
-    /*
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-    //position: relative;
-    overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-
-     */
 }
 
 .form-container {

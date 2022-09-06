@@ -1,9 +1,18 @@
 <template>
     <div class="wrapper me-4">
         <div class="bg-image">
-            <span class="single-day-details">{{ dayOfWeek }} {{ dayOfMonth }}</span><br>
-            <img v-bind:src="'https://openweathermap.org/img/wn/' + iconOfDay + '@2x.png'" /><br>
-            <span class="single-day-details me-2">
+            <span
+                class="single-day-details"
+            >
+                {{ dayOfWeek }} {{ dayOfMonth }}
+            </span><br>
+            <img
+                :src="'https://openweathermap.org/img/wn/' +
+                iconOfDay + '@2x.png'"
+            /><br>
+            <span
+                class="single-day-details me-2"
+            >
                 <font-awesome-icon
                     class="temp-icon"
                     icon="fa-solid fa-temperature-full"
@@ -17,11 +26,15 @@
                  icon="fa-solid fa-temperature-full"
                  color="white"
                  size="sm"/>
-                {{ minDailyTemp.toFixed(0) }}°</span><br>
-            <span class="single-day-details">{{ descriptionOfDay }}</span>
+                {{ minDailyTemp.toFixed(0) }}°
+            </span><br>
+            <span
+                class="single-day-details"
+            >
+                {{ descriptionOfDay }}
+            </span>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -40,6 +53,7 @@ export default {
 
 <style lang="scss">
 @use "sass:math";
+
 @mixin down_arrow($arrow_width: 20%, $arrow_height: 20%) {
     $height: 100% - $arrow_height;
     $left_arrow_pos: 50% - math.div($arrow_width, 2);
@@ -48,24 +62,23 @@ export default {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% $height, $right_arrow_pos $height, 50% 100%, $left_arrow_pos $height, 0 $height);
     margin-bottom: - math.div($arrow_height, 2);
 }
+
 .bg-image {
-    //background-image: url(https://unsplash.it/1500/750?image=1041);
-    //background-size: cover;
     height: 200px;
     @include down_arrow(6%, 6%);
-    //border: 2px solid red;
     padding: 0.25rem;
 }
 
 .wrapper {
     width: 150px;
-//margin: 50px auto;
     cursor: pointer;
 }
+
 .bg-image:hover {
     background-color: rgba(255, 255, 255, .3);
 
 }
+
 .single-day-details {
     color: #FFFFFF;
     font-size: 1rem;

@@ -1,26 +1,43 @@
 <template>
-    <TopBarComponent :nameOfTheSubpage="'Settings'"></TopBarComponent>
-    <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
+    <TopBarComponent :nameOfTheSubpage="'Settings'"/>
+    <div
+        :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }"
+        class="col-12 primary-container w-100 min-vh-100 d-flex"
+    >
         <div class="col-3 col-md-2 col-lg-1">
-            <SidebarComponent></SidebarComponent>
+            <SidebarComponent/>
         </div>
         <div class="col-lg-10">
-            <h3 class="color text-white mt-4 mb-4">Your primary place</h3>
+            <h3
+                class="color text-white mt-4 mb-4"
+            >
+                Your primary place
+            </h3>
             <div class="col-lg-2">
                 <FavouritePlaceComponent
-                    v-bind:isUserFavouritePlace="true"
-                    v-bind:placeId="this.placeId"
-                    v-bind:place="this.place"
-                    v-bind:country="this.country"
-                    v-bind:currentWeatherData="this.getForecastFavouritePlace(this.placeId)"
+                    :isUserFavouritePlace="true"
+                    :placeId="this.placeId"
+                    :place="this.place"
+                    :country="this.country"
+                    :currentWeatherData="this.getForecastFavouritePlace(this.placeId)"
                 ></FavouritePlaceComponent>
             </div>
             <HorizontalLineComponent/>
-            <h3 class="color text-white">Your account</h3>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#deleting-confirmation">
-                <button class="delete-button mt-2">Delete account</button>
+            <h3 class="color text-white"
+            >
+                Your account
+            </h3>
+            <a
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#deleting-confirmation"
+            >
+                <button
+                    class="delete-button mt-2"
+                >
+                    Delete account
+                </button>
             </a>
-
         </div>
     </div>
 </template>
@@ -54,9 +71,9 @@ export default {
                 Globals.CURRENT_WEATHER_ICON + "-bg-img.jpg", import.meta.url).href
         }
     },
-    setup () {
+    setup() {
         const router = useRouter()
-        if(!Globals.PRIMARY_PLACE_ID) router.push({ name: 'SelectPrimaryPlacePage'})
+        if (!Globals.PRIMARY_PLACE_ID) router.push({name: 'SelectPrimaryPlacePage'})
     },
     async created() {
         this.currentWeatherDataOfPrimaryPlace = await this.getForecastFavouritePlace(this.placeId)
@@ -65,20 +82,9 @@ export default {
     },
     methods: {
         getForecastFavouritePlace(placeId) {
-          return WeatherService.getCurrentForecast(placeId)
+            return WeatherService.getCurrentForecast(placeId)
                 .then((response) => {
-                    //this.place = response.data.name
-                   // this.country = response.data.sys.country
                     return response.data
-                    /*
-                    this.currentWeatherDataOfPrimaryPlace = response.data
-                    this.place = response.data.name
-                    this.country = response.data.sys.country
-                    console.log(this.country, this.place)
-                    console.log(this.currentWeatherDataOfPrimaryPlace, this.currentWeatherDataOfPrimaryPlace)
-                    //console.log(this.weatherDataOfFavPlace)
-
-                     */
                 })
                 .catch(err => console.log(err.message))
         },

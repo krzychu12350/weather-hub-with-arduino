@@ -1,14 +1,15 @@
 <template>
-
     <router-view/>
-    <UserAccountDeletingConfirmationModalComponent class="text-center"></UserAccountDeletingConfirmationModalComponent>
-    <LogoutConfirmationModalComponent class="text-center"></LogoutConfirmationModalComponent>
+    <UserAccountDeletingConfirmationModalComponent class="text-center" />
+    <LogoutConfirmationModalComponent class="text-center" />
 </template>
 
 <script>
 import LogoutConfirmationModalComponent from "./components/LogoutConfirmationModalComponent.vue";
-import UserAccountDeletingConfirmationModalComponent from "./components/UserAccountDeletingConfirmationModalComponent.vue";
+import UserAccountDeletingConfirmationModalComponent
+    from "./components/UserAccountDeletingConfirmationModalComponent.vue";
 import SidebarComponent from "./components/SidebarComponent.vue";
+
 export default {
     name: "App",
     components: {
@@ -20,70 +21,20 @@ export default {
 </script>
 
 <style lang="scss">
-/* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-//@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200;400&family=Cormorant:ital,wght@1,500&family=Piazzolla:opsz@8..30&display=swap');
-//@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200;400&family=Cormorant:ital,wght@1,500&family=Piazzolla:opsz@8..30&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    //font-family: 'BioRhyme', serif;
-    //font-family: 'Cormorant', serif;
-
-    //font-family: 'Piazzolla', serif;
 }
-
-/*
-@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200;400&family=Cormorant:ital,wght@1,500&family=Piazzolla:opsz@8..30&display=swap');
-
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-
-
-    font-family: 'Cormorant', serif;
-}
-*/
 
 body {
-    /*
-    background-image: url('assets/images/cloudy-sky-day.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    */
     background-color: #2698f8f5;
 }
-/*
-.container {
-
-
-    max-width: 100%;
-    max-height: 100%;
-    min-height: 100vh;
-}
-*/
-
-
 .primary-container {
-    /*
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-    overflow: hidden;
-    height: 800px;
-    background-color: rgba(238, 238, 238, 0.07)
-     */
-
-    /*
-    background-image: url('./assets/images/cloudy-sky-day.jpg');
-    background-repeat: no-repeat;
     background-size: cover;
-
-     */
+    background-repeat: no-repeat;
 }
-
-
-
 </style>

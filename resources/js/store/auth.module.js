@@ -1,8 +1,6 @@
 import AuthService from '../services/auth.service';
 import EventBus from "../common/EventBus";
 import ToastService from "../services/toast-service";
-import TokenService from "../services/token.service";
-//z tym userem cos chyba jest nie tak
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
     ? { status: { loggedIn: true }, user }
@@ -40,9 +38,6 @@ export const auth = {
                     }
                 }
             );
-            //console.log(AuthService.logout())
-            //localStorage.removeItem('user')
-
         },
         register({ commit }, user) {
             return AuthService.register(user).then(
