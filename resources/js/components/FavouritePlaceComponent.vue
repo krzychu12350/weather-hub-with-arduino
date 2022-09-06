@@ -76,14 +76,17 @@
                 </div>
 
             </div>
-            <box-icon
-                v-if="isUserFavouritePlace && routeName === 'Home'"
-                :class="[isArrowClicked ? 'rotate-arrow' : 'red']"
-                @click="showChart(placeId)"
-                type="regular"
-                name="down-arrow-alt"
-                color="white"
-            ></box-icon>
+
+                <box-icon
+                    v-if="isUserFavouritePlace && routeName === 'Home'"
+                    href="#temp-and-hum-chart"
+                    :class="[isArrowClicked ? 'rotate-arrow' : 'red']"
+                    @click="showChart(placeId)"
+                    type="regular"
+                    name="down-arrow-alt"
+                    color="white"
+                ></box-icon>
+
 
 
 

@@ -63,7 +63,7 @@
                          @click='getWeatherDataForSelectedPlace(p.id)'
                          class="searched-place">
                         <div class="d-flex justify-content-between">
-                            <span>{{ p.id }} {{ p.name }} {{ p.country }}</span>
+                            <span>{{ p.name }} {{ p.country }}</span>
                             <font-awesome-icon
                                 icon="fa-solid fa-location-dot"
                                 color="black" />
@@ -75,8 +75,10 @@
                         :key="p.id"
                         @click='addPlaceToFavourites(p)'
                         class="searched-place">
-                        {{ p.id }} {{ p.name }} {{ p.country }}
-                        <font-awesome-icon icon="fa-solid fa-location-dot" />
+                        <div class="d-flex justify-content-between">
+                            <span>{{ p.name }} {{ p.country }}</span>
+                            <font-awesome-icon icon="fa-solid fa-location-dot" />
+                        </div>
                     </div>
                     <div
                         v-if="routeName === 'SelectPrimaryPlacePage'"
@@ -84,8 +86,10 @@
                         :key="p.id"
                         @click='triggerUpdateOfUserPrimaryPlace(String(p.id))'
                         class="searched-place">
-                        {{ p.id }} {{ p.name }} {{ p.country }}
+                        <div class="d-flex justify-content-between">
+                        <span>{{ p.name }} {{ p.country }}</span>
                         <font-awesome-icon icon="fa-solid fa-location-dot" />
+                        </div>
                     </div>
 
 
@@ -188,34 +192,6 @@ export default{
         })
         const headline = ref(null);
 
-        const myList = [
-            {'name': 'aaaa'},
-            {'name': 'bbbb'},
-            {'name': 'cccc'},
-            {'name': 'abc'},
-            {'name': 'xyz'},
-            {'name': 'aaaa'},
-            {'name': 'bbbb'},
-            {'name': 'cccc'},
-            {'name': 'abc'},
-            {'name': 'xyz'},
-            {'name': 'aaaa'},
-            {'name': 'bbbb'},
-            {'name': 'cccc'},
-            {'name': 'abc'},
-            {'name': 'xyz'},
-            {'name': 'aaaa'},
-            {'name': 'bbbb'},
-            {'name': 'cccc'},
-            {'name': 'abc'},
-            {'name': 'xyz'},
-            {'name': 'aaaa'},
-            {'name': 'bbbb'},
-            {'name': 'cccc'},
-            {'name': 'abc'},
-            {'name': 'xyz'},
-            ]
-
         const options = {
             keys: [{name: 'name', weight: 2}],
             includeScore: true,
@@ -223,9 +199,7 @@ export default{
             threshold:0.0,
             //useExtendedSearch: true
         }
-        const myList2 = placesData
-
-        const { search, results, noResults} = useVueFuse(myList2, options)
+        const { search, results, noResults} = useVueFuse(placesData, options)
 
         return {
             search,

@@ -28,7 +28,7 @@
             {{ singleDay[6] }}
             -->
 
-        <Carousel :settings="settings" :breakpoints="breakpoints" :items-to-show="3" :autoplay="6000" :wrap-around="true">
+        <Carousel :settings="settings" :breakpoints="breakpoints" :items-to-show="3" :autoplay="12000" :wrap-around="true">
             <Slide
                 @click="showHourlyForecastForSpecificDay(singleDay[1])"
                    v-for="singleDay in this.singleDaysForecastData">
@@ -107,7 +107,7 @@ export default {
                     snapAlign: "center"
                 },
                 768: {
-                    itemsToShow: 4,
+                    itemsToShow: 3,
                     snapAlign: "center"
                 },
                 // 1024 and up

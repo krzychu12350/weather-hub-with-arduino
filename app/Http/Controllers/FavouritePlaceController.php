@@ -69,14 +69,23 @@ class FavouritePlaceController extends Controller
             $favouritePlace = FavouritePlace::create($request_data);
             $responseMessage = "FavouritePlace added successfully !!!";
         } else {
-            $favouritePlace = FavouritePlace::find($request->id);
+            $favouritePlace = FavouritePlace::findOrFail($request->id);
             $responseMessage = "You have already added this place to the watched places !!!";
         }
 
         //dd($isfavouritePlaceExist, $favouritePlace);
+        $user = User::findOrFail(auth('api')->user()->getAuthIdentifier());
 
         //$favouritePlace->users()->attach(User::find(auth('api')->user()->getAuthIdentifier()));
-        $favouritePlace->users()->syncWithoutDetaching(User::find(auth('api')->user()->getAuthIdentifier()));
+
+        $isAlreadyUserFavouritePlace = $user->favouritePlaces()->whereId($request->id)->exists();
+
+        if($isAlreadyUserFavouritePlace)
+            $responseMessage = "You have already added this place to the watched places!!!";
+        else
+            $responseMessage = "FavouritePlace added successfully!!!";
+
+        $favouritePlace->users()->syncWithoutDetaching($user);
 
         //Current Auth User provides token
         //dd(User::find(auth('api')->user()->getAuthIdentifier()));

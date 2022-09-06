@@ -17,7 +17,7 @@
 
             <i @click="toggleSidebar"
                class='bx bx-chevron-right toggle'></i>
-            -->
+
             <box-icon
                 @click="toggleSidebar"
                 class="toggle"
@@ -25,7 +25,7 @@
                 name="chevron-right"
                 color="white"
             ></box-icon>
-
+           -->
         </header>
 
 

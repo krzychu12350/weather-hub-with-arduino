@@ -6,8 +6,8 @@
             <ErrorMessage name="email" class="error-feedback"/>
             <Field name="password" type="password" class="form-input" placeholder="Password" autocomplete="on"/>
             <ErrorMessage name="password" class="error-feedback"/>
-            <a href="#">Forgot your password?</a>
-            <button :disabled="loading">
+            <!--<a href="#">Forgot your password?</a>-->
+            <button class="mt-2" :disabled="loading">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                 <span>Sign In</span>
             </button>

@@ -18,12 +18,19 @@
             </div>
         </div>
         <div v-if="isSummaryWasClicked">
-            <div v-if="this.windowWidth <= 1025" class="hourly-container ms-2 col-11">
+            <div v-if="this.windowWidth <= 1025" class="hourly-container col-12">
                 <Carousel :settings="settings" :breakpoints="breakpoints" :items-to-show="3" :autoplay="8000" :wrap-around="false">
                     <Slide v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
                         <div class="carousel__item me-4">
                             <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
-                            <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
+                            <span class="single-day-details">
+                                <font-awesome-icon
+                                    class="temp-icon"
+                                    icon="fa-solid fa-temperature-full"
+                                    color="white"
+                                    size="sm"/>
+                                {{ singleHour.main.temp.toFixed(0) }}°
+                                <br></span>
                             <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
                             <span class="single-day-details">{{ singleHour.main.humidity }}%<br></span>
                             <span class="single-day-details"><b>{{ this.getHourFromDateTimestamp(singleHour.dt) }}</b><br></span>
@@ -61,9 +68,23 @@
             <div v-else class="hourly-container d-flex flex-row col-11">
                 <div class="me-4" v-for="(singleHour, key, index) in this.hourlyForecastData" :key="key">
                     <img v-bind:src="'https://openweathermap.org/img/wn/' + singleHour.weather[0].icon + '@2x.png'" /><br>
-                    <span class="single-day-details">{{ singleHour.main.temp }}°<br></span>
+                    <span class="single-day-details">
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-temperature-full"
+                            color="white"
+                            size="sm"/>
+                        {{ singleHour.main.temp.toFixed(0) }}°<br>
+                    </span>
                     <span class="single-day-details">{{ singleHour.weather[0].description }}<br></span>
-                    <span class="single-day-details">{{ singleHour.main.humidity }}%<br></span>
+                    <span class="single-day-details">
+                        <font-awesome-icon
+                            class="temp-icon"
+                            icon="fa-solid fa-droplet"
+                            color="white"
+                            size="sm"/>
+                        {{ singleHour.main.humidity }}%
+                        <br></span>
                     <span class="single-day-details"><b>{{ this.getHourFromDateTimestamp(singleHour.dt) }}</b><br></span>
                 </div>
             </div>
@@ -115,7 +136,7 @@ export default {
                     snapAlign: "center"
                 },
                 768: {
-                    itemsToShow: 4,
+                    itemsToShow: 3,
                     snapAlign: "center"
                 },
                 // 1024 and up
@@ -310,7 +331,10 @@ export default {
 <style lang="scss">
 .switch-button {
     padding: 5px 5px;
-    font-size: 10px;
+    margin-right: 0.5em;
+    font-size: 0.75rem;
+    background-color: transparent;
+    border: 2px solid white;
 }
 
 </style>

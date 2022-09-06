@@ -2,7 +2,7 @@
     <!--<div class=" d-flex align-items-center justify-content-center vh-100">-->
         <TopBarComponent :nameOfTheSubpage="'Forecast'"></TopBarComponent>
         <!--<img :src="imageUrl">-->
-        <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" v-if="renderComponent" class="col-12 primary-container w-100 min-vh-100 d-flex">
+        <div :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }" class="col-12 primary-container w-100 min-vh-100 d-flex">
             <!--<div class="row min-vh-100">-->
 
                 <div class="col-3 col-md-2 col-lg-1">
@@ -21,7 +21,7 @@
 
                     <CurrentWeatherDataComponent></CurrentWeatherDataComponent>
 
-                    <section id="favourite-places" class="me-4">
+                    <section v-if="renderComponent" id="favourite-places" class="me-4">
                         <h2 class="color text-white mt-4 mb-4">Your favourite places</h2>
                         <div class="row justify-content-md-center justify-content-lg-start">
                             <div class="col-12 col-md-5 col-lg-2 me-4" v-for="favouritePlace in favouritePlaces">
@@ -66,19 +66,20 @@
                     </TemperatureAndHumidityChartComponent>
                     -->
                     <fade-transition mode="out-in" :duration="500">
-
                         <div v-if="isHumAndTempsCharVisible">
                             <HorizontalLineComponent/>
                             <TemperatureAndHumidityChartComponent
+                                id="temp-and-hum-chart"
+                                v-if="renderComponent"
                                 :triggerData="this.chartData">
                             </TemperatureAndHumidityChartComponent>
                         </div>
                         <div v-else>
                             <section id="daily-forecast" class="">
                                 <HorizontalLineComponent/>
-                                <DailyForecastComponent></DailyForecastComponent>
+                                <DailyForecastComponent v-if="renderComponent"></DailyForecastComponent>
                                 <HorizontalLineComponent/>
-                                <HourlyForecastComponent></HourlyForecastComponent>
+                                <HourlyForecastComponent v-if="renderComponent"></HourlyForecastComponent>
                             </section>
                         </div>
                     </fade-transition>
@@ -200,6 +201,7 @@ export default {
             //this.emitter.emit('passChartData', {chartData})
 
         })
+
         this.emitter.on('rerenderPage', () => {
 
             this.forceRerender()

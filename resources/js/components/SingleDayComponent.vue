@@ -3,8 +3,21 @@
         <div class="bg-image">
             <span class="single-day-details">{{ dayOfWeek }} {{ dayOfMonth }}</span><br>
             <img v-bind:src="'https://openweathermap.org/img/wn/' + iconOfDay + '@2x.png'" /><br>
-            <span class="single-day-details">{{ maxDailyTemp }}° C</span>
-            <span class="single-day-details">{{ minDailyTemp }} ° C</span><br>
+            <span class="single-day-details me-2">
+                <font-awesome-icon
+                    class="temp-icon"
+                    icon="fa-solid fa-temperature-full"
+                    color="white"
+                    size="sm"/>
+                {{ maxDailyTemp.toFixed(0) }}°
+            </span>
+            <span class="single-day-details">
+                <font-awesome-icon
+                 class="temp-icon"
+                 icon="fa-solid fa-temperature-full"
+                 color="white"
+                 size="sm"/>
+                {{ minDailyTemp.toFixed(0) }}°</span><br>
             <span class="single-day-details">{{ descriptionOfDay }}</span>
         </div>
     </div>
@@ -41,6 +54,7 @@ export default {
     height: 200px;
     @include down_arrow(6%, 6%);
     //border: 2px solid red;
+    padding: 0.25rem;
 }
 
 .wrapper {
@@ -49,8 +63,8 @@ export default {
     cursor: pointer;
 }
 .bg-image:hover {
-    background-color: #FFFFFF;
-    opacity: 0.6;
+    background-color: rgba(255, 255, 255, .3);
+
 }
 .single-day-details {
     color: #FFFFFF;
