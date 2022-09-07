@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 
 class WeatherDataLogController extends Controller
 {
@@ -13,16 +14,16 @@ class WeatherDataLogController extends Controller
      */
     public function index()
     {
-        $user = auth('api')->user()->getAuthIdentifier();
+        $userId = auth('api')->user()->getAuthIdentifier();
         $authUserWeatherDataLogsForFavouritePlaces = auth('api')->user()
             ->with(['favouritePlaces' => function ($query) {
                 $query->with(['weatherDataLogs' => function ($query) {
-                    $place_created_at = auth('api')->user()->favouritePlaces()
-                        ->first();
-                    $query->where('created_at', '>=', $place_created_at->pivot->created_at);
+                    $userFavouritePlaces = auth('api')->user()->favouritePlaces()->get();
+                    foreach($userFavouritePlaces as $place)
+                        $query->where('created_at', '>=', $place->pivot->created_at);
                 }]);
             }])
-            ->find($user);
+            ->find($userId);
 
         return response()->json([
             'status' => true,
