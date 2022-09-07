@@ -1,14 +1,14 @@
 <template>
-    <TopBarComponent :nameOfTheSubpage="'Forecast'" />
+    <TopBarComponent :nameOfTheSubpage="'Forecast'"/>
     <div
         :style="{ backgroundImage: 'url(' + this.imageUrl + ')' }"
-         class="col-12 primary-container w-100 min-vh-100 d-flex"
+        class="col-12 primary-container w-100 min-vh-100 d-flex"
     >
         <div class="col-3 col-md-2 col-lg-1">
-            <SidebarComponent />
+            <SidebarComponent/>
         </div>
         <div class="col-9 col-md-10 col-lg-11 mt-2">
-            <CurrentWeatherDataComponent />
+            <CurrentWeatherDataComponent/>
             <section
                 v-if="renderComponent"
                 id="favourite-places"
@@ -27,19 +27,19 @@
                         v-for="favouritePlace in favouritePlaces"
                     >
                         <FavouritePlaceComponent
-                            @click="getWeatherDataForSelectedPlace(favouritePlace.id)"
                             :isUserFavouritePlace="true"
                             :placeId="favouritePlace.id"
                             :place="favouritePlace.name"
                             :country="favouritePlace.country"
                             :currentWeatherData="this.getForecastFavouritePlace(favouritePlace.id)"
+                            @refresh-user-favourite-places="retrieveFavouritePlaces"
                         />
                     </div>
                     <div class="col-12 col-md-5 col-lg-2 me-4">
                         <FavouritePlaceComponent
                             :isUserFavouritePlace="false"
                             :place="'Add new place'"
-                       />
+                        />
                     </div>
                 </div>
             </section>
@@ -180,7 +180,7 @@ export default {
                 .map(singleLog => singleLog.humidity);
             let seriesOfCreatedAt = place.weather_data_logs
                 .map(singleLog => moment(singleLog.created_at)
-                    .format("MM/DD/YYYY hh:mm"));
+                    .format('LLL'));
             if (Globals.UNIT_OF_MEASUREMENT === 'imperial')
                 seriesOfTemperatures = seriesOfTemperatures
                     .map(value => ((value * 1.8) + 32).toFixed(0))
@@ -208,10 +208,6 @@ export default {
                     await UserService.getWeatherDataLogsForFavouritePlaces()
             }, 1830000)
 
-        },
-        getWeatherDataForSelectedPlace(placeId) {
-            this.emitter.emit('passSearchedPlaceId',
-                {'value': placeId})
         },
         getForecastFavouritePlace(placeId) {
             return WeatherService.getCurrentForecast(placeId)

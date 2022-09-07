@@ -22,26 +22,6 @@
                         </span>
                     </router-link>
                 </li>
-                <li class="nav-link">
-                    <router-link
-                        :to="{ name: 'FavouritePlacesPage' }"
-                    >
-                        <div
-                            class="icon d-flex
-                            justify-content-center">
-                            <box-icon
-                                type="regular"
-                                name="heart"
-                                color="white"
-                            ></box-icon>
-                        </div>
-                        <span
-                            class="text nav-text"
-                        >
-                            Favourite places
-                        </span>
-                    </router-link>
-                </li>
             </div>
             <div class="bottom-content">
                 <li class="nav-link">

@@ -101,7 +101,7 @@ export default {
                     labels: {
                         show: true,
                         style: {
-                            fontSize: '16px',
+                            fontSize: '11px',
                             fontFamily: 'Arial, sans-serif',
                             colors: '#fff',
                         },

@@ -167,7 +167,7 @@ export default {
         },
         addPlaceToFavourites(place) {
             UserService.addUserFavouritePlace(place)
-            this.$router.push('/favourites')
+            this.$router.push('/')
         },
         triggerUpdateOfUserPrimaryPlace(placeId) {
             UserService.updateUserPrimaryPlace(placeId)
