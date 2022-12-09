@@ -10,12 +10,14 @@
                 routeName === 'SettingsPage'"
             class="d-flex justify-content-end"
         >
+            <!--
             <box-icon
-                @click="goToSelectPrimaryPlacePage(this.placeId)"
+                //@click="goToSelectPrimaryPlacePage(this.placeId)"
                 type="regular"
                 name="edit-alt"
                 color="white"
             />
+            -->
         </div>
         <div
             @click.self="getWeatherDataForSelectedPlace(placeId)"
@@ -29,6 +31,7 @@
                 color="white"
             />
         </div>
+        <!--
         <div
             @click="routeToAddingFavouritePlacePage"
             v-if="!isUserFavouritePlace"
@@ -40,54 +43,58 @@
                 color="white"
             />
         </div>
-        <span
-            @click.self="getWeatherDataForSelectedPlace(placeId)"
-            class="place-name text-center"
-        >
-                {{ place }}<br>
-                {{ this.decodeAlphaTwo(country) }}
-            </span>
-        <div
-            v-if="!!this.weatherData"
-            class="d-flex justify-content-around"
-            @click.self="getWeatherDataForSelectedPlace(placeId)"
-        >
-            <div class="d-flex flex-column">
-                    <span class="current-temp">
-                        <font-awesome-icon
-                            class="temp-icon"
-                            icon="fa-solid fa-temperature-full"
-                            color="white"
-                            size="sm"
-                        />
-                       {{ this.weatherData.main.temp.toFixed(0) }}°
-                    </span>
-                <span class="description">
-                        <i>{{ this.weatherData.weather[0].description }}</i>
-                    </span>
-            </div>
-            <div class="d-flex flex-column">
-                <div>
-                    <font-awesome-icon
-                        class="small-icon"
-                        icon="fa-solid fa-cloud"
-                        color="white"
-                        size="sm"
-                    />
-                    <span class="cloudy">
-                           {{ this.weatherData.clouds.all }}%
+        -->
+
+       <span
+           @click.self="getWeatherDataForSelectedPlace(placeId)"
+           class="place-name text-center"
+       >
+               {{ name }}
+
+           </span>
+
+       <div
+
+           class="d-flex justify-content-center"
+       >
+           <div class="d-flex flex-column">
+                   <span class="current-temp">
+                       <font-awesome-icon
+                           class="temp-icon"
+                           icon="fa-solid fa-temperature-full"
+                           color="white"
+                           size="sm"
+                       />
+                       {{ value }}
+                   </span>
+               <span class="description">
+                       <!--<i>{{ this.weatherData.weather[0].description }}</i>-->
+                   </span>
+           </div>
+           <div class="d-flex flex-column">
+               <!--
+               <div>
+                   <font-awesome-icon
+                       class="small-icon"
+                       icon="fa-solid fa-cloud"
+                       color="white"
+                       size="sm"
+                   />
+                   <span class="cloudy">
+                          {{ this.weatherData.clouds.all }}%
+                      </span>
+               </div>
+               <div>
+                   <font-awesome-icon
+                       icon="fa-solid fa-wind"
+                       color="white"
+                       size="sm"
+                   />
+                   <span class="wind-speed">
+                           {{ this.weatherData.wind.speed }}m/s
                        </span>
-                </div>
-                <div>
-                    <font-awesome-icon
-                        icon="fa-solid fa-wind"
-                        color="white"
-                        size="sm"
-                    />
-                    <span class="wind-speed">
-                            {{ this.weatherData.wind.speed }}m/s
-                        </span>
-                </div>
+               </div>
+               -->
             </div>
         </div>
         <box-icon
@@ -111,29 +118,21 @@ import * as iso from "iso-3166-1";
 export default {
     name: "FavouritePlaceComponent",
     props: {
-        placeId: {
-            type: Number,
-            required: false,
-        },
-        place: {
-            type: String,
-            required: true,
-        },
-        country: {
+        name: {
             type: String,
             required: false,
         },
-        isUserFavouritePlace: {
-            type: Boolean,
-            required: true,
+        value: {
+            type: String,
+            required: false,
         },
-        currentWeatherData: {
-            type: Object,
+        iconClass: {
+            type: String,
             required: false,
         },
 
     },
-    emits: ['refreshUserFavouritePlaces'],
+    //emits: ['refreshUserFavouritePlaces'],
     setup(props) {
         const routeName = computed(() => {
             return useRouter().currentRoute.value.name;
@@ -148,9 +147,10 @@ export default {
         }
     },
     async created() {
-        this.weatherData = await this.currentWeatherData
+        //this.weatherData = await this.currentWeatherData
     },
     methods: {
+        /*
         decodeAlphaTwo(alphaTwo) {
             if (alphaTwo)
                 return iso.whereAlpha2(alphaTwo).country
@@ -174,6 +174,8 @@ export default {
         goToSelectPrimaryPlacePage() {
             this.$router.push({name: 'SelectPrimaryPlacePage'})
         },
+
+         */
     }
 }
 </script>

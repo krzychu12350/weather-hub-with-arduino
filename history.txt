@@ -1,0 +1,71 @@
+* aca57e5 (HEAD -> master, origin/master, origin/hotfix/frontend/moving-management-of-favourite-places-to-home-page, origin/develop, hotfix/frontend/moving-management-of-favourite-places-to-home-page, develop) Moved managment of favourite places to home page and fixed display datetime on chart of weather logs
+* e9dc74f (origin/hotfix/backend/fix-of-cascades-in-the-database, hotfix/backend/fix-of-cascades-in-the-database) Fixed fetching temperature and humidity logs for user's favourite places
+* 931b07d Quick fix for final version of README
+* 6706fb7 Created final version of README
+* b2159c8 Improved page during being offline
+* 3c327f1 (origin/hotfix/backend/code-refactoring-and-cleaning, hotfix/backend/code-refactoring-and-cleaning) Did refactoring and cleaned the code of backend side of app
+* 9830fd4 (origin/hotfix/frontend/code-refactoring-and-cleaning, hotfix/frontend/code-refactoring-and-cleaning) Did refactoring and cleaned the code of front side of app
+* 60ef7b4 Did refactoring and cleaned the code of front side of app
+* 68ad2cb (feature/frontend/improvness-of-displaying-data-on-main-page) Fixed displaying of temperature on weather logs chart
+* ec9ca93 Added some extra improvement
+* bb78e2e (origin/feature/frontend/deleting-of-user-account, feature/frontend/deleting-of-user-account) Implemented modal to delete user's account
+* a38ecac (origin/feature/frontend/primary-place-management, feature/frontend/primary-place-management) Implemented updating of primary place
+*   bc782b9 Merged hotfix/frontend/improvness-of-some-data-displaying branch
+|\  
+| * deb107c (hotfix/frontend/improvness-of-some-data-displaying) Implemented decode country from alpha2 to full name of country
+* | 2a43d87 Implemented service method for getting user's primary place id
+* | ca04eb4 (origin/feature/backend/management-of-user-primary-location, feature/backend/management-of-user-primary-location) Implemented controller for get user data, update primary place and delete user.
+| | * 82668c8 (refs/stash) WIP on improvness-of-some-data-displaying: 84ae28e Implmented switching between units of measurement
+| |/| 
+| | * e2c4e50 index on improvness-of-some-data-displaying: 84ae28e Implmented switching between units of measurement
+| |/  
+| * 84ae28e Implmented switching between units of measurement
+|/  
+* e4ffc0a (feature/frontend/refreshing-of-token-and-invalidate-token-on-server) Fixed error after invalidate token and clear token from local storage
+*   9298541 Merged hotfix/frontend/refreshing-of-token-and-invalidate-token-on-server branch
+|\  
+| * 73af808 (hotfix/frontend/refreshing-of-token-and-invalidate-token-on-server) Implemented feature of refreshing of the token and invalidate the token on the server
+* | 51f34be (origin/feature/frontend/turn-app-to-pwa, feature/frontend/turn-app-to-pwa) Small refactor
+* | 809e440 Modified manifest.json
+* | 5d223a7 Modified configuration for pwa
+* | c31f955 Created initial configuration for pwa
+* | 6af0c8a (origin/hotfix/frontend/improvement-of-responsiveness-and-styling, hotfix/frontend/improvement-of-responsiveness-and-styling) The second part of the responsiveness and styling fixes on the client side
+* | 10ae2ca The first part of the responsiveness and styling fixes on the client side
+|/  
+* 6130991 (origin/feature/frontend/improvement-of-cities-search-engine, feature/frontend/improvement-of-cities-search-engine) Improved performance of cities search engine
+*   c2f4852 Merge branch 'feature/frontend/handling-endpoint-for-getting-weather-data-logs-for-favourite-places' into develop
+|\  
+| * 5365bc9 (origin/feature/frontend/handling-endpoint-for-getting-weather-data-logs-for-favourite-places, feature/frontend/handling-endpoint-for-getting-weather-data-logs-for-favourite-places) Implemented fetching and passing data to the weather data log chart
+| * 56558cc Small refactoring
+* | e6bed96 (origin/feature/backend/scheduler-for-fetching-weather-data-and-saving-weather-data-logs-for-favourite-places, feature/backend/scheduler-for-fetching-weather-data-and-saving-weather-data-logs-for-favourite-places) Implemented scheduler for fetching weather data and saving weather data logs for favourite places
+|/  
+* 18c11a6 (origin/feature/backend/endpoints-for-getting-and-saving-weather-data-for-favourite-places, feature/backend/endpoints-for-getting-and-saving-weather-data-for-favourite-places) Implemented method for store and get weather data log
+* b22656a (origin/feature/frontend/creating-chart-for-favourite-places, feature/frontend/creating-chart-for-favourite-places) Added transition between daily forecast and temperature and humidity chart
+* c28a38f (origin/feature/frontend/fetching-all-important-current-weather-data-and-3-hour-forecast-for-5-days-for-searched-place, feature/frontend/fetching-all-important-current-weather-data-and-3-hour-forecast-for-5-days-for-searched-place) Implemented initial version of hourly chart
+* 7ee48a3 Implemented initial version of displaying daily and hourly forecast
+* e29c540 (origin/feature/frontend/handling-API-endpoints-to-management-favourite-places, feature/frontend/handling-API-endpoints-to-management-favourite-places) Implemented first version of handling of management favourite places in client side app
+* 5a695b5 (origin/feature/frontend/handling-user-authentication-API-endpoints, feature/frontend/handling-user-authentication-API-endpoints) Implemented of handling of user authentication in client side app
+*   b4cd52f Merge branch 'develop' of https://gitlab.ideo.pl/k.karas/weather-hub into develop
+|\  
+| *   a4110d2 Merge branch 'feature/backend/favourite-places-management' into 'develop'
+| |\  
+| | * 8096c8a (origin/feature/backend/favourite-places-management, feature/backend/favourite-places-management) Implemented API endpoints to manage favourite places
+| | * dfd0634 (origin/feature/backend/user-authentication-using-jwt, feature/backend/user-authentication-using-jwt) Created User Authentication API Endpoints
+* | | bf84193 Merge branch 'develop' of https://gitlab.ideo.pl/k.karas/weather-hub into develop
+|\| | 
+| |/  
+|/|   
+| *   a8d7da0 Merged all existing changed
+| |\  
+| | | * c61bc0b (feature/backend/user-authentication) Created user authentication with JWT
+| |_|/  
+|/| |   
+* | |   09490d9 Merged all existing changes
+|\ \ \  
+| |/ /  
+|/| /   
+| |/    
+| * 2dec8d0 (hotfix/styles-of-the-sidebar) Modified styles of the sidebar component
+| * d19c3c1 (origin/feature/frontend/cities-search-engine, feature/frontend/cities-search-engine) Implemented first version of cities search engine
+| * e79397d (origin/feature/frontend/auth-and-primary-view, feature/frontend/auth-and-primary-view) Created sketch of frontside of app
+* 6a65c45 Initial commit

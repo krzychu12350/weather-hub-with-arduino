@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavouritePlaceController;
+use App\Http\Controllers\HomeWeatherLogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeatherDataLogController;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +34,15 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
         ->only(['index']);
 });
+
+Route::apiResource('/esp-data', HomeWeatherLogController::class)
+    ->only(['index', 'store']);
+Route::get('/current-home-weather-data', [HomeWeatherLogController::class, 'showCurrentHomeWeatherData']);
+
+
+Route::get('/ard', [ function (\Illuminate\Http\Request $request) {
+  return 'works';
+}]);
+
+
+

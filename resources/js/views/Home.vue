@@ -9,6 +9,8 @@
         </div>
         <div class="col-9 col-md-10 col-lg-11 mt-2">
             <CurrentWeatherDataComponent/>
+            <CurrentHomeWeatherData></CurrentHomeWeatherData>
+
             <section
                 v-if="renderComponent"
                 id="favourite-places"
@@ -83,6 +85,7 @@ import FavouritePlaceComponent from "../components/FavouritePlaceComponent.vue";
 import CurrentWeatherDataComponent from "../components/CurrentWeatherDataComponent.vue";
 import DailyForecastComponent from "../components/DailyForecastComponent.vue";
 import HourlyForecastComponent from "../components/HourlyForecastComponent.vue";
+import CurrentHomeWeatherData from "../components/CurrentHomeWeatherData.vue";
 import TemperatureAndHumidityChartComponent from "../components/TemperatureAndHumidityChartComponent.vue";
 import FadeTransition from "../components/FadeTransition.vue";
 import TopBarComponent from "../components/TopBarComponent.vue";
@@ -108,6 +111,7 @@ export default {
         CurrentWeatherDataComponent,
         FadeTransition,
         HorizontalLineComponent,
+        CurrentHomeWeatherData,
     },
     setup() {
         const router = useRouter()

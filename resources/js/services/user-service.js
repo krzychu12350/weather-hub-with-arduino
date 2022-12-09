@@ -4,13 +4,13 @@ import ToastService from "./toast-service";
 
 class UserService {
     async getUserProfileData() {
-        return axios.get('http://localhost:8000/api/profile',
+        return axios.get('http://192.168.1.69:8000/api/profile',
             authHeader())
     }
 
     async addUserFavouritePlace(place) {
         return axios
-            .post('http://localhost:8000/api/favourite-places', {
+            .post('http://192.168.1.69:8000/api/favourite-places', {
                 id: place.id,
                 name: place.name,
                 state: place.state,
@@ -28,7 +28,7 @@ class UserService {
 
     async deleteUserFavouritePlace(placeId) {
         return axios
-            .delete('http://localhost:8000/api/favourite-places/' + placeId
+            .delete('http://192.168.1.69:8000/api/favourite-places/' + placeId
                 , authHeader())
             .then(response => {
                 ToastService.showToast(response.data.message, "success")
@@ -41,7 +41,7 @@ class UserService {
     }
 
     async getWeatherDataLogsForFavouritePlaces() {
-        return axios.get('http://localhost:8000/api/weather-data-logs', authHeader())
+        return axios.get('http://192.168.1.69:8000/api/weather-data-logs', authHeader())
             .then(response => {
                 return response.data.data.favourite_places;
             })
@@ -52,7 +52,7 @@ class UserService {
     }
 
     async updateUserPrimaryPlace(placeId) {
-        return axios.put('http://localhost:8000/api/update-primary-place', {
+        return axios.put('http://192.168.1.69:8000/api/update-primary-place', {
             primary_place_id: placeId
         }, authHeader())
             .then(response => {
@@ -66,7 +66,7 @@ class UserService {
     }
 
     async deleteUserAccount() {
-        return axios.delete('http://localhost:8000/api/user-delete', authHeader())
+        return axios.delete('http://192.168.1.69:8000/api/user-delete', authHeader())
             .then(response => {
                 ToastService.showToast(response.data.message, "success")
                 return response.data;
