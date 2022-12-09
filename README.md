@@ -1,4 +1,4 @@
-# Weather Hub
+# Weather Hub With Arduino and ESP2866
 ![Logo](./public/logo.png)
 
 ## About Weather Hub
