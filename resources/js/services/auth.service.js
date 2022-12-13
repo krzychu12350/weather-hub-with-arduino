@@ -1,11 +1,11 @@
 import api from "./api";
 import TokenService from "./token.service";
 
-const API_URL = 'http://localhost:8000/api/';
+const API_URL = 'http://192.168.43.141/api/';
 
 class AuthService {
     login(user) {
-        return api.post('http://192.168.1.69:8000/api/login', {
+        return api.post('http://192.168.43.141:8000/api/login', {
             email: user.email,
             password: user.password
         })
@@ -18,7 +18,7 @@ class AuthService {
     }
 
     logout() {
-        return api.post('http://192.168.1.69:8000/api/logout')
+        return api.post('http://192.168.43.141:8000/api/logout')
             .then(response => {
                 return response.data;
             });

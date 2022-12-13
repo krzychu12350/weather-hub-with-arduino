@@ -17,6 +17,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->integer('temperature_at_home');
             $table->integer( 'humidity_at_home');
+            $table->integer('pressure_at_home');
+            $table->integer( 'light_intensity_at_home');
             $table->timestamps();
         });
     }

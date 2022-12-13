@@ -36,6 +36,8 @@ class HomeWeatherLogController extends Controller
         $validator = Validator::make($request_data, [
             'temperature_at_home' => 'required',
             'humidity_at_home' => 'required',
+            'pressure_at_home' => 'required',
+            'light_intensity_at_home' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -54,8 +56,10 @@ class HomeWeatherLogController extends Controller
             "Temperature: " . $request->get("temperature", "n/a") . '°C, ' .
             "Humidity: " . $request->get("humidity", "n/a") . '%'
             */
-            "Temperature: " . $request->get('temperature') . '°C, ' .
-            "Humidity: " . $request->get("humidity") . '%'
+            "Temperature: " . $request->get('temperature_at_home') . '°C, ' .
+            "Humidity: " . $request->get("humidity_at_home") . ' % ' .
+            "Pressure: " . $request->get('pressure_at_home') . ' hPa ' .
+            "Light intensity: " . $request->get('light_intensity_at_home') . 'lux '
         );
         return response()->json([
             'status' => true,

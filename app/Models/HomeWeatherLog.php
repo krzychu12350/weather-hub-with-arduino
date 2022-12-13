@@ -12,5 +12,7 @@ class HomeWeatherLog extends Model
     protected $fillable = [
         'temperature_at_home',
         'humidity_at_home',
+        'pressure_at_home',
+        'light_intensity_at_home',
     ];
 }
