@@ -22,9 +22,13 @@ library.add(faUserSecret)
 library.add(fas)
 library.add(far)
 
+import alanBtn from "@alan-ai/alan-sdk-web";
+
 axios.defaults.withCredentials = false
 axios.defaults.baseURL = 'http://localhost:8000/'
 setupInterceptors(store);
+
+
 
 export const app = createApp(App)
     .use(router)

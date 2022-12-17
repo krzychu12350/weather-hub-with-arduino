@@ -1,4 +1,6 @@
 import axios from 'axios';
+import api from './api'
+import authHeader from './auth-header';
 import Globals from "../globals";
 
 class WeatherService {
@@ -12,6 +14,17 @@ class WeatherService {
         return axios.get(Globals.OPEN_WEATHER_MAP_API_URL + 'forecast?appid=' +
             Globals.OPEN_WEATHER_MAP_APP_ID + '&id=' + placeId + '&units=' +
             Globals.UNIT_OF_MEASUREMENT)
+    }
+
+    getLocalWeatherDataLogs() {
+        return api.get('/current-home-weather-data').then(response => {
+            //console.log(response.data)
+            return response.data.data
+        })
+            .catch(e => {
+                console.log(e);
+            });
+
     }
 }
 

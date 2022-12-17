@@ -5,7 +5,7 @@ const API_URL = 'http://192.168.43.141/api/';
 
 class AuthService {
     login(user) {
-        return api.post('http://192.168.43.141:8000/api/login', {
+        return api.post('/login', {
             email: user.email,
             password: user.password
         })
@@ -18,14 +18,14 @@ class AuthService {
     }
 
     logout() {
-        return api.post('http://192.168.43.141:8000/api/logout')
+        return api.post('/logout')
             .then(response => {
                 return response.data;
             });
     }
 
     register(user) {
-        return api.post(API_URL + 'register', {
+        return api.post('/register', {
             name: user.name,
             email: user.email,
             password: user.password,

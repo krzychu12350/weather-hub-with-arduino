@@ -1,16 +1,17 @@
 import axios from 'axios';
+import api from "./api";
 import authHeader from './auth-header';
 import ToastService from "./toast-service";
 
 class UserService {
     async getUserProfileData() {
-        return axios.get('http://192.168.43.141:8000/api/profile',
+        return api.get('/profile',
             authHeader())
     }
 
     async addUserFavouritePlace(place) {
-        return axios
-            .post('http://192.168.43.141:8000/api/favourite-places', {
+        return api
+            .post('/favourite-places', {
                 id: place.id,
                 name: place.name,
                 state: place.state,
@@ -27,8 +28,8 @@ class UserService {
     }
 
     async deleteUserFavouritePlace(placeId) {
-        return axios
-            .delete('http://192.168.43.141:8000/api/favourite-places/' + placeId
+        return api
+            .delete('/favourite-places/' + placeId
                 , authHeader())
             .then(response => {
                 ToastService.showToast(response.data.message, "success")
@@ -41,7 +42,7 @@ class UserService {
     }
 
     async getWeatherDataLogsForFavouritePlaces() {
-        return axios.get('http://192.168.43.141:8000/api/weather-data-logs', authHeader())
+        return api.get('/weather-data-logs', authHeader())
             .then(response => {
                 return response.data.data.favourite_places;
             })
@@ -52,7 +53,7 @@ class UserService {
     }
 
     async updateUserPrimaryPlace(placeId) {
-        return axios.put('http://192.168.43.141:8000/api/update-primary-place', {
+        return api.put('/update-primary-place', {
             primary_place_id: placeId
         }, authHeader())
             .then(response => {
@@ -66,7 +67,7 @@ class UserService {
     }
 
     async deleteUserAccount() {
-        return axios.delete('http://192.168.43.141:8000/api/user-delete', authHeader())
+        return api.delete('/user-delete', authHeader())
             .then(response => {
                 ToastService.showToast(response.data.message, "success")
                 return response.data;

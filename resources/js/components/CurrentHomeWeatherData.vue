@@ -30,7 +30,10 @@
 <script>
 import CurrentWeatherDataLogComponent from "./CurrentWeatherDataLogComponent.vue";
 import axios from "axios";
+import api from '../services/api';
 import authHeader from "../services/auth-header";
+import WeatherService from "../services/weather-service";
+import UserService from "../services/user-service";
 
 export default {
     name: "CurrentHomeWeatherData",
@@ -46,11 +49,22 @@ export default {
         CurrentWeatherDataLogComponent
     },
     mounted() {
-        this.getWeatherDataLogsForFavouritePlaces()
+        this.fetchCurrentLocalWeatherData()
     },
     methods: {
-        async getWeatherDataLogsForFavouritePlaces() {
-            return axios.get('http://192.168.43.141:8000/api/current-home-weather-data', authHeader())
+        async fetchCurrentLocalWeatherData() {
+
+
+            let localWeatherData = await WeatherService.getLocalWeatherDataLogs();
+            console.log(localWeatherData);
+
+            this.temperature = localWeatherData.temperature_at_home + "°";
+            this.humidity = localWeatherData.humidity_at_home + "%";
+            this.pressure = localWeatherData.pressure_at_home + " hPa";
+            this.lightIntensity = localWeatherData.light_intensity_at_home + " lux";
+
+            /*
+            return api.get('/current-home-weather-data', authHeader())
                 .then(response => {
                     console.log(response.data.data);
                     this.temperature = response.data.data.temperature_at_home + "°";
@@ -64,6 +78,8 @@ export default {
                         console.log(e)
                     }
                 );
+        */
+
         }
     }
 }

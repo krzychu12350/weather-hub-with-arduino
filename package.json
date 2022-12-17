@@ -14,6 +14,7 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "@alan-ai/alan-sdk-web": "^1.8.42",
         "@fortawesome/fontawesome-svg-core": "^6.1.2",
         "@fortawesome/free-brands-svg-icons": "^6.1.2",
         "@fortawesome/free-regular-svg-icons": "^6.1.2",

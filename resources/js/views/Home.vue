@@ -8,6 +8,7 @@
             <SidebarComponent/>
         </div>
         <div class="col-9 col-md-10 col-lg-11 mt-2">
+            <ConversationalBotAIComponent />
             <CurrentWeatherDataComponent/>
             <CurrentHomeWeatherData></CurrentHomeWeatherData>
 
@@ -96,10 +97,12 @@ import {nextTick, ref} from 'vue';
 import HorizontalLineComponent from "../components/HorizontalLineComponent.vue";
 import {useRouter} from "vue-router";
 import ToastService from "../services/toast-service";
+import ConversationalBotAIComponent from "../components/ConversationalBotAIComponent.vue";
 
 export default {
     name: "Home",
     components: {
+        ConversationalBotAIComponent,
         TopBarComponent,
         TemperatureAndHumidityChartComponent,
         HourlyForecastComponent,
