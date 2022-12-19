@@ -8,7 +8,11 @@ export default defineConfig({
             template: {
                 compilerOptions: {
                     isCustomElement: (tag) => ['box-icon'].includes(tag),
-                }
+                },
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
             }
         }),
         laravel({
@@ -20,10 +24,15 @@ export default defineConfig({
         }),
     ],
     server: {
+        https: false,
+        host: 'localhost',
+        hmr: {
+            host: 'localhost'
+        },
         proxy: {
             '/api': {
                 target: [
-                    'http://localhost:8000/',
+                    'http://192.168.0.103:8000/',
                     'http://127.0.0.1:8000/'
                 ],
                 changeOrigin: true,

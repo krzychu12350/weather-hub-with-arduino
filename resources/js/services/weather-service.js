@@ -18,13 +18,20 @@ class WeatherService {
 
     getLocalWeatherDataLogs() {
         return api.get('/current-home-weather-data').then(response => {
-            //console.log(response.data)
             return response.data.data
         })
             .catch(e => {
                 console.log(e);
             });
+    }
 
+    getLast24HoursIndoorWeatherData() {
+        return api.get('/esp-data').then(response => {
+            return response.data.data
+        })
+            .catch(e => {
+                console.log(e);
+            });
     }
 }
 

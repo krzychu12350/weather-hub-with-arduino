@@ -35,7 +35,6 @@
     <body>
         <div id="app"></div>
         @vite('resources/js/app.js')
-        <!--
         <script src="{{ asset('/sw.js') }}"></script>
         <script>
             if (!navigator.serviceWorker.controller) {
@@ -44,6 +43,5 @@
                 });
             }
         </script>
-        -->
     </body>
 </html>

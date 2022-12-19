@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeWeatherLogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeatherDataLogController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,10 @@ Route::get('/current-home-weather-data', [HomeWeatherLogController::class, 'show
 
 
 Route::get('/ard', [ function (\Illuminate\Http\Request $request) {
-  return 'works';
+    return 'works';
 }]);
+
+
 
 
 

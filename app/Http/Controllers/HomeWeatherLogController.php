@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\HomeWeatherLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HomeWeatherLogController extends Controller
@@ -15,22 +17,31 @@ class HomeWeatherLogController extends Controller
      */
     public function index()
     {
+        $homeWeatherDataLogsByEveryHour = DB::table('home_weather_logs')->where('created_at',
+            '>=', Carbon::now()->subDay()->toDateTimeString())
+            ->select(DB::raw('hour(created_at) as certain_hour'),
+                DB::raw('ROUND(AVG(temperature_at_home), 0) as temperature_at_home'),
+                DB::raw('ROUND(AVG(humidity_at_home), 0) as humidity_at_home'),
+                DB::raw('ROUND(AVG(pressure_at_home), 0) as pressure_at_home'),
+                DB::raw('ROUND(AVG(light_intensity_at_home), 0) as light_intensity_at_home'))
+            ->groupBy(DB::raw('hour(created_at)'))
+            ->get();
 
         return response()->json([
             'status' => true,
-            'data' => HomeWeatherLog::all(),
+            'data' => $homeWeatherDataLogsByEveryHour
         ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-         //dd($request->get('temperature'));
+        //dd($request->get('temperature'));
         $request_data = $request->all();
 
         $validator = Validator::make($request_data, [
@@ -47,30 +58,19 @@ class HomeWeatherLogController extends Controller
                 'error' => $validator->errors()
             ]);
         }
+        $createdHomeWeatherLog = HomeWeatherLog::create($request_data);
 
-        $homeWeatherLog = HomeWeatherLog::create($request_data);
-
-        \Illuminate\Support\Facades\Storage::append("arduino-log.txt",
-            "Time: " . now()->format("Y-m-d H:i:s") . ', ' .
-            /*
-            "Temperature: " . $request->get("temperature", "n/a") . '°C, ' .
-            "Humidity: " . $request->get("humidity", "n/a") . '%'
-            */
-            "Temperature: " . $request->get('temperature_at_home') . '°C, ' .
-            "Humidity: " . $request->get("humidity_at_home") . ' % ' .
-            "Pressure: " . $request->get('pressure_at_home') . ' hPa ' .
-            "Light intensity: " . $request->get('light_intensity_at_home') . 'lux '
-        );
         return response()->json([
             'status' => true,
-            'message' => 'Log was saved successfully'
+            'message' => 'Log was saved successfully',
+            'log' => $createdHomeWeatherLog
         ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\HomeWeatherLog  $homeWeatherLog
+     * @param \App\Models\HomeWeatherLog $homeWeatherLog
      * @return \Illuminate\Http\JsonResponse
      */
     public function showCurrentHomeWeatherData(HomeWeatherLog $homeWeatherLog)
@@ -79,28 +79,5 @@ class HomeWeatherLogController extends Controller
             'status' => true,
             'data' => HomeWeatherLog::latest('created_at')->first()
         ], 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HomeWeatherLog  $homeWeatherLog
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, HomeWeatherLog $homeWeatherLog)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\HomeWeatherLog  $homeWeatherLog
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HomeWeatherLog $homeWeatherLog)
-    {
-        //
     }
 }

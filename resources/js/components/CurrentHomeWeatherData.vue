@@ -1,10 +1,17 @@
 <template>
-    <h2
-        class="color text-white mt-4 mb-4"
-    >
-        Home Weather Data
-    </h2>
-    <div class="row justify-content-md-center justify-content-lg-start">
+    <div id="section-header" class="d-flex align-items-center">
+        <h2 class="color text-white mt-4 mb-4 me-3">
+            Indoor Weather
+        </h2>
+        <div class="form-check form-switch mt-1">
+            <input class="form-check-input" type="checkbox"  @click="toggleHomeWidgetAndChart" id="flexSwitchCheckDefault">
+            <label class="form-check-label text-white" for="flexSwitchCheckDefault">Last 24 hours chart</label>
+        </div>
+    </div>
+    <div v-if="isChartVisible">
+        <IndoorWeatherChartComponent />
+    </div>
+    <div v-else class="row justify-content-md-center justify-content-lg-start">
         <div class="col-11 col-md-5 col-lg-2 me-4">
             <CurrentWeatherDataLogComponent name="Temperature" :value=this.temperature
                                             iconClass="fa-solid fa-droplet"></CurrentWeatherDataLogComponent>
@@ -20,11 +27,7 @@
                                             :value=this.lightIntensity></CurrentWeatherDataLogComponent>
         </div>
     </div>
-    <!-- fa-solid fa-droplet  fa-solid fa-temperature-full
-    test
-    {{this.temperature}}
-    {{this.humidity}}
-    -->
+
 </template>
 
 <script>
@@ -34,7 +37,7 @@ import api from '../services/api';
 import authHeader from "../services/auth-header";
 import WeatherService from "../services/weather-service";
 import UserService from "../services/user-service";
-
+import IndoorWeatherChartComponent from "./IndoorWeatherChartComponent.vue";
 export default {
     name: "CurrentHomeWeatherData",
     data() {
@@ -43,15 +46,20 @@ export default {
             humidity: String,
             pressure: String,
             lightIntensity: String,
+            isChartVisible: false,
         }
     },
     components: {
-        CurrentWeatherDataLogComponent
+        CurrentWeatherDataLogComponent,
+        IndoorWeatherChartComponent,
     },
     mounted() {
         this.fetchCurrentLocalWeatherData()
     },
     methods: {
+        async toggleHomeWidgetAndChart() {
+            this.isChartVisible = !this.isChartVisible;
+        },
         async fetchCurrentLocalWeatherData() {
 
 
