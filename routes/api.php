@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\FavouritePlaceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeatherDataLogController;
@@ -33,3 +34,5 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::apiResource('/weather-data-logs', WeatherDataLogController::class)
         ->only(['index']);
 });
+
+Route::apiResource('/cities', CityController::class)->only(['index']);

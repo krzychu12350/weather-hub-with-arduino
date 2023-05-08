@@ -34,6 +34,7 @@
             <div>
                 <div
                     v-click-outside="onClickOutside"
+                    v-if="search !== ''"
                     class="searched-place-container w-100">
                     <div
                         class="searched-place"
@@ -96,12 +97,11 @@
 </template>
 
 <script>
-import placesData from "../assets/cities.list.json";
 import {useRouter} from 'vue-router';
 import {computed, ref} from "vue";
-import {useVueFuse} from "vue-fuse";
 import UserService from "../services/user-service";
 import vClickOutside from 'click-outside-vue3'
+import CityService from "../services/city-service";
 
 export default {
     name: "SearchEngine",
@@ -116,26 +116,41 @@ export default {
             return useRouter().currentRoute.value.name;
         })
         const headline = ref(null);
+        let search = ref("");
+        let results = ref([]);
+        let noResults = ref(false);
 
         const options = {
             keys: [{name: 'name', weight: 2}],
             includeScore: true,
             threshold: 0.0,
         }
-        const {search, results, noResults} = useVueFuse(placesData, options)
+        //const {search, results, noResults} = useVueFuse(placesData, options)
+
+        const searchCity = (search) => {
+            CityService.searchCity(search)
+                .then((res) => {
+                    noResults = !noResults
+                    results.value = res.data
+                    if (results.value.length === 0) noResults = true
+                    //console.log(results.value.length, noResults)
+                })
+                .catch(err => console.log(err))
+        };
 
         return {
             search,
             results,
             noResults,
             routeName,
-            headline
+            headline,
+            searchCity
         }
     },
     data() {
         return {
             keyword: null,
-            Places: placesData,
+            //Places: placesData,
             searched: '',
             awaitingSearch: false,
             searchedPlaces: [],
@@ -152,6 +167,8 @@ export default {
             this.$emit("passSearchedPlaceId", placeId)
             this.emitter.emit('passSearchedPlaceId',
                 {'value': placeId})
+            this.onClickOutside();
+            this.isSearching = !this.isSearching
         },
         debounceSearch(event) {
             this.message = null
@@ -160,9 +177,10 @@ export default {
             this.debounce = setTimeout(() => {
                 this.typing = null
                 this.search = event.target.value
+                if (this.search !== "") this.searchCity(this.search);
                 this.isSearching = !this.isSearching
                 this.message = this.search
-            }, 600)
+            }, 100)
 
         },
         addPlaceToFavourites(place) {
